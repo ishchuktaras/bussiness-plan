@@ -11,7 +11,6 @@ export const siteConfig = {
   ],
   links: {
     developer: "https://interactive-it-cv.vercel.app/",
-    github: "https://github.com/shadcn/ui",
-    docs: "https://ui.shadcn.com",
+    github: "https://github.com/ishchuktaras/bussiness-plan",
   },
 }

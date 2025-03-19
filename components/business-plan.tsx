@@ -233,31 +233,31 @@ export default function ZabkaBusinessPlan() {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8", "#82ca9d", "#ffc658", "#8dd1e1"]
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Podnikatelský plán Žabka</h1>
+    <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
+      <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Podnikatelský plán Žabka</h1>
 
       <Tabs defaultValue="calculator">
-        <TabsList className="grid w-full grid-cols-7">
-          <TabsTrigger value="calculator">
-            <Calculator className="mr-2 h-4 w-4" /> Kalkulačka
+        <TabsList className="flex flex-wrap w-full">
+          <TabsTrigger value="calculator" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
+            <Calculator className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Kalkulačka
           </TabsTrigger>
-          <TabsTrigger value="income">
-            <DollarSign className="mr-2 h-4 w-4" /> Příjmy
+          <TabsTrigger value="income" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
+            <DollarSign className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Příjmy
           </TabsTrigger>
-          <TabsTrigger value="expenses">
-            <BarChart className="mr-2 h-4 w-4" /> Výdaje
+          <TabsTrigger value="expenses" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
+            <BarChart className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Výdaje
           </TabsTrigger>
-          <TabsTrigger value="categories">
-            <PieChart className="mr-2 h-4 w-4" /> Kategorie
+          <TabsTrigger value="categories" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
+            <PieChart className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Kategorie
           </TabsTrigger>
-          <TabsTrigger value="scenarios">
-            <Target className="mr-2 h-4 w-4" /> Scénáře
+          <TabsTrigger value="scenarios" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
+            <Target className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Scénáře
           </TabsTrigger>
-          <TabsTrigger value="seasonal">
-            <LineChart className="mr-2 h-4 w-4" /> Sezónnost
+          <TabsTrigger value="seasonal" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
+            <LineChart className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Sezónnost
           </TabsTrigger>
-          <TabsTrigger value="summary">
-            <TrendingUp className="mr-2 h-4 w-4" /> Shrnutí
+          <TabsTrigger value="summary" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
+            <TrendingUp className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Shrnutí
           </TabsTrigger>
         </TabsList>
 
@@ -1625,7 +1625,7 @@ export default function ZabkaBusinessPlan() {
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(value) => Math.abs(value).toLocaleString() + " Kč"} />
+                        <Tooltip formatter={(value) => Math.abs(Number(value)).toLocaleString() + " Kč"} />
                         <Legend />
                       </RechartsPieChart>
                     </ResponsiveContainer>
