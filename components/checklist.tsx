@@ -1,7 +1,7 @@
 "use client"
 
 import { CardFooter } from "@/components/ui/card"
-import { User, Home, Box, ShoppingBag, HeartHandshake, } from "lucide-react"
+import { User, Home, Box, Hammer, ShoppingBag, HeartHandshake } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
@@ -26,7 +26,7 @@ export default function ChecklistZabka() {
             <Box className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Interiér
           </TabsTrigger>
           <TabsTrigger value="bakery" className="flex-1 min-w-[100px] py-2 text-xs sm:text-sm">
-            <Home className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Pekárna
+            <Hammer className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Pekárna
           </TabsTrigger>
           <TabsTrigger value="products" className="flex-1 min-w-[100px] py-2 text-xs sm:text-sm">
             <ShoppingBag className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Produkty

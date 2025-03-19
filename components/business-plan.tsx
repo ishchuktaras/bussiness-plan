@@ -58,7 +58,7 @@ export default function ZabkaBusinessPlan() {
   const [insuranceCosts, setInsuranceCosts] = useState(2000)
   const [accountingCosts, setAccountingCosts] = useState(3000)
   const [trainingCosts, setTrainingCosts] = useState(1000)
-  const [selectedScenario, setSelectedScenario] = useState("realistic")
+  const [selectedScenario, setSelectedScenario] = useState<"pessimistic" | "realistic" | "optimistic">("realistic")
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false)
 
   // Kategorie produktů a jejich podíl na obratu
@@ -115,13 +115,19 @@ export default function ZabkaBusinessPlan() {
   const paybackPeriod = profit > 0 ? initialInvestment / profit : 0
 
   // Scénáře
-  const scenarios = {
+  type ScenarioType = {
+    turnoverFactor: number
+    costFactor: number
+    wastageRate: number
+  }
+
+  const scenarios: Record<"pessimistic" | "realistic" | "optimistic", ScenarioType> = {
     pessimistic: { turnoverFactor: 0.8, costFactor: 1.1, wastageRate: 3.0 },
     realistic: { turnoverFactor: 1.0, costFactor: 1.0, wastageRate: 2.0 },
     optimistic: { turnoverFactor: 1.2, costFactor: 0.95, wastageRate: 1.5 },
   }
 
-  const calculateScenario = (scenario) => {
+  const calculateScenario = (scenario: "pessimistic" | "realistic" | "optimistic") => {
     const scenarioTurnover = monthlyTurnover * scenarios[scenario].turnoverFactor
     const scenarioVariableCommission = variableCommission * scenarios[scenario].turnoverFactor
     const scenarioTotalCommission = fixedCommission + scenarioVariableCommission
@@ -195,19 +201,28 @@ export default function ZabkaBusinessPlan() {
   const monthlyData = calculateMonthlyData()
 
   // Aktualizace hodnot
-  const updateValues = (newDailyTurnover) => {
-    const newMonthlyTurnover = newDailyTurnover * 30
-    setDailyTurnover(newDailyTurnover)
-    setMonthlyTurnover(newMonthlyTurnover)
+  interface UpdateValuesProps {
+    newDailyTurnover: number;
   }
 
-  const updateStaffCosts = (count, cost) => {
-    setStaffCount(count)
-    setStaffCost(cost)
-    setTotalStaffCost(count * cost)
+  const updateValues = ({ newDailyTurnover }: UpdateValuesProps) => {
+    const newMonthlyTurnover = newDailyTurnover * 30;
+    setDailyTurnover(newDailyTurnover);
+    setMonthlyTurnover(newMonthlyTurnover);
+  };
+
+  interface UpdateStaffCostsProps {
+    count: number;
+    cost: number;
   }
 
-  const updateCategoryPercentage = (index, newPercentage) => {
+  const updateStaffCosts = ({ count, cost }: UpdateStaffCostsProps) => {
+    setStaffCount(count);
+    setStaffCost(cost);
+    setTotalStaffCost(count * cost);
+  };
+
+  const updateCategoryPercentage = (index: number, newPercentage: number) => {
     const updatedCategories = [...productCategories]
     updatedCategories[index].percentage = newPercentage
 
@@ -223,14 +238,24 @@ export default function ZabkaBusinessPlan() {
     setProductCategories(updatedCategories)
   }
 
-  const updateCategoryMargin = (index, newMargin) => {
-    const updatedCategories = [...productCategories]
-    updatedCategories[index].margin = newMargin
-    setProductCategories(updatedCategories)
+  interface UpdateCategoryMarginProps {
+    index: number;
+    newMargin: number;
   }
+
+  const updateCategoryMargin = ({ index, newMargin }: UpdateCategoryMarginProps) => {
+    const updatedCategories = [...productCategories];
+    updatedCategories[index].margin = newMargin;
+    setProductCategories(updatedCategories);
+  };
 
   // Barvy pro grafy
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8", "#82ca9d", "#ffc658", "#8dd1e1"]
+
+  const updateScenario = (scenario: "pessimistic" | "realistic" | "optimistic") => {
+    setSelectedScenario(scenario)
+    // další kód...
+  }
 
   return (
     <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
@@ -275,7 +300,7 @@ export default function ZabkaBusinessPlan() {
                     id="daily-turnover"
                     type="number"
                     value={dailyTurnover}
-                    onChange={(e) => updateValues(Number(e.target.value))}
+                    onChange={(e) => updateValues({ newDailyTurnover: Number(e.target.value) })}
                   />
                 </div>
                 <div className="space-y-2">
@@ -288,7 +313,7 @@ export default function ZabkaBusinessPlan() {
                     id="staff-count"
                     type="number"
                     value={staffCount}
-                    onChange={(e) => updateStaffCosts(Number(e.target.value), staffCost)}
+                    onChange={(e) => updateStaffCosts({ count: Number(e.target.value), cost: staffCost })}
                   />
                 </div>
                 <div className="space-y-2">
@@ -297,7 +322,7 @@ export default function ZabkaBusinessPlan() {
                     id="staff-cost"
                     type="number"
                     value={staffCost}
-                    onChange={(e) => updateStaffCosts(staffCount, Number(e.target.value))}
+                    onChange={(e) => updateStaffCosts({ count: staffCount, cost: Number(e.target.value) })}
                   />
                 </div>
                 <div className="space-y-2">
@@ -813,7 +838,7 @@ export default function ZabkaBusinessPlan() {
                           id={`margin-${index}`}
                           type="number"
                           value={category.margin}
-                          onChange={(e) => updateCategoryMargin(index, Number(e.target.value))}
+                          onChange={(e) => updateCategoryMargin({ index, newMargin: Number(e.target.value) })}
                           className="w-20"
                         />
                         <span>%</span>
@@ -922,7 +947,7 @@ export default function ZabkaBusinessPlan() {
               <div className="flex justify-center space-x-2 mb-6">
                 <Button
                   variant={selectedScenario === "pessimistic" ? "default" : "outline"}
-                  onClick={() => setSelectedScenario("pessimistic")}
+                  onClick={() => updateScenario("pessimistic")}
                   className="flex items-center"
                 >
                   <AlertTriangle className="mr-2 h-4 w-4" />
@@ -930,7 +955,7 @@ export default function ZabkaBusinessPlan() {
                 </Button>
                 <Button
                   variant={selectedScenario === "realistic" ? "default" : "outline"}
-                  onClick={() => setSelectedScenario("realistic")}
+                  onClick={() => updateScenario("realistic")}
                   className="flex items-center"
                 >
                   <ArrowUpDown className="mr-2 h-4 w-4" />
@@ -938,7 +963,7 @@ export default function ZabkaBusinessPlan() {
                 </Button>
                 <Button
                   variant={selectedScenario === "optimistic" ? "default" : "outline"}
-                  onClick={() => setSelectedScenario("optimistic")}
+                  onClick={() => updateScenario("optimistic")}
                   className="flex items-center"
                 >
                   <CheckCircle className="mr-2 h-4 w-4" />
@@ -1522,7 +1547,7 @@ export default function ZabkaBusinessPlan() {
                     <div className="flex justify-between">
                       <span>Doba návratnosti investice:</span>
                       <span className="font-bold">
-                        {profit > 0 ? `${Math.ceil(initialInvestment / profit)} měsíců` : "N/A - Negativní zisk"}
+                        {profit > 0 ? `${Math.ceil(paybackPeriod)} měsíců` : "N/A - Negativní zisk"}
                       </span>
                     </div>
 
