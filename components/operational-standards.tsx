@@ -10,27 +10,27 @@ import { Badge } from "@/components/ui/badge"
 
 export default function OperationalStandards() {
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Provozní standardy Žabka</h1>
+    <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
+      <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Provozní standardy Žabka</h1>
 
       <Tabs defaultValue="hours">
-        <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="hours">
+        <TabsList className="flex flex-wrap w-full md:grid md:grid-cols-6">
+          <TabsTrigger value="hours" className="flex-1 min-w-[120px] py-2">
             <Clock className="mr-2 h-4 w-4" /> Hodiny
           </TabsTrigger>
-          <TabsTrigger value="staff">
+          <TabsTrigger value="staff" className="flex-1 min-w-[120px] py-2">
             <Users className="mr-2 h-4 w-4" /> Personál
           </TabsTrigger>
-          <TabsTrigger value="products">
+          <TabsTrigger value="products" className="flex-1 min-w-[120px] py-2">
             <Percent className="mr-2 h-4 w-4" /> Produkty
           </TabsTrigger>
-          <TabsTrigger value="bakery">
+          <TabsTrigger value="bakery" className="flex-1 min-w-[120px] py-2">
             <BookOpen className="mr-2 h-4 w-4" /> Pekárna
           </TabsTrigger>
-          <TabsTrigger value="marketing">
+          <TabsTrigger value="marketing" className="flex-1 min-w-[120px] py-2">
             <Calendar className="mr-2 h-4 w-4" /> Marketing
           </TabsTrigger>
-          <TabsTrigger value="kpis">
+          <TabsTrigger value="kpis" className="flex-1 min-w-[120px] py-2">
             <BarChart4 className="mr-2 h-4 w-4" /> KPI
           </TabsTrigger>
         </TabsList>
@@ -242,12 +242,14 @@ export default function OperationalStandards() {
               <div>
                 <h3 className="text-lg font-medium mb-2">Pravidla pro lokální produkty</h3>
                 <div className="bg-green-50 p-4 rounded-md">
-                  <p className="mb-2">Franšízant může prodávat vlastní produkty ("Zboží Franchisanta") s omezeními:</p>
+                  <p className="mb-2">
+                    Franšízant může prodávat vlastní produkty ({'"'}Zboží Franchisanta{'"'}) s omezeními:
+                  </p>
                   <ul className="list-disc pl-5 space-y-2">
                     <li>Maximálně 10 produktových rodin</li>
                     <li>Produkty musí být schváleny a registrovány franšízorem</li>
                     <li>
-                      Nesmí zahrnovat: alkohol {">"} 15%, nealkoholické nápoje (kromě čerstvých šťáv), kávu, čaj, tabák,
+                      Nesmí zahrnovat: alkohol {`>15%`}, nealkoholické nápoje (kromě čerstvých šťáv), kávu, čaj, tabák,
                       mražené produkty, pochutiny
                     </li>
                     <li>Provize: 5% z prodejní ceny franšízorovi</li>
@@ -508,7 +510,9 @@ export default function OperationalStandards() {
                     <ul className="text-sm list-disc pl-5">
                       <li>Neuspokojivé výsledky mohou vést k finančním sankcím</li>
                       <li>Opakovaný špatný výkon může být důvodem k ukončení</li>
-                      <li>Tři případy nulové odměny představují "opakovaný" špatný výkon</li>
+                      <li>
+                        Tři případy nulové odměny představují {'"'}opakovaný{'"'} špatný výkon
+                      </li>
                     </ul>
                   </div>
 
