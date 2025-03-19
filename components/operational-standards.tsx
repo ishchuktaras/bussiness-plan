@@ -243,7 +243,7 @@ export default function OperationalStandards() {
                 <h3 className="text-lg font-medium mb-2">Pravidla pro lokální produkty</h3>
                 <div className="bg-green-50 p-4 rounded-md">
                   <p className="mb-2">
-                    Franšízant může prodávat vlastní produkty ({'"'}Zboží Franchisanta{'"'}) s omezeními:
+                    Franšízant může prodávat vlastní produkty (&quot;Zboží Franchisanta&quot;) s omezeními:
                   </p>
                   <ul className="list-disc pl-5 space-y-2">
                     <li>Maximálně 10 produktových rodin</li>
@@ -510,9 +510,7 @@ export default function OperationalStandards() {
                     <ul className="text-sm list-disc pl-5">
                       <li>Neuspokojivé výsledky mohou vést k finančním sankcím</li>
                       <li>Opakovaný špatný výkon může být důvodem k ukončení</li>
-                      <li>
-                        Tři případy nulové odměny představují {'"'}opakovaný{'"'} špatný výkon
-                      </li>
+                      <li>Tři případy nulové odměny představují &quot;opakovaný&quot; špatný výkon</li>
                     </ul>
                   </div>
 
