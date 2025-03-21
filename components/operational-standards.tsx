@@ -1,12 +1,13 @@
 "use client"
 
 import { CardFooter } from "@/components/ui/card"
-
-import { BookOpen, Calendar, Clock, Users, Percent, BarChart4 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
+import { Users } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+
+import { BookOpen, Calendar, Clock, Percent, BarChart4 } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export default function OperationalStandards() {
   return (

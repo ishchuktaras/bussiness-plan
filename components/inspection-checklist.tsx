@@ -68,31 +68,30 @@ export default function InspectionChecklist() {
 
   const [checkedItems, setCheckedItems] = useState<CheckedItems>({})
 
-
   const handleCheck = (id: number): void => {
     setCheckedItems((prevCheckedItems: CheckedItems) => ({
       ...prevCheckedItems,
       [id]: !prevCheckedItems[id],
-    }));
-  };
+    }))
+  }
 
   interface ChecklistItem {
-    id: number;
-    label: string;
+    id: number
+    label: string
   }
 
   interface ChecklistItems {
-    [key: string]: ChecklistItem[];
+    [key: string]: ChecklistItem[]
   }
 
   interface CheckedItems {
-    [key: number]: boolean;
+    [key: number]: boolean
   }
 
   const calculateScore = (category: keyof typeof checklistItems): number => {
-    const items: ChecklistItem[] = checklistItems[category];
-    const checkedCount: number = items.filter((item) => checkedItems[item.id]).length;
-    return Math.round((checkedCount / items.length) * 100);
+    const items: ChecklistItem[] = checklistItems[category]
+    const checkedCount: number = items.filter((item) => checkedItems[item.id]).length
+    return Math.round((checkedCount / items.length) * 100)
   }
 
   const calculateTotalScore = () => {
@@ -125,7 +124,7 @@ export default function InspectionChecklist() {
     let total = 0
 
     Object.keys(checklistItems).forEach((category) => {
-          const score = calculateScore(category as keyof typeof checklistItems)
+      const score = calculateScore(category as keyof typeof checklistItems)
       switch (category) {
         case "customer":
           total += score === 100 ? 2500 : 0
@@ -273,8 +272,13 @@ export default function InspectionChecklist() {
                                   : "Služby"}
                       </span>
                       <div className="flex items-center">
-                        <Progress value={calculateScore(category as keyof typeof checklistItems)} className="w-16 h-2 mr-2" />
-                        <span className="w-8 text-right">{calculateScore(category as keyof typeof checklistItems)}%</span>
+                        <Progress
+                          value={calculateScore(category as keyof typeof checklistItems)}
+                          className="w-16 h-2 mr-2"
+                        />
+                        <span className="w-8 text-right">
+                          {calculateScore(category as keyof typeof checklistItems)}%
+                        </span>
                         {calculateScore(category as keyof typeof checklistItems) >= 90 ? (
                           <Check className="h-4 w-4 text-green-500 ml-1" />
                         ) : calculateScore(category as keyof typeof checklistItems) >= 70 ? (
