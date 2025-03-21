@@ -44,20 +44,20 @@ export default function ZabkaBusinessPlan() {
   const [dailyTurnover, setDailyTurnover] = useState(30000)
   const [monthlyTurnover, setMonthlyTurnover] = useState(dailyTurnover * 30)
   const [rent, setRent] = useState(0) // Hrazeno franšízorem
-  const [utilities, setUtilities] = useState(25000)
+  const [utilities, setUtilities] = useState(0)
   const [staffCount, setStaffCount] = useState(2)
-  const [staffCost, setStaffCost] = useState(30000)
+  const [staffCost, setStaffCost] = useState(28000)
   const [totalStaffCost, setTotalStaffCost] = useState(staffCount * staffCost)
-  const [otherCosts, setOtherCosts] = useState(15000)
+  const [otherCosts, setOtherCosts] = useState(2000)
 
   // Rozšířené finanční údaje
   const [seasonalityFactor, setSeasonalityFactor] = useState(1.0)
-  const [wastageRate, setWastageRate] = useState(2.0)
-  const [marketingCosts, setMarketingCosts] = useState(5000)
-  const [maintenanceCosts, setMaintenanceCosts] = useState(3000)
+  const [wastageRate, setWastageRate] = useState(1.0)
+  const [marketingCosts, setMarketingCosts] = useState(2000)
+  const [maintenanceCosts, setMaintenanceCosts] = useState(0)
   const [insuranceCosts, setInsuranceCosts] = useState(2000)
-  const [accountingCosts, setAccountingCosts] = useState(3000)
-  const [trainingCosts, setTrainingCosts] = useState(1000)
+  const [accountingCosts, setAccountingCosts] = useState(0)
+  const [trainingCosts, setTrainingCosts] = useState(0)
   const [selectedScenario, setSelectedScenario] = useState<"pessimistic" | "realistic" | "optimistic">("realistic")
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false)
 
