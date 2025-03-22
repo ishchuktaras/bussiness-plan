@@ -11,23 +11,25 @@ export default function FranchiseAgreementAnalysis() {
       <h1 className="text-3xl font-bold mb-6">Analýza franšízové smlouvy Žabka</h1>
 
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid grid-cols-5 mb-4">
-          <TabsTrigger value="overview">
-            <FileText className="mr-2 h-4 w-4" /> Přehled
-          </TabsTrigger>
-          <TabsTrigger value="obligations">
-            <Users className="mr-2 h-4 w-4" /> Povinnosti
-          </TabsTrigger>
-          <TabsTrigger value="financial">
-            <Coins className="mr-2 h-4 w-4" /> Finanční podmínky
-          </TabsTrigger>
-          <TabsTrigger value="termination">
-            <Shield className="mr-2 h-4 w-4" /> Ukončení
-          </TabsTrigger>
-          <TabsTrigger value="risks">
-            <AlertCircle className="mr-2 h-4 w-4" /> Rizika
-          </TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto mb-4">
+          <TabsList className="flex min-w-max">
+            <TabsTrigger value="overview" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <FileText className="mr-2 h-4 w-4" /> Přehled
+            </TabsTrigger>
+            <TabsTrigger value="obligations" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <Users className="mr-2 h-4 w-4" /> Povinnosti
+            </TabsTrigger>
+            <TabsTrigger value="financial" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <Coins className="mr-2 h-4 w-4" /> Finanční podmínky
+            </TabsTrigger>
+            <TabsTrigger value="termination" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <Shield className="mr-2 h-4 w-4" /> Ukončení
+            </TabsTrigger>
+            <TabsTrigger value="risks" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <AlertCircle className="mr-2 h-4 w-4" /> Rizika
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="overview">
           <Card>
@@ -131,7 +133,7 @@ export default function FranchiseAgreementAnalysis() {
                       Franšízant je povinen objednávat zboží od schválených dodavatelů. Zboží zůstává ve vlastnictví
                       franšízora až do prodeje zákazníkovi. Franšízant odpovídá za ztráty a poškození zboží.
                     </AccordionContent>
-                  </AccordionItem>
+                    </AccordionItem>
 
                   <AccordionItem>
                     <AccordionTrigger>Provize a poplatky</AccordionTrigger>

@@ -15,26 +15,28 @@ export default function ChecklistZabka() {
       <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Kontrolní seznam Žabka</h1>
 
       <Tabs defaultValue="customer">
-        <TabsList className="flex flex-wrap w-full">
-          <TabsTrigger value="customer" className="flex-1 min-w-[100px] py-2 text-xs sm:text-sm">
-            <User className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Zákazník
-          </TabsTrigger>
-          <TabsTrigger value="exterior" className="flex-1 min-w-[100px] py-2 text-xs sm:text-sm">
-            <Home className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Exteriér
-          </TabsTrigger>
-          <TabsTrigger value="interior" className="flex-1 min-w-[100px] py-2 text-xs sm:text-sm">
-            <Box className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Interiér
-          </TabsTrigger>
-          <TabsTrigger value="bakery" className="flex-1 min-w-[100px] py-2 text-xs sm:text-sm">
-            <Hammer className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Pekárna
-          </TabsTrigger>
-          <TabsTrigger value="products" className="flex-1 min-w-[100px] py-2 text-xs sm:text-sm">
-            <ShoppingBag className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Produkty
-          </TabsTrigger>
-          <TabsTrigger value="services" className="flex-1 min-w-[100px] py-2 text-xs sm:text-sm">
-            <HeartHandshake className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Služby
-          </TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto">
+          <TabsList className="flex min-w-max">
+            <TabsTrigger value="customer" className="flex-none py-2 px-3 text-xs sm:text-sm whitespace-nowrap">
+              <User className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Zákazník
+            </TabsTrigger>
+            <TabsTrigger value="exterior" className="flex-none py-2 px-3 text-xs sm:text-sm whitespace-nowrap">
+              <Home className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Exteriér
+            </TabsTrigger>
+            <TabsTrigger value="interior" className="flex-none py-2 px-3 text-xs sm:text-sm whitespace-nowrap">
+              <Box className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Interiér
+            </TabsTrigger>
+            <TabsTrigger value="bakery" className="flex-none py-2 px-3 text-xs sm:text-sm whitespace-nowrap">
+              <Hammer className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Pekárna
+            </TabsTrigger>
+            <TabsTrigger value="products" className="flex-none py-2 px-3 text-xs sm:text-sm whitespace-nowrap">
+              <ShoppingBag className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Produkty
+            </TabsTrigger>
+            <TabsTrigger value="services" className="flex-none py-2 px-3 text-xs sm:text-sm whitespace-nowrap">
+              <HeartHandshake className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Služby
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="customer" className="mt-4">
           <Card>

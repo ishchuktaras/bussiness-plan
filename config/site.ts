@@ -5,8 +5,20 @@ export const siteConfig = {
   description: "Analýza franšízové ​​smlouvy Žabka",
   mainNav: [
     {
-      title: "Home",
-      href: "/",
+      title: "Kalkulačka",
+      href: "/#calculator",
+    },
+    {
+      title: "Provozní standardy",
+      href: "/#operating-standards",
+    },
+    {
+      title: "Požadavky na franšízanta",
+      href: "/#franchise-requirements",
+    },
+    {
+      title: "Analýza smlouvy",
+      href: "/#agreement-analysis",
     },
   ],
   links: {
@@ -14,3 +26,4 @@ export const siteConfig = {
     github: "https://github.com/ishchuktaras/bussiness-plan",
   },
 }
+

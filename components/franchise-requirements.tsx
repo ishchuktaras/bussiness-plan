@@ -5,7 +5,7 @@ import { FileCheck, FileWarning, AlertTriangle } from "lucide-react"
 export default function FranchiseRequirements() {
   return (
     <div className="container mx-auto px-4 py-6">
-      <h1 className="text-3xl font-bold mb-6">Požadavky na franšízanta Žabka</h1>
+      <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent">Požadavky na franšízanta Žabka</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <Card>

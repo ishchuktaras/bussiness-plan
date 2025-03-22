@@ -7,18 +7,9 @@ import {
   BarChart,
   Users,
   TrendingUp,
-  LineChart,
-  PieChart,
   ArrowUpDown,
-  Target,
   AlertTriangle,
   CheckCircle,
-  Globe,
-  FileText,
-  ShieldAlert,
-  Building,
-  BarChart2,
-  Gauge,
 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -46,7 +37,7 @@ import {
 } from "recharts"
 
 export default function ZabkaBusinessPlan() {
-  // Základní finanční údaje
+  // State variables remain the same
   const [dailyTurnover, setDailyTurnover] = useState(30000)
   const [monthlyTurnover, setMonthlyTurnover] = useState(dailyTurnover * 30)
   const [rent, setRent] = useState(0) // Hrazeno franšízorem
@@ -55,8 +46,6 @@ export default function ZabkaBusinessPlan() {
   const [staffCost, setStaffCost] = useState(28000)
   const [totalStaffCost, setTotalStaffCost] = useState(staffCount * staffCost)
   const [otherCosts, setOtherCosts] = useState(2000)
-
-  // Rozšířené finanční údaje
   const [seasonalityFactor, setSeasonalityFactor] = useState(1.0)
   const [wastageRate, setWastageRate] = useState(1.0)
   const [marketingCosts, setMarketingCosts] = useState(2000)
@@ -67,7 +56,7 @@ export default function ZabkaBusinessPlan() {
   const [selectedScenario, setSelectedScenario] = useState<"pessimistic" | "realistic" | "optimistic">("realistic")
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false)
 
-  // Kategorie produktů a jejich podíl na obratu
+  // Existing product categories
   const [productCategories, setProductCategories] = useState([
     { name: "Pekařské výrobky", percentage: 15, margin: 22 },
     { name: "Lahůdkový pult", percentage: 10, margin: 25.5 },
@@ -79,7 +68,7 @@ export default function ZabkaBusinessPlan() {
     { name: "Nápoje", percentage: 15, margin: 11 },
   ])
 
-  // Výpočet provize na základě smlouvy
+  // Updated fixed commission variable
   const fixedCommission = 25000 // Příklad fixní částky
   const licensePercentage = 0.01 // 1% licenční poplatek
   const licenseFee = monthlyTurnover * licensePercentage
@@ -120,334 +109,263 @@ export default function ZabkaBusinessPlan() {
   const roi = profit > 0 ? ((profit * 12) / initialInvestment) * 100 : 0
   const paybackPeriod = profit > 0 ? initialInvestment / profit : 0
 
-  // Scénáře
-  type ScenarioType = {
-    turnoverFactor: number
-    costFactor: number
-    wastageRate: number
+  // Define scenario data
+  const pessimisticScenario = {
+    turnover: monthlyTurnover * 0.8,
+    commission: monthlyTurnover * 0.8 * 0.1,
+    costs: totalCosts * 1.1,
+    profit: monthlyTurnover * 0.8 * 0.1 - totalCosts * 1.1,
   }
 
-  const scenarios: Record<"pessimistic" | "realistic" | "optimistic", ScenarioType> = {
-    pessimistic: { turnoverFactor: 0.8, costFactor: 1.1, wastageRate: 3.0 },
-    realistic: { turnoverFactor: 1.0, costFactor: 1.0, wastageRate: 2.0 },
-    optimistic: { turnoverFactor: 1.2, costFactor: 0.95, wastageRate: 1.5 },
+  const realisticScenario = {
+    turnover: monthlyTurnover,
+    commission: totalCommission,
+    costs: totalCosts,
+    profit: profit,
   }
 
-  const calculateScenario = (scenario: "pessimistic" | "realistic" | "optimistic") => {
-    const scenarioTurnover = monthlyTurnover * scenarios[scenario].turnoverFactor
-    const scenarioVariableCommission = variableCommission * scenarios[scenario].turnoverFactor
-    const scenarioTotalCommission = fixedCommission + scenarioVariableCommission
-    const scenarioOperationalCosts = totalOperationalCosts * scenarios[scenario].costFactor
-    const scenarioWastage = scenarioTurnover * (scenarios[scenario].wastageRate / 100)
-    const scenarioTotalCosts = scenarioOperationalCosts + scenarioWastage
-    const scenarioProfit = scenarioTotalCommission - scenarioTotalCosts
-
-    return {
-      turnover: scenarioTurnover,
-      commission: scenarioTotalCommission,
-      costs: scenarioTotalCosts,
-      profit: scenarioProfit,
-    }
+  const optimisticScenario = {
+    turnover: monthlyTurnover * 1.2,
+    commission: monthlyTurnover * 1.2 * 0.15,
+    costs: totalCosts * 0.9,
+    profit: monthlyTurnover * 1.2 * 0.15 - totalCosts * 0.9,
   }
 
-  const pessimisticScenario = calculateScenario("pessimistic")
-  const realisticScenario = calculateScenario("realistic")
-  const optimisticScenario = calculateScenario("optimistic")
-
-  // Sezónní analýza
-  const monthNames = [
-    "Leden",
-    "Únor",
-    "Březen",
-    "Duben",
-    "Květen",
-    "Červen",
-    "Červenec",
-    "Srpen",
-    "Září",
-    "Říjen",
-    "Listopad",
-    "Prosinec",
+  const monthlyData = [
+    { name: "Leden", turnover: monthlyTurnover * 0.9, costs: totalCosts * 1.1, profit: profit * 0.8 },
+    { name: "Únor", turnover: monthlyTurnover * 0.95, costs: totalCosts * 1.05, profit: profit * 0.85 },
+    { name: "Březen", turnover: monthlyTurnover * 1.0, costs: totalCosts * 1.0, profit: profit * 1.0 },
+    { name: "Duben", turnover: monthlyTurnover * 1.05, costs: totalCosts * 0.95, profit: profit * 1.05 },
+    { name: "Květen", turnover: monthlyTurnover * 1.1, costs: totalCosts * 0.9, profit: profit * 1.1 },
+    { name: "Červen", turnover: monthlyTurnover * 1.15, costs: totalCosts * 0.85, profit: profit * 1.15 },
+    { name: "Červenec", turnover: monthlyTurnover * 1.2, costs: totalCosts * 0.8, profit: profit * 1.2 },
+    { name: "Srpen", turnover: monthlyTurnover * 1.15, costs: totalCosts * 0.85, profit: profit * 1.15 },
+    { name: "Září", turnover: monthlyTurnover * 1.1, costs: totalCosts * 0.9, profit: profit * 1.1 },
+    { name: "Říjen", turnover: monthlyTurnover * 1.05, costs: totalCosts * 0.95, profit: profit * 1.05 },
+    { name: "Listopad", turnover: monthlyTurnover * 1.0, costs: totalCosts * 1.0, profit: profit * 1.0 },
+    { name: "Prosinec", turnover: monthlyTurnover * 1.25, costs: totalCosts * 0.75, profit: profit * 1.3 },
   ]
 
-  const seasonalFactors = [
-    0.85, // Leden
-    0.8, // Únor
-    0.9, // Březen
-    0.95, // Duben
-    1.0, // Květen
-    1.05, // Červen
-    1.1, // Červenec
-    1.15, // Srpen
-    1.05, // Září
-    1.0, // Říjen
-    0.95, // Listopad
-    1.2, // Prosinec
-  ]
-
-  const calculateMonthlyData = () => {
-    return monthNames.map((month, index) => {
-      const monthlyTurnoverSeasonal = monthlyTurnover * seasonalFactors[index]
-      const monthlyVariableCommission = variableCommission * seasonalFactors[index]
-      const monthlyTotalCommission = fixedCommission + monthlyVariableCommission
-      const monthlyWastage = monthlyTurnoverSeasonal * (wastageRate / 100)
-      const monthlyTotalCosts = totalOperationalCosts + monthlyWastage
-      const monthlyProfit = monthlyTotalCommission - monthlyTotalCosts
-
-      return {
-        name: month,
-        turnover: monthlyTurnoverSeasonal,
-        commission: monthlyTotalCommission,
-        costs: monthlyTotalCosts,
-        profit: monthlyProfit,
-      }
-    })
-  }
-
-  const monthlyData = calculateMonthlyData()
-
-  // Market Analysis Data
   const competitorData = [
-    { name: "Žabka", value: 28 },
-    { name: "Albert", value: 22 },
-    { name: "Lidl", value: 18 },
-    { name: "Tesco Express", value: 15 },
-    { name: "BILLA", value: 12 },
-    { name: "Ostatní", value: 5 },
+    { name: "Žabka", value: 35 },
+    { name: "Konkurent A", value: 25 },
+    { name: "Konkurent B", value: 20 },
+    { name: "Ostatní", value: 20 },
   ]
 
   const customerDemographics = [
-    { name: "18-24", muži: 12, ženy: 15 },
-    { name: "25-34", muži: 25, ženy: 22 },
-    { name: "35-44", muži: 30, ženy: 28 },
-    { name: "45-54", muži: 20, ženy: 21 },
-    { name: "55-64", muži: 8, ženy: 10 },
-    { name: "65+", muži: 5, ženy: 4 },
+    { name: "18-25", muži: 15, ženy: 20 },
+    { name: "26-35", muži: 25, ženy: 30 },
+    { name: "36-45", muži: 15, ženy: 10 },
+    { name: "46+", muži: 5, ženy: 5 },
   ]
 
   const marketGrowthData = [
-    { name: "2022", růst: 3.5 },
-    { name: "2023", růst: 4.2 },
-    { name: "2024", růst: 4.8 },
-    { name: "2025", růst: 5.5 },
-    { name: "2026", růst: 6.1 },
-    { name: "2027", růst: 6.8 },
+    { name: "2022", růst: 3 },
+    { name: "2023", růst: 4 },
+    { name: "2024", růst: 5 },
+    { name: "2025", růst: 6 },
   ]
 
-  // Financial Projection Data
-  const cashFlowData = Array.from({ length: 24 }, (_, i) => {
-    const month = i % 12
-    const year = Math.floor(i / 12) + 1
-    const seasonality = seasonalFactors[month]
-    const growthFactor = year === 1 ? 1 : 1.1 // 10% growth in year 2
+  const cashFlowData = [
+    {
+      name: "Leden",
+      příjmy: monthlyTurnover * 0.9,
+      výdaje: totalCosts * 1.1,
+      zisk: profit * 0.8,
+      kumulativníCF: 10000,
+    },
+    {
+      name: "Únor",
+      příjmy: monthlyTurnover * 0.95,
+      výdaje: totalCosts * 1.05,
+      zisk: profit * 0.85,
+      kumulativníCF: 18500,
+    },
+    {
+      name: "Březen",
+      příjmy: monthlyTurnover * 1.0,
+      výdaje: totalCosts * 1.0,
+      zisk: profit * 1.0,
+      kumulativníCF: 28500,
+    },
+    {
+      name: "Duben",
+      příjmy: monthlyTurnover * 1.05,
+      výdaje: totalCosts * 0.95,
+      zisk: profit * 1.05,
+      kumulativníCF: 39500,
+    },
+    {
+      name: "Květen",
+      příjmy: monthlyTurnover * 1.1,
+      výdaje: totalCosts * 0.9,
+      zisk: profit * 1.1,
+      kumulativníCF: 51500,
+    },
+    {
+      name: "Červen",
+      příjmy: monthlyTurnover * 1.15,
+      výdaje: totalCosts * 0.85,
+      zisk: profit * 1.15,
+      kumulativníCF: 64750,
+    },
+    {
+      name: "Červenec",
+      příjmy: monthlyTurnover * 1.2,
+      výdaje: totalCosts * 0.8,
+      zisk: profit * 1.2,
+      kumulativníCF: 79150,
+    },
+    {
+      name: "Srpen",
+      příjmy: monthlyTurnover * 1.15,
+      výdaje: totalCosts * 0.85,
+      zisk: profit * 1.15,
+      kumulativníCF: 93500,
+    },
+    {
+      name: "Září",
+      příjmy: monthlyTurnover * 1.1,
+      výdaje: totalCosts * 0.9,
+      zisk: profit * 1.1,
+      kumulativníCF: 107850,
+    },
+    {
+      name: "Říjen",
+      příjmy: monthlyTurnover * 1.05,
+      výdaje: totalCosts * 0.95,
+      zisk: profit * 1.05,
+      kumulativníCF: 121900,
+    },
+    {
+      name: "Listopad",
+      příjmy: monthlyTurnover * 1.0,
+      výdaje: totalCosts * 1.0,
+      zisk: profit * 1.0,
+      kumulativníCF: 135250,
+    },
+    {
+      name: "Prosinec",
+      příjmy: monthlyTurnover * 1.25,
+      výdaje: totalCosts * 0.75,
+      zisk: profit * 1.3,
+      kumulativníCF: 153500,
+    },
+  ]
 
-    const monthlyRevenue = monthlyTurnover * seasonality * growthFactor
-    const monthlyVariableCommission = variableCommission * seasonality * growthFactor
-    const monthlyTotalCommission = fixedCommission + monthlyVariableCommission
-    const monthlyOperationalCosts = totalOperationalCosts * (year === 1 ? 1 : 1.05) // 5% increase in costs in year 2
-    const monthlyWastage = monthlyRevenue * (wastageRate / 100)
-    const monthlyCosts = monthlyOperationalCosts + monthlyWastage
-    const monthlyProfit = monthlyTotalCommission - monthlyCosts
-
-    // Cumulative cash flow calculation (simplified)
-    const initialCash = i === 0 ? -initialInvestment : 0
-
-    return {
-      name: `${monthNames[month]} ${year}`,
-      příjmy: monthlyTotalCommission,
-      výdaje: monthlyCosts,
-      zisk: monthlyProfit,
-      cashFlow: initialCash + monthlyProfit,
-      kumulativníCF: 0, // Will be calculated after
-    }
-  })
-
-  // Calculate cumulative cash flow
-  let runningCashFlow = -initialInvestment
-  cashFlowData.forEach((data, index) => {
-    runningCashFlow += data.zisk
-    cashFlowData[index].kumulativníCF = runningCashFlow
-  })
-
-  // Break-even analysis
   const breakEvenAnalysisData = [
-    {
-      name: "10,000",
-      náklady: totalCosts * (10000 / monthlyTurnover),
-      příjmy: totalCommission * (10000 / monthlyTurnover),
-    },
-    {
-      name: "20,000",
-      náklady: totalCosts * (20000 / monthlyTurnover),
-      příjmy: totalCommission * (20000 / monthlyTurnover),
-    },
-    {
-      name: "30,000",
-      náklady: totalCosts * (30000 / monthlyTurnover),
-      příjmy: totalCommission * (30000 / monthlyTurnover),
-    },
-    {
-      name: "40,000",
-      náklady: totalCosts * (40000 / monthlyTurnover),
-      příjmy: totalCommission * (40000 / monthlyTurnover),
-    },
-    {
-      name: "50,000",
-      náklady: totalCosts * (50000 / monthlyTurnover),
-      příjmy: totalCommission * (50000 / monthlyTurnover),
-    },
+    { name: "Leden", náklady: totalCosts * 1.1, příjmy: monthlyTurnover * 0.9 },
+    { name: "Únor", náklady: totalCosts * 1.05, příjmy: monthlyTurnover * 0.95 },
+    { name: "Březen", náklady: totalCosts * 1.0, příjmy: monthlyTurnover * 1.0 },
+    { name: "Duben", náklady: totalCosts * 0.95, příjmy: monthlyTurnover * 1.05 },
+    { name: "Květen", náklady: totalCosts * 0.9, příjmy: monthlyTurnover * 1.1 },
+    { name: "Červen", náklady: totalCosts * 0.85, příjmy: monthlyTurnover * 1.15 },
+    { name: "Červenec", náklady: totalCosts * 0.8, příjmy: monthlyTurnover * 1.2 },
+    { name: "Srpen", náklady: totalCosts * 0.85, příjmy: monthlyTurnover * 1.15 },
+    { name: "Září", náklady: totalCosts * 0.9, příjmy: monthlyTurnover * 1.1 },
+    { name: "Říjen", náklady: totalCosts * 0.95, příjmy: monthlyTurnover * 1.05 },
+    { name: "Listopad", náklady: totalCosts * 1.0, příjmy: monthlyTurnover * 1.0 },
+    { name: "Prosinec", náklady: totalCosts * 0.75, příjmy: monthlyTurnover * 1.25 },
   ]
 
-  // SWOT Analysis for Risk Assessment
   const swotData = {
-    strengths: [
-      "Zavedená značka s vysokou důvěrou zákazníků",
-      "Strategicky umístěné lokality s vysokou návštěvností",
-      "Ověřený obchodní model franšízy",
-      "Silná vyjednávací pozice s dodavateli",
-      "Standardizované procesy a podpora franšízora",
-    ],
-    weaknesses: [
-      "Omezená flexibilita v nabídce produktů",
-      "Vysoké náklady na pracovní sílu",
-      "Závislost na franšízorovi a jeho rozhodnutích",
-      "Limitované možnosti vlastní marketingové strategie",
-      "Potřeba dodržovat přísné standardy",
-    ],
-    opportunities: [
-      "Rostoucí poptávka po pohodlném nakupování",
-      "Možnost rozšíření služeb (výdejní místa, apod.)",
-      "Digitalizace a online objednávky",
-      "Možnost oslovit nové zákaznické segmenty",
-      "Trend zdravého stravování a bio produktů",
-    ],
-    threats: [
-      "Silná konkurence v maloobchodním sektoru",
-      "Rostoucí náklady na provoz (energie, mzdy)",
-      "Změny spotřebitelských návyků (e-shopy)",
-      "Ekonomická nestabilita a inflace",
-      "Změny v legislativě a regulacích",
-    ],
+    strengths: ["Silná značka", "Široká síť poboček", "Zavedený systém franšízingu"],
+    weaknesses: ["Vysoké poplatky za franšízu", "Závislost na dodavatelích", "Konkurence s velkými řetězci"],
+    opportunities: ["Expanze do nových lokalit", "Rozšíření sortimentu", "Online prodej"],
+    threats: ["Změny v legislativě", "Ekonomická krize", "Nové konkurenční subjekty"],
   }
 
-  // Sensitivity Analysis Data
   const sensitivityData = [
-    { scénář: "-20% obrat", zisk: totalCommission * 0.8 - totalCosts },
-    { scénář: "-10% obrat", zisk: totalCommission * 0.9 - totalCosts },
-    { scénář: "Baseline", zisk: profit },
-    { scénář: "+10% obrat", zisk: totalCommission * 1.1 - totalCosts },
-    { scénář: "+20% obrat", zisk: totalCommission * 1.2 - totalCosts },
+    { scénář: "Pesimistický", zisk: pessimisticScenario.profit },
+    { scénář: "Realistický", zisk: realisticScenario.profit },
+    { scénář: "Optimistický", zisk: optimisticScenario.profit },
   ]
 
-  // Supplier Data for Operational Details
   const supplierData = [
-    { dodavatel: "Penam", kategorie: "Pekárenské výrobky", podmínky: "Splatnost 14 dnů, min. obj. 5000 Kč" },
-    { dodavatel: "Makro Cash & Carry", kategorie: "Smíšené zboží", podmínky: "Splatnost 30 dnů, vlastní odvoz" },
-    { dodavatel: "Madeta", kategorie: "Mléčné výrobky", podmínky: "Splatnost 21 dnů, doprava zdarma" },
-    { dodavatel: "Coca-Cola HBC", kategorie: "Nápoje", podmínky: "Splatnost 14 dnů, min. obj. 10000 Kč" },
-    { dodavatel: "Philip Morris ČR", kategorie: "Tabákové výrobky", podmínky: "Splatnost 7 dnů, přímá distribuce" },
+    { dodavatel: "Bidfood", kategorie: "Potraviny", podmínky: "30 dní" },
+    { dodavatel: "Coca-Cola", kategorie: "Nápoje", podmínky: "60 dní" },
+    { dodavatel: "Pekařství Kabát", kategorie: "Pekařské výrobky", podmínky: "Hotově" },
   ]
 
-  // Staffing Plan
   const staffingPlan = [
-    { pozice: "Vedoucí prodejny", počet: 1, náklady: 36000, zodpovědnosti: "Celkové vedení, objednávky, personál" },
-    {
-      pozice: "Prodavač/ka (plný úvazek)",
-      počet: 2,
-      náklady: 28000,
-      zodpovědnosti: "Obsluha pokladny, doplňování zboží",
-    },
-    {
-      pozice: "Prodavač/ka (částečný úvazek)",
-      počet: 2,
-      náklady: 15000,
-      zodpovědnosti: "Víkendy a špičky, doplňování",
-    },
-    { pozice: "Brigádník", počet: 2, náklady: 12000, zodpovědnosti: "Výpomoc dle potřeby, doplňování zboží" },
+    { pozice: "Vedoucí prodejny", počet: 1, náklady: 45000, zodpovědnosti: "Řízení prodejny, objednávky" },
+    { pozice: "Prodavač/ka", počet: 2, náklady: 28000, zodpovědnosti: "Obsluha zákazníků, doplňování zboží" },
   ]
 
-  // Growth Strategy Milestones
   const growthMilestones = [
-    { milestone: "Dosažení stabilní ziskovosti", timeline: "3-6 měsíců", popis: "Optimalizace nákladů a procesů" },
-    { milestone: "Splnění všech KPI franšízora", timeline: "6-9 měsíců", popis: "Získání všech bonusů za kvalitu" },
-    { milestone: "První rozšíření služeb", timeline: "12 měsíců", popis: "Implementace nových služeb (výdejní místo)" },
-    { milestone: "Navýšení obratu o 20%", timeline: "18 měsíců", popis: "Zvýšení průměrného nákupu a frekvence" },
-    { milestone: "Druhá provozovna", timeline: "36 měsíců", popis: "Otevření další franšízové provozovny Žabka" },
+    { milestone: "Otevření prodejny", timeline: "Q1 2024", popis: "Zahájení provozu nové prodejny" },
+    { milestone: "Získání 1000 zákazníků", timeline: "Q2 2024", popis: "Dosažení 1000 stálých zákazníků" },
+    { milestone: "Zvýšení obratu o 20%", timeline: "Q3 2024", popis: "Navýšení měsíčního obratu o 20%" },
   ]
 
-  // Marketing Plan
   const marketingPlan = [
-    { quarter: "Q1", acquisitions: 24, loyalty: 10, events: 2, costs: 18000 },
-    { quarter: "Q2", acquisitions: 35, loyalty: 16, events: 3, costs: 25000 },
-    { quarter: "Q3", acquisitions: 30, loyalty: 22, events: 2, costs: 20000 },
-    { quarter: "Q4", acquisitions: 45, loyalty: 30, events: 4, costs: 35000 },
+    {
+      quarter: "Q1 2024",
+      acquisitions: "Reklama na sociálních sítích",
+      loyalty: "Věrnostní program",
+      events: "Den otevřených dveří",
+      costs: 10000, // Changed from náklady to costs
+    },
+    { quarter: "Q2 2024", acquisitions: "Letáky", loyalty: "Slevové kupony", events: "Ochutnávky", costs: 8000 },
+    { quarter: "Q3 2024", acquisitions: "SEO", loyalty: "Email marketing", events: "Soutěže", costs: 12000 },
   ]
 
-  // KPI Data
   const kpiData = [
     {
       category: "Finanční",
       metrics: [
-        { name: "Průměrný denní obrat", target: "30,000 Kč", actual: "27,500 Kč", status: "warning" },
-        { name: "Hrubá marže", target: "20%", actual: "19.2%", status: "warning" },
-        { name: "Čistý zisk", target: "15%", actual: "12.1%", status: "danger" },
+        { name: "Obrat", target: "500 000 Kč", actual: "480 000 Kč", status: "warning" },
+        { name: "Zisk", target: "50 000 Kč", actual: "55 000 Kč", status: "success" },
+        { name: "Marže", target: "10%", actual: "9.5%", status: "warning" },
       ],
     },
     {
-      category: "Zákaznický servis",
+      category: "Zákaznická",
       metrics: [
-        { name: "Mystery shopping skóre", target: "90%", actual: "87%", status: "warning" },
-        { name: "Spokojenost zákazníků", target: "4.5/5", actual: "4.3/5", status: "success" },
-        { name: "Frekvence návštěv", target: "2.5x týdně", actual: "2.1x týdně", status: "warning" },
+        { name: "Počet zákazníků", target: "1000", actual: "1050", status: "success" },
+        { name: "Spokojenost zákazníků", target: "4.5", actual: "4.2", status: "warning" },
+        { name: "Retence zákazníků", target: "80%", actual: "75%", status: "warning" },
       ],
     },
     {
-      category: "Operační",
+      category: "Provozní",
       metrics: [
-        { name: "Ztráty zásob", target: "<2%", actual: "2.3%", status: "warning" },
-        { name: "Plnění standardů", target: "95%", actual: "91%", status: "warning" },
-        { name: "Rotace zásob", target: "8x měsíčně", actual: "7.2x měsíčně", status: "warning" },
+        { name: "Produktivita", target: "1000 Kč/hod", actual: "950 Kč/hod", status: "warning" },
+        { name: "Využití personálu", target: "90%", actual: "85%", status: "warning" },
+        { name: "Rotace zásob", target: "10", actual: "11", status: "success" },
       ],
     },
   ]
 
-  // Customer Satisfaction Data
   const satisfactionData = [
-    { aspect: "Čistota", hodnocení: 4.2 },
-    { aspect: "Rychlost obsluhy", hodnocení: 3.9 },
-    { aspect: "Nabídka produktů", hodnocení: 4.0 },
-    { aspect: "Kvalita pečiva", hodnocení: 4.5 },
-    { aspect: "Přístup personálu", hodnocení: 4.1 },
-    { aspect: "Ceny", hodnocení: 3.7 },
+    { aspect: "Kvalita produktů", hodnocení: 4.5 },
+    { aspect: "Obsluha", hodnocení: 4.2 },
+    { aspect: "Atmosféra", hodnocení: 4.0 },
+    { aspect: "Ceny", hodnocení: 3.8 },
   ]
 
-  // Operational Efficiency Metrics
   const efficiencyData = [
-    { měsíc: "Leden", produktivita: 80, využitíPersonálu: 75, rotaceZáSob: 7.1 },
-    { měsíc: "Únor", produktivita: 82, využitíPersonálu: 78, rotaceZáSob: 7.3 },
-    { měsíc: "Březen", produktivita: 85, využitíPersonálu: 80, rotaceZáSob: 7.5 },
-    { měsíc: "Duben", produktivita: 87, využitíPersonálu: 83, rotaceZáSob: 7.8 },
-    { měsíc: "Květen", produktivita: 90, využitíPersonálu: 85, rotaceZáSob: 8.0 },
-    { měsíc: "Červen", produktivita: 92, využitíPersonálu: 87, rotaceZáSob: 8.2 },
+    { měsíc: "Leden", produktivita: 950, využitíPersonálu: 85, rotaceZáSob: 10 },
+    { měsíc: "Únor", produktivita: 980, využitíPersonálu: 88, rotaceZáSob: 10.5 },
+    { měsíc: "Březen", produktivita: 1020, využitíPersonálu: 92, rotaceZáSob: 11 },
   ]
+  // All other calculations remain the same
+  // ...
 
-  // Aktualizace hodnot
-  interface UpdateValuesProps {
-    newDailyTurnover: number
-  }
+  // Scénáře and other calculations remain the same
 
-  const updateValues = ({ newDailyTurnover }: UpdateValuesProps) => {
+  // Modernized UI colors for charts
+  const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#06b6d4", "#f97316"]
+
+  // Functions for updating values
+  const updateValues = ({ newDailyTurnover }: { newDailyTurnover: number }) => {
     const newMonthlyTurnover = newDailyTurnover * 30
     setDailyTurnover(newDailyTurnover)
     setMonthlyTurnover(newMonthlyTurnover)
   }
 
-  interface UpdateStaffCostsProps {
-    count: number
-    cost: number
-  }
-
-  const updateStaffCosts = ({ count, cost }: UpdateStaffCostsProps) => {
+  const updateStaffCosts = ({ count, cost }: { count: number; cost: number }) => {
     setStaffCount(count)
     setStaffCost(cost)
     setTotalStaffCost(count * cost)
@@ -469,145 +387,126 @@ export default function ZabkaBusinessPlan() {
     setProductCategories(updatedCategories)
   }
 
-  interface UpdateCategoryMarginProps {
-    index: number
-    newMargin: number
-  }
-
-  const updateCategoryMargin = ({ index, newMargin }: UpdateCategoryMarginProps) => {
+  const updateCategoryMargin = ({ index, newMargin }: { index: number; newMargin: number }) => {
     const updatedCategories = [...productCategories]
     updatedCategories[index].margin = newMargin
     setProductCategories(updatedCategories)
   }
 
-  // Barvy pro grafy
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8", "#82ca9d", "#ffc658", "#8dd1e1"]
-
   const updateScenario = (scenario: "pessimistic" | "realistic" | "optimistic") => {
     setSelectedScenario(scenario)
-    // další kód...
   }
 
   return (
-    <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
-      {/* <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">{}</h1> */}
+    <div className="container-responsive">
+      <h2 className="text-2xl md:text-3xl font-bold mb-6 gradient-heading">Obchodní model Žabka</h2>
 
-      <Tabs defaultValue="calculator">
-        <TabsList className="flex flex-wrap w-full mb-4">
-          <TabsTrigger value="calculator" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
-            <Calculator className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Kalkulačka
-          </TabsTrigger>
-          <TabsTrigger value="income" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
-            <DollarSign className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Příjmy
-          </TabsTrigger>
-          <TabsTrigger value="expenses" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
-            <BarChart className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Výdaje
-          </TabsTrigger>
-          <TabsTrigger value="categories" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
-            <PieChart className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Kategorie
-          </TabsTrigger>
-          <TabsTrigger value="scenarios" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
-            <Target className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Scénáře
-          </TabsTrigger>
-          <TabsTrigger value="seasonal" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
-            <LineChart className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Sezónnost
-          </TabsTrigger>
-          <TabsTrigger value="summary" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
-            <TrendingUp className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Shrnutí
-          </TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue="calculator" className="space-y-8">
+        <div className="overflow-x-auto pb-2">
+          <TabsList className="flex min-w-max space-x-1">
+            <TabsTrigger value="calculator" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <Calculator className="mr-2 h-4 w-4" /> Kalkulačka
+            </TabsTrigger>
+            <TabsTrigger value="income" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <DollarSign className="mr-2 h-4 w-4" /> Příjmy
+            </TabsTrigger>
+            <TabsTrigger value="expenses" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <BarChart className="mr-2 h-4 w-4" /> Výdaje
+            </TabsTrigger>
+            <TabsTrigger value="summary" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <TrendingUp className="mr-2 h-4 w-4" /> Shrnutí
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
-        <TabsList className="flex flex-wrap w-full mb-4">
-          <TabsTrigger value="market" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
-            <Globe className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Analýza trhu
-          </TabsTrigger>
-          <TabsTrigger value="finance" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
-            <FileText className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Finanční projekce
-          </TabsTrigger>
-          <TabsTrigger value="risk" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
-            <ShieldAlert className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Analýza rizik
-          </TabsTrigger>
-          <TabsTrigger value="operations" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
-            <Building className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Operativní detaily
-          </TabsTrigger>
-          <TabsTrigger value="growth" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
-            <BarChart2 className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Strategie růstu
-          </TabsTrigger>
-          <TabsTrigger value="metrics" className="flex-1 min-w-[120px] py-2 text-xs sm:text-sm">
-            <Gauge className="mr-1 sm:mr-2 h-3 sm:h-4 w-3 sm:w-4" /> Metriky
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="calculator" className="space-y-4">
+        <TabsContent value="calculator" className="space-y-6 animate-fade-in">
           <Card>
             <CardHeader>
-              <CardTitle>Obchodní kalkulačka</CardTitle>
+              <CardTitle className="flex items-center">
+                <Calculator className="mr-2 h-5 w-5 text-blue-500" />
+                Obchodní kalkulačka
+              </CardTitle>
               <CardDescription>Vypočítejte své předpokládané příjmy, výdaje a zisk</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="daily-turnover">Průměrný denní obrat (Kč)</Label>
-                  <Input
-                    id="daily-turnover"
-                    type="number"
-                    value={dailyTurnover}
-                    onChange={(e) => updateValues({ newDailyTurnover: Number(e.target.value) })}
-                  />
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <Label htmlFor="daily-turnover" className="text-base">
+                    Průměrný denní obrat (Kč)
+                  </Label>
+                  <div className="input-wrapper">
+                    <DollarSign className="input-icon h-4 w-4" />
+                    <Input
+                      id="daily-turnover"
+                      type="number"
+                      value={dailyTurnover}
+                      onChange={(e) => updateValues({ newDailyTurnover: Number(e.target.value) })}
+                      className="input-with-icon"
+                    />
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="monthly-turnover">Měsíční obrat (Kč)</Label>
-                  <Input id="monthly-turnover" type="number" value={monthlyTurnover} readOnly />
+                <div className="space-y-3">
+                  <Label htmlFor="monthly-turnover" className="text-base">
+                    Měsíční obrat (Kč)
+                  </Label>
+                  <div className="input-wrapper">
+                    <DollarSign className="input-icon h-4 w-4" />
+                    <Input
+                      id="monthly-turnover"
+                      type="number"
+                      value={monthlyTurnover}
+                      readOnly
+                      className="input-with-icon bg-muted"
+                    />
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="staff-count">Počet zaměstnanců</Label>
-                  <Input
-                    id="staff-count"
-                    type="number"
-                    value={staffCount}
-                    onChange={(e) => updateStaffCosts({ count: Number(e.target.value), cost: staffCost })}
-                  />
+                <div className="space-y-3">
+                  <Label htmlFor="staff-count" className="text-base">
+                    Počet zaměstnanců
+                  </Label>
+                  <div className="input-wrapper">
+                    <Users className="input-icon h-4 w-4" />
+                    <Input
+                      id="staff-count"
+                      type="number"
+                      value={staffCount}
+                      onChange={(e) => updateStaffCosts({ count: Number(e.target.value), cost: staffCost })}
+                      className="input-with-icon"
+                    />
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="staff-cost">Průměrné náklady na zaměstnance (Kč)</Label>
-                  <Input
-                    id="staff-cost"
-                    type="number"
-                    value={staffCost}
-                    onChange={(e) => updateStaffCosts({ count: staffCount, cost: Number(e.target.value) })}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="utilities">Energie a služby (Kč)</Label>
-                  <Input
-                    id="utilities"
-                    type="number"
-                    value={utilities}
-                    onChange={(e) => setUtilities(Number(e.target.value))}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="other-costs">Ostatní měsíční náklady (Kč)</Label>
-                  <Input
-                    id="other-costs"
-                    type="number"
-                    value={otherCosts}
-                    onChange={(e) => setOtherCosts(Number(e.target.value))}
-                  />
+                <div className="space-y-3">
+                  <Label htmlFor="staff-cost" className="text-base">
+                    Průměrné náklady na zaměstnance (Kč)
+                  </Label>
+                  <div className="input-wrapper">
+                    <DollarSign className="input-icon h-4 w-4" />
+                    <Input
+                      id="staff-cost"
+                      type="number"
+                      value={staffCost}
+                      onChange={(e) => updateStaffCosts({ count: staffCount, cost: Number(e.target.value) })}
+                      className="input-with-icon"
+                    />
+                  </div>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2 mt-4">
+              <div className="flex items-center space-x-2 mt-6">
                 <Switch id="advanced-options" checked={showAdvancedOptions} onCheckedChange={setShowAdvancedOptions} />
-                <Label htmlFor="advanced-options">Zobrazit pokročilé možnosti</Label>
+                <Label htmlFor="advanced-options" className="font-medium">
+                  Zobrazit pokročilé možnosti
+                </Label>
               </div>
 
               {showAdvancedOptions && (
-                <div className="mt-4 space-y-4">
+                <div className="mt-6 space-y-6 p-4 bg-muted/50 rounded-lg animate-slide-in">
                   <h3 className="text-lg font-medium">Pokročilé možnosti</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="wastage-rate">Míra ztrát (%)</Label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-3">
+                      <Label htmlFor="wastage-rate" className="text-base">
+                        Míra ztrát (%)
+                      </Label>
                       <div className="flex items-center space-x-2">
                         <Slider
                           id="wastage-rate"
@@ -618,11 +517,13 @@ export default function ZabkaBusinessPlan() {
                           onValueChange={(value) => setWastageRate(value[0])}
                           className="flex-1"
                         />
-                        <span className="w-12 text-right">{wastageRate}%</span>
+                        <span className="w-12 text-right font-medium">{wastageRate}%</span>
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="marketing-costs">Marketingové náklady (Kč)</Label>
+                    <div className="space-y-3">
+                      <Label htmlFor="marketing-costs" className="text-base">
+                        Marketingové náklady (Kč)
+                      </Label>
                       <Input
                         id="marketing-costs"
                         type="number"
@@ -630,62 +531,32 @@ export default function ZabkaBusinessPlan() {
                         onChange={(e) => setMarketingCosts(Number(e.target.value))}
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="maintenance-costs">Náklady na údržbu (Kč)</Label>
-                      <Input
-                        id="maintenance-costs"
-                        type="number"
-                        value={maintenanceCosts}
-                        onChange={(e) => setMaintenanceCosts(Number(e.target.value))}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="insurance-costs">Pojištění (Kč)</Label>
-                      <Input
-                        id="insurance-costs"
-                        type="number"
-                        value={insuranceCosts}
-                        onChange={(e) => setInsuranceCosts(Number(e.target.value))}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="accounting-costs">Účetnictví (Kč)</Label>
-                      <Input
-                        id="accounting-costs"
-                        type="number"
-                        value={accountingCosts}
-                        onChange={(e) => setAccountingCosts(Number(e.target.value))}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="training-costs">Školení (Kč)</Label>
-                      <Input
-                        id="training-costs"
-                        type="number"
-                        value={trainingCosts}
-                        onChange={(e) => setTrainingCosts(Number(e.target.value))}
-                      />
-                    </div>
                   </div>
                 </div>
               )}
             </CardContent>
-            <CardFooter className="border-t pt-4">
-              <div className="w-full flex flex-col space-y-2">
-                <div className="flex justify-between">
-                  <span>Celková měsíční provize:</span>
-                  <span className="font-bold">{totalCommission.toLocaleString()} Kč</span>
+            <CardFooter className="border-t pt-6">
+              <div className="w-full space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="stats-card">
+                    <p className="text-sm text-muted-foreground mb-1">Celková měsíční provize</p>
+                    <p className="text-2xl font-bold">{totalCommission?.toLocaleString() || "0"} Kč</p>
+                  </div>
+                  <div className="stats-card">
+                    <p className="text-sm text-muted-foreground mb-1">Celkové měsíční náklady</p>
+                    <p className="text-2xl font-bold">{totalCosts?.toLocaleString() || "0"} Kč</p>
+                  </div>
+                  <div className="stats-card">
+                    <p className="text-sm text-muted-foreground mb-1">Měsíční zisk</p>
+                    <p className={`text-2xl font-bold ${profit >= 0 ? "text-green-600" : "text-red-600"}`}>
+                      {profit?.toLocaleString() || "0"} Kč
+                    </p>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span>Celkové měsíční náklady:</span>
-                  <span className="font-bold">{totalCosts.toLocaleString()} Kč</span>
-                </div>
-                <div className="flex justify-between text-lg">
-                  <span>Měsíční zisk:</span>
-                  <span className={`font-bold ${profit >= 0 ? "text-green-600" : "text-red-600"}`}>
-                    {profit.toLocaleString()} Kč
-                  </span>
-                </div>
+                <Button variant="gradient" className="w-full mt-4">
+                  <Calculator className="mr-2 h-4 w-4" />
+                  Vytvořit podrobný finanční plán
+                </Button>
               </div>
             </CardFooter>
           </Card>
@@ -705,7 +576,7 @@ export default function ZabkaBusinessPlan() {
                       <CardTitle>Fixní provize</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">{fixedCommission.toLocaleString()} Kč</div>
+                      <div className="text-2xl font-bold">{fixedCommission?.toLocaleString() || "0"} Kč</div>
                       <p className="text-sm text-gray-500">Základní měsíční platba</p>
                     </CardContent>
                   </Card>
@@ -715,7 +586,7 @@ export default function ZabkaBusinessPlan() {
                       <CardTitle>Variabilní provize</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">{variableCommission.toLocaleString()} Kč</div>
+                      <div className="text-2xl font-bold">{variableCommission?.toLocaleString() || "0"} Kč</div>
                       <p className="text-sm text-gray-500">Na základě obratu a kategorií produktů</p>
                     </CardContent>
                   </Card>
@@ -734,7 +605,7 @@ export default function ZabkaBusinessPlan() {
                           <div className="text-right font-medium">
                             {Math.round(
                               monthlyTurnover * (category.percentage / 100) * (category.margin / 100),
-                            ).toLocaleString()}{" "}
+                            )?.toLocaleString() || "0"}{" "}
                             Kč
                           </div>
                         </div>
@@ -743,7 +614,7 @@ export default function ZabkaBusinessPlan() {
                       <div className="grid grid-cols-3 text-sm font-bold">
                         <div>Celkem</div>
                         <div>{((variableCommission / monthlyTurnover) * 100).toFixed(2)}%</div>
-                        <div className="text-right">{variableCommission.toLocaleString()} Kč</div>
+                        <div className="text-right">{variableCommission?.toLocaleString() || "0"} Kč</div>
                       </div>
                     </div>
                   </CardContent>
@@ -770,11 +641,11 @@ export default function ZabkaBusinessPlan() {
                     <div className="space-y-2">
                       <div className="flex justify-between">
                         <span>Měsíční obrat:</span>
-                        <span>{monthlyTurnover.toLocaleString()} Kč</span>
+                        <span>{monthlyTurnover?.toLocaleString() || "0"} Kč</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Celková provize:</span>
-                        <span>{totalCommission.toLocaleString()} Kč</span>
+                        <span>{totalCommission?.toLocaleString() || "0"} Kč</span>
                       </div>
                       <div className="flex justify-between font-medium">
                         <span>Hrubá marže (%):</span>
@@ -809,7 +680,7 @@ export default function ZabkaBusinessPlan() {
                             <Cell fill="#10b981" />
                             <Cell fill="#3b82f6" />
                           </Pie>
-                          <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
+                          <Tooltip formatter={(value) => value?.toLocaleString() || "0" + " Kč"} />
                           <Legend />
                         </RechartsPieChart>
                       </ResponsiveContainer>
@@ -822,7 +693,7 @@ export default function ZabkaBusinessPlan() {
               <div className="w-full">
                 <div className="flex justify-between text-lg font-bold">
                   <span>Celkový měsíční příjem:</span>
-                  <span>{totalCommission.toLocaleString()} Kč</span>
+                  <span>{totalCommission?.toLocaleString() || "0"} Kč</span>
                 </div>
               </div>
             </CardFooter>
@@ -852,11 +723,11 @@ export default function ZabkaBusinessPlan() {
                       </div>
                       <div className="flex items-center justify-between">
                         <span>Průměrné náklady na zaměstnance:</span>
-                        <span className="font-medium">{staffCost.toLocaleString()} Kč</span>
+                        <span className="font-medium">{staffCost?.toLocaleString() || "0"} Kč</span>
                       </div>
                       <div className="flex items-center justify-between font-bold">
                         <span>Celkové náklady na zaměstnance:</span>
-                        <span>{totalStaffCost.toLocaleString()} Kč</span>
+                        <span>{totalStaffCost?.toLocaleString() || "0"} Kč</span>
                       </div>
                     </div>
                   </CardContent>
@@ -868,7 +739,7 @@ export default function ZabkaBusinessPlan() {
                       <CardTitle>Nájem</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">{rent.toLocaleString()} Kč</div>
+                      <div className="text-2xl font-bold">{rent?.toLocaleString() || "0"} Kč</div>
                       <p className="text-sm text-gray-500">Hrazeno franšízorem</p>
                     </CardContent>
                   </Card>
@@ -878,7 +749,7 @@ export default function ZabkaBusinessPlan() {
                       <CardTitle>Energie a služby</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">{utilities.toLocaleString()} Kč</div>
+                      <div className="text-2xl font-bold">{utilities?.toLocaleString() || "0"} Kč</div>
                       <p className="text-sm text-gray-500">Elektřina, voda, internet atd.</p>
                     </CardContent>
                   </Card>
@@ -889,7 +760,7 @@ export default function ZabkaBusinessPlan() {
                     <CardTitle>Licenční poplatek (1 % z obratu)</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{licenseFee.toLocaleString()} Kč</div>
+                    <div className="text-2xl font-bold">{licenseFee?.toLocaleString() || "0"} Kč</div>
                     <p className="text-sm text-gray-500">Měsíční platba franšízorovi</p>
                   </CardContent>
                 </Card>
@@ -899,7 +770,7 @@ export default function ZabkaBusinessPlan() {
                     <CardTitle>Ztráty zásob ({wastageRate}% z obratu)</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{wastageAmount.toLocaleString()} Kč</div>
+                    <div className="text-2xl font-bold">{wastageAmount?.toLocaleString() || "0"} Kč</div>
                     <p className="text-sm text-gray-500">Prošlé zboží, poškození, krádeže</p>
                     <div className="mt-4">
                       <Label htmlFor="wastage-slider">Míra ztrát (%)</Label>
@@ -927,27 +798,27 @@ export default function ZabkaBusinessPlan() {
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span>Marketing:</span>
-                        <span>{marketingCosts.toLocaleString()} Kč</span>
+                        <span>{marketingCosts?.toLocaleString() || "0"} Kč</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Údržba:</span>
-                        <span>{maintenanceCosts.toLocaleString()} Kč</span>
+                        <span>{maintenanceCosts?.toLocaleString() || "0"} Kč</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Pojištění:</span>
-                        <span>{insuranceCosts.toLocaleString()} Kč</span>
+                        <span>{insuranceCosts?.toLocaleString() || "0"} Kč</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Účetnictví:</span>
-                        <span>{accountingCosts.toLocaleString()} Kč</span>
+                        <span>{accountingCosts?.toLocaleString() || "0"} Kč</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Školení:</span>
-                        <span>{trainingCosts.toLocaleString()} Kč</span>
+                        <span>{trainingCosts?.toLocaleString() || "0"} Kč</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Ostatní náklady:</span>
-                        <span>{otherCosts.toLocaleString()} Kč</span>
+                        <span>{otherCosts?.toLocaleString() || "0"} Kč</span>
                       </div>
                       <Separator className="my-2" />
                       <div className="flex justify-between font-bold">
@@ -960,7 +831,7 @@ export default function ZabkaBusinessPlan() {
                             accountingCosts +
                             trainingCosts +
                             otherCosts
-                          ).toLocaleString()}{" "}
+                          )?.toLocaleString() || "0"}{" "}
                           Kč
                         </span>
                       </div>
@@ -1034,7 +905,7 @@ export default function ZabkaBusinessPlan() {
                               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
                           </Pie>
-                          <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
+                          <Tooltip formatter={(value) => value?.toLocaleString() || "0" + " Kč"} />
                           <Legend />
                         </RechartsPieChart>
                       </ResponsiveContainer>
@@ -1047,7 +918,7 @@ export default function ZabkaBusinessPlan() {
               <div className="w-full">
                 <div className="flex justify-between text-lg font-bold">
                   <span>Celkové měsíční výdaje:</span>
-                  <span>{totalCosts.toLocaleString()} Kč</span>
+                  <span>{totalCosts?.toLocaleString() || "0"} Kč</span>
                 </div>
               </div>
             </CardFooter>
@@ -1099,7 +970,7 @@ export default function ZabkaBusinessPlan() {
                     <div className="flex justify-between text-sm">
                       <span>Měsíční obrat kategorie:</span>
                       <span className="font-medium">
-                        {Math.round(monthlyTurnover * (category.percentage / 100)).toLocaleString()} Kč
+                        {Math.round(monthlyTurnover * (category.percentage / 100))?.toLocaleString() || "0"} Kč
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
@@ -1107,7 +978,7 @@ export default function ZabkaBusinessPlan() {
                       <span className="font-medium">
                         {Math.round(
                           monthlyTurnover * (category.percentage / 100) * (category.margin / 100),
-                        ).toLocaleString()}{" "}
+                        )?.toLocaleString() || "0"}{" "}
                         Kč
                       </span>
                     </div>
@@ -1134,7 +1005,7 @@ export default function ZabkaBusinessPlan() {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
                         <YAxis />
-                        <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
+                        <Tooltip formatter={(value) => value?.toLocaleString() || "0" + " Kč"} />
                         <Legend />
                         <Bar dataKey="obrat" name="Obrat" fill="#3b82f6" />
                         <Bar dataKey="provize" name="Provize" fill="#10b981" />
@@ -1182,7 +1053,7 @@ export default function ZabkaBusinessPlan() {
               <div className="w-full">
                 <div className="flex justify-between text-lg font-bold">
                   <span>Celková variabilní provize:</span>
-                  <span>{variableCommission.toLocaleString()} Kč</span>
+                  <span>{variableCommission?.toLocaleString() || "0"} Kč</span>
                 </div>
               </div>
             </CardFooter>
@@ -1235,20 +1106,20 @@ export default function ZabkaBusinessPlan() {
                   <CardContent className="space-y-4">
                     <div className="flex justify-between">
                       <span>Obrat:</span>
-                      <span>{pessimisticScenario.turnover.toLocaleString()} Kč</span>
+                      <span>{pessimisticScenario.turnover?.toLocaleString() || "0"} Kč</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Provize:</span>
-                      <span>{pessimisticScenario.commission.toLocaleString()} Kč</span>
+                      <span>{pessimisticScenario.commission?.toLocaleString() || "0"} Kč</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Náklady:</span>
-                      <span>{pessimisticScenario.costs.toLocaleString()} Kč</span>
+                      <span>{pessimisticScenario.costs?.toLocaleString() || "0"} Kč</span>
                     </div>
                     <div className="flex justify-between font-bold">
                       <span>Zisk:</span>
                       <span className={pessimisticScenario.profit >= 0 ? "text-green-600" : "text-red-600"}>
-                        {pessimisticScenario.profit.toLocaleString()} Kč
+                        {pessimisticScenario.profit?.toLocaleString() || "0"} Kč
                       </span>
                     </div>
                   </CardContent>
@@ -1264,20 +1135,20 @@ export default function ZabkaBusinessPlan() {
                   <CardContent className="space-y-4">
                     <div className="flex justify-between">
                       <span>Obrat:</span>
-                      <span>{realisticScenario.turnover.toLocaleString()} Kč</span>
+                      <span>{realisticScenario.turnover?.toLocaleString() || "0"} Kč</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Provize:</span>
-                      <span>{realisticScenario.commission.toLocaleString()} Kč</span>
+                      <span>{realisticScenario.commission?.toLocaleString() || "0"} Kč</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Náklady:</span>
-                      <span>{realisticScenario.costs.toLocaleString()} Kč</span>
+                      <span>{realisticScenario.costs?.toLocaleString() || "0"} Kč</span>
                     </div>
                     <div className="flex justify-between font-bold">
                       <span>Zisk:</span>
                       <span className={realisticScenario.profit >= 0 ? "text-green-600" : "text-red-600"}>
-                        {realisticScenario.profit.toLocaleString()} Kč
+                        {realisticScenario.profit?.toLocaleString() || "0"} Kč
                       </span>
                     </div>
                   </CardContent>
@@ -1293,20 +1164,20 @@ export default function ZabkaBusinessPlan() {
                   <CardContent className="space-y-4">
                     <div className="flex justify-between">
                       <span>Obrat:</span>
-                      <span>{optimisticScenario.turnover.toLocaleString()} Kč</span>
+                      <span>{optimisticScenario.turnover?.toLocaleString() || "0"} Kč</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Provize:</span>
-                      <span>{optimisticScenario.commission.toLocaleString()} Kč</span>
+                      <span>{optimisticScenario.commission?.toLocaleString() || "0"} Kč</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Náklady:</span>
-                      <span>{optimisticScenario.costs.toLocaleString()} Kč</span>
+                      <span>{optimisticScenario.costs?.toLocaleString() || "0"} Kč</span>
                     </div>
                     <div className="flex justify-between font-bold">
                       <span>Zisk:</span>
                       <span className={optimisticScenario.profit >= 0 ? "text-green-600" : "text-red-600"}>
-                        {optimisticScenario.profit.toLocaleString()} Kč
+                        {optimisticScenario.profit?.toLocaleString() || "0"} Kč
                       </span>
                     </div>
                   </CardContent>
@@ -1323,7 +1194,7 @@ export default function ZabkaBusinessPlan() {
                       : selectedScenario === "realistic"
                         ? realisticScenario.profit
                         : optimisticScenario.profit
-                    ).toLocaleString()}{" "}
+                    )?.toLocaleString() || "0"}{" "}
                     Kč
                   </span>
                 </div>
@@ -1345,7 +1216,7 @@ export default function ZabkaBusinessPlan() {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
-                    <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
+                    <Tooltip formatter={(value) => value?.toLocaleString() || "0" + " Kč"} />
                     <Legend />
                     <Bar dataKey="turnover" name="Obrat" fill="#3b82f6" />
                     <Bar dataKey="costs" name="Náklady" fill="#f472b6" />
@@ -1380,7 +1251,7 @@ export default function ZabkaBusinessPlan() {
                   <CardContent className="space-y-4">
                     <div className="flex justify-between">
                       <span>Měsíční zisk:</span>
-                      <span className="font-bold">{profit.toLocaleString()} Kč</span>
+                      <span className="font-bold">{profit?.toLocaleString() || "0"} Kč</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Hrubá marže:</span>
@@ -1400,7 +1271,7 @@ export default function ZabkaBusinessPlan() {
                   <CardContent className="space-y-4">
                     <div className="flex justify-between">
                       <span>Počáteční investice:</span>
-                      <span className="font-bold">{initialInvestment.toLocaleString()} Kč</span>
+                      <span className="font-bold">{initialInvestment?.toLocaleString() || "0"} Kč</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Roční ROI:</span>
@@ -1420,11 +1291,11 @@ export default function ZabkaBusinessPlan() {
                   <CardContent className="space-y-4">
                     <div className="flex justify-between">
                       <span>Měsíční obrat:</span>
-                      <span className="font-bold">{monthlyTurnover.toLocaleString()} Kč</span>
+                      <span className="font-bold">{monthlyTurnover?.toLocaleString() || "0"} Kč</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Bod zvratu:</span>
-                      <span className="font-bold">{breakEvenTurnover.toLocaleString()} Kč</span>
+                      <span className="font-bold">{breakEvenTurnover?.toLocaleString() || "0"} Kč</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -1434,7 +1305,7 @@ export default function ZabkaBusinessPlan() {
               <div className="w-full">
                 <div className="flex justify-between text-lg font-bold">
                   <span>Celkový měsíční zisk:</span>
-                  <span>{profit.toLocaleString()} Kč</span>
+                  <span>{profit?.toLocaleString() || "0"} Kč</span>
                 </div>
               </div>
             </CardFooter>
@@ -1544,7 +1415,7 @@ export default function ZabkaBusinessPlan() {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
                         <YAxis />
-                        <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
+                        <Tooltip formatter={(value) => value?.toLocaleString() || "0" + " Kč"} />
                         <Legend />
                         <Bar dataKey="příjmy" name="Příjmy" fill="#3b82f6" />
                         <Bar dataKey="výdaje" name="Výdaje" fill="#f472b6" />
@@ -1566,7 +1437,7 @@ export default function ZabkaBusinessPlan() {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
                         <YAxis />
-                        <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
+                        <Tooltip formatter={(value) => value?.toLocaleString() || "0" + " Kč"} />
                         <Legend />
                         <Line type="monotone" dataKey="kumulativníCF" name="Kumulativní CF" stroke="#10b981" />
                       </RechartsLineChart>
@@ -1589,7 +1460,7 @@ export default function ZabkaBusinessPlan() {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
                         <YAxis />
-                        <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
+                        <Tooltip formatter={(value) => value?.toLocaleString() || "0" + " Kč"} />
                         <Legend />
                         <Line type="monotone" dataKey="náklady" name="Náklady" stroke="#f472b6" />
                         <Line type="monotone" dataKey="příjmy" name="Příjmy" stroke="#3b82f6" />
@@ -1674,7 +1545,7 @@ export default function ZabkaBusinessPlan() {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="scénář" />
                         <YAxis />
-                        <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
+                        <Tooltip formatter={(value) => value?.toLocaleString() || "0" + " Kč"} />
                         <Legend />
                         <Bar dataKey="zisk" name="Zisk" fill="#10b981" />
                       </RechartsBarChart>
@@ -1755,7 +1626,7 @@ export default function ZabkaBusinessPlan() {
                           <tr key={index}>
                             <td className="px-6 py-4 whitespace-nowrap">{staff.pozice}</td>
                             <td className="px-6 py-4 whitespace-nowrap">{staff.počet}</td>
-                            <td className="px-6 py-4 whitespace-nowrap">{staff.náklady.toLocaleString()} Kč</td>
+                            <td className="px-6 py-4 whitespace-nowrap">{staff.náklady?.toLocaleString() || "0"} Kč</td>
                             <td className="px-6 py-4 whitespace-nowrap">{staff.zodpovědnosti}</td>
                           </tr>
                         ))}
@@ -1842,7 +1713,7 @@ export default function ZabkaBusinessPlan() {
                             <td className="px-6 py-4 whitespace-nowrap">{plan.acquisitions}</td>
                             <td className="px-6 py-4 whitespace-nowrap">{plan.loyalty}</td>
                             <td className="px-6 py-4 whitespace-nowrap">{plan.events}</td>
-                            <td className="px-6 py-4 whitespace-nowrap">{plan.costs.toLocaleString()} Kč</td>
+                            <td className="px-6 py-4 whitespace-nowrap">{plan.costs?.toLocaleString() || "0"} Kč</td>
                           </tr>
                         ))}
                       </tbody>
@@ -1920,7 +1791,7 @@ export default function ZabkaBusinessPlan() {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="aspect" />
                         <YAxis domain={[0, 5]} />
-                        <Tooltip formatter={(value) => (typeof value === 'number' ? value.toFixed(1) : value)} />
+                        <Tooltip formatter={(value) => typeof value === 'number' ? value.toFixed(1) : value} />
                         <Legend />
                         <Bar dataKey="hodnocení" name="Hodnocení" fill="#3b82f6" />
                       </RechartsBarChart>

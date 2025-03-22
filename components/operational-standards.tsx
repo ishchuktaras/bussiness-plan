@@ -15,26 +15,28 @@ export default function OperationalStandards() {
       <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Provozní standardy Žabka</h1>
 
       <Tabs defaultValue="hours">
-        <TabsList className="flex flex-wrap w-full md:grid md:grid-cols-6">
-          <TabsTrigger value="hours" className="flex-1 min-w-[120px] py-2">
-            <Clock className="mr-2 h-4 w-4" /> Hodiny
-          </TabsTrigger>
-          <TabsTrigger value="staff" className="flex-1 min-w-[120px] py-2">
-            <Users className="mr-2 h-4 w-4" /> Personál
-          </TabsTrigger>
-          <TabsTrigger value="products" className="flex-1 min-w-[120px] py-2">
-            <Percent className="mr-2 h-4 w-4" /> Produkty
-          </TabsTrigger>
-          <TabsTrigger value="bakery" className="flex-1 min-w-[120px] py-2">
-            <BookOpen className="mr-2 h-4 w-4" /> Pekárna
-          </TabsTrigger>
-          <TabsTrigger value="marketing" className="flex-1 min-w-[120px] py-2">
-            <Calendar className="mr-2 h-4 w-4" /> Marketing
-          </TabsTrigger>
-          <TabsTrigger value="kpis" className="flex-1 min-w-[120px] py-2">
-            <BarChart4 className="mr-2 h-4 w-4" /> KPI
-          </TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto">
+          <TabsList className="flex min-w-max">
+            <TabsTrigger value="hours" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <Clock className="mr-2 h-4 w-4" /> Hodiny
+            </TabsTrigger>
+            <TabsTrigger value="staff" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <Users className="mr-2 h-4 w-4" /> Personál
+            </TabsTrigger>
+            <TabsTrigger value="products" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <Percent className="mr-2 h-4 w-4" /> Produkty
+            </TabsTrigger>
+            <TabsTrigger value="bakery" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <BookOpen className="mr-2 h-4 w-4" /> Pekárna
+            </TabsTrigger>
+            <TabsTrigger value="marketing" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <Calendar className="mr-2 h-4 w-4" /> Marketing
+            </TabsTrigger>
+            <TabsTrigger value="kpis" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
+              <BarChart4 className="mr-2 h-4 w-4" /> KPI
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="hours" className="mt-4">
           <Card>
