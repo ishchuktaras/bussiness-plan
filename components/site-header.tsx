@@ -1,14 +1,24 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import {
+  BarChart3,
+  ClipboardCheck,
+  FileText,
+  Home,
+  Menu,
+  ShoppingBag,
+  TrendingUp,
+  X,
+} from "lucide-react"
+
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
-import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@/components/ui/button"
-import { BarChart3, ClipboardCheck, FileText, Home, Menu, ShoppingBag, TrendingUp, X } from "lucide-react"
+import { Icons } from "@/components/ui/icons"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -26,34 +36,35 @@ export function SiteHeader() {
 
   const navItems = [
     {
-      title: "Domů",
-      href: "/",
-      icon: <Home className="h-4 w-4 mr-1" />,
+      title: "Analýza smlouvy",
+      href: "/#franchise-agreement-analysis",
+      // icon: <FileText className="h-4 w-4 mr-1" />,
     },
     {
-      title: "Obchodní model",
-      href: "/#business-plan",
-      icon: <BarChart3 className="h-4 w-4 mr-1" />,
+      title: "Požadavky na franšízanta",
+      href: "/#franchise-agreement-analysis",
+      // icon: <FileText className="h-4 w-4 mr-1" />,
     },
     {
       title: "Analýza konkurence",
       href: "/#competition-analysis",
-      icon: <TrendingUp className="h-4 w-4 mr-1" />,
+      // icon: <TrendingUp className="h-4 w-4 mr-1" />,
     },
+    {
+      title: "Obchodní model",
+      href: "/#business-plan",
+      // icon: <BarChart3 className="h-4 w-4 mr-1" />,
+    },
+
     {
       title: "Kontrolní seznam",
       href: "/#inspection-checklist",
-      icon: <ClipboardCheck className="h-4 w-4 mr-1" />,
+      // icon: <ClipboardCheck className="h-4 w-4 mr-1" />,
     },
     {
       title: "Provozní standardy",
       href: "/#operational-standards",
-      icon: <ShoppingBag className="h-4 w-4 mr-1" />,
-    },
-    {
-      title: "Analýza smlouvy",
-      href: "/#franchise-agreement-analysis",
-      icon: <FileText className="h-4 w-4 mr-1" />,
+      // icon: <ShoppingBag className="h-4 w-4 mr-1" />,
     },
   ]
 
@@ -61,7 +72,9 @@ export function SiteHeader() {
     <header
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-200",
-        isScrolled ? "bg-background/95 backdrop-blur-md border-b shadow-sm" : "bg-background",
+        isScrolled
+          ? "bg-background/95 backdrop-blur-md border-b shadow-sm"
+          : "bg-background"
       )}
     >
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
@@ -84,12 +97,12 @@ export function SiteHeader() {
                 href={item.href}
                 className={cn(
                   "px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center",
-                  pathname === item.href || (pathname === "/" && item.href === "/")
+                  pathname === item.href ||
+                    (pathname === "/" && item.href === "/")
                     ? "text-foreground bg-accent"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent/50",
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                 )}
               >
-                {item.icon}
                 {item.title}
               </Link>
             ))}
@@ -97,13 +110,23 @@ export function SiteHeader() {
 
           {/* Right side items */}
           <div className="flex items-center space-x-1">
-            <Link href={siteConfig.links.github} target="_blank" rel="noreferrer" className="hidden sm:inline-flex">
+            <Link
+              href={siteConfig.links.github}
+              target="_blank"
+              rel="noreferrer"
+              className="hidden sm:inline-flex"
+            >
               <Button variant="ghost" size="icon" className="rounded-full">
                 <Icons.gitHub className="h-5 w-5" />
                 <span className="sr-only">GitHub</span>
               </Button>
             </Link>
-            <Link href={siteConfig.links.developer} target="_blank" rel="noreferrer" className="hidden sm:inline-flex">
+            <Link
+              href={siteConfig.links.developer}
+              target="_blank"
+              rel="noreferrer"
+              className="hidden sm:inline-flex"
+            >
               <Button variant="ghost" size="icon" className="rounded-full">
                 <Icons.user className="h-5 w-5" />
                 <span className="sr-only">Vývojář</span>
@@ -118,7 +141,11 @@ export function SiteHeader() {
               className="md:hidden rounded-full"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
               <span className="sr-only">Menu</span>
             </Button>
           </div>
@@ -136,13 +163,13 @@ export function SiteHeader() {
                   href={item.href}
                   className={cn(
                     "px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center",
-                    pathname === item.href || (pathname === "/" && item.href === "/")
+                    pathname === item.href ||
+                      (pathname === "/" && item.href === "/")
                       ? "text-foreground bg-accent"
-                      : "text-muted-foreground hover:text-foreground hover:bg-accent/50",
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                   )}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {item.icon}
                   {item.title}
                 </Link>
               ))}
@@ -173,4 +200,3 @@ export function SiteHeader() {
     </header>
   )
 }
-

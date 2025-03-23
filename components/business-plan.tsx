@@ -40,7 +40,7 @@ import {
 } from "recharts"
 
 // Import the MobileTabScroller at the top of the file
-import { MobileTabScroller } from "@/components/mobile-tab-scroller"
+import { MobileTabScroller } from "@/components/ui/mobile-tab-scroller"
 
 export default function ZabkaBusinessPlan() {
   // Základní finanční údaje
@@ -59,7 +59,7 @@ export default function ZabkaBusinessPlan() {
   const [marketingCosts, setMarketingCosts] = useState(2000)
   const [maintenanceCosts, setMaintenanceCosts] = useState(0)
   const [insuranceCosts, setInsuranceCosts] = useState(2000)
-  const [accountingCosts, setAccountingCosts] = useState(0)
+  const [accountingCosts, setAccountingCosts] = useState(3000)
   const [trainingCosts, setTrainingCosts] = useState(0)
   const [selectedScenario, setSelectedScenario] = useState<"pessimistic" | "realistic" | "optimistic">("realistic")
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false)
@@ -262,11 +262,11 @@ export default function ZabkaBusinessPlan() {
 
   return (
     <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
-      <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Obchodní model Žabka</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Obchodní model</h1>
 
       <Tabs defaultValue="calculator">
-        <MobileTabScroller>
-          <TabsList className="flex">
+        <MobileTabScroller showScrollIndicators={true} value="calculator">
+          <TabsList className="flex flex-wrap w-full">
             <TabsTrigger value="calculator" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
               <Calculator className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Kalkulačka</span>
               <span className="sm:hidden">Kalkulačka</span>

@@ -1,13 +1,9 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Žabka Analýza",
+  name: "Žabka Franchise Analysis",
   description: "Komplexní analýza franšízové smlouvy a obchodního modelu Žabka",
   mainNav: [
-    {
-      title: "Domů",
-      href: "/",
-    },
     {
       title: "Obchodní model",
       href: "/#business-plan",
@@ -34,4 +30,3 @@ export const siteConfig = {
     github: "https://github.com/ishchuktaras/bussiness-plan",
   },
 }
-

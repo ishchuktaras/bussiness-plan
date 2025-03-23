@@ -39,3 +39,6 @@ export function ResponsiveContainer({
   )
 }
 
+// Přidání výchozího exportu pro zpětnou kompatibilitu
+export default ResponsiveContainer
+

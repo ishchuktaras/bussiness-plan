@@ -6,39 +6,45 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { MobileTabScroller } from "@/components/mobile-tab-scroller"
+import { MobileTabScroller } from "@/components/ui/mobile-tab-scroller"
 
 export default function OperationalStandards() {
   return (
     <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
-      <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Kontrolní seznam Žabka</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Provozní normy</h1>
 
       <Tabs defaultValue="hours">
-        <MobileTabScroller>
-          <TabsList className="flex">
-            <TabsTrigger value="hours" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
-              <Clock className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Hodiny</span>
-              <span className="sm:hidden">Hodiny</span>
+        <MobileTabScroller showScrollIndicators={true} value="hours">
+          <TabsList className="flex w-full">
+            <TabsTrigger value="hours" className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">
+              <Clock className="size-3.5 mr-1.5" />
+              <span>Hodiny</span>
             </TabsTrigger>
-            <TabsTrigger value="staff" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
-              <ShoppingBag className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Personál</span>
-              <span className="sm:hidden">Personál</span>
+            <TabsTrigger value="staff" className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">
+              <ShoppingBag className="size-3.5 mr-1.5" />
+              <span>Personál</span>
             </TabsTrigger>
-            <TabsTrigger value="products" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
-              <Percent className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Produkty</span>
-              <span className="sm:hidden">Produkty</span>
+            <TabsTrigger
+              value="products"
+              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+            >
+              <Percent className="size-3.5 mr-1.5" />
+              <span>Produkty</span>
             </TabsTrigger>
-            <TabsTrigger value="bakery" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
-              <BookOpen className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Pekárna</span>
-              <span className="sm:hidden">Pekárna</span>
+            <TabsTrigger value="bakery" className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">
+              <BookOpen className="size-3.5 mr-1.5" />
+              <span>Pekárna</span>
             </TabsTrigger>
-            <TabsTrigger value="marketing" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
-              <Calendar className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Marketing</span>
-              <span className="sm:hidden">Marketing</span>
+            <TabsTrigger
+              value="marketing"
+              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+            >
+              <Calendar className="size-3.5 mr-1.5" />
+              <span>Marketing</span>
             </TabsTrigger>
-            <TabsTrigger value="kpis" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
-              <BarChart4 className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">KPI</span>
-              <span className="sm:hidden">KPI</span>
+            <TabsTrigger value="kpis" className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">
+              <BarChart4 className="size-3.5 mr-1.5" />
+              <span>KPI</span>
             </TabsTrigger>
           </TabsList>
         </MobileTabScroller>
