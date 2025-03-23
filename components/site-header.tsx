@@ -3,22 +3,11 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import {
-  BarChart3,
-  ClipboardCheck,
-  FileText,
-  Home,
-  Menu,
-  ShoppingBag,
-  TrendingUp,
-  X,
-} from "lucide-react"
-
+import { Menu, X } from "lucide-react"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
-import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -40,7 +29,7 @@ export function SiteHeader() {
       href: "/#franchise-agreement-analysis",
       // icon: <FileText className="h-4 w-4 mr-1" />,
     },
-    
+
     {
       title: "Analýza konkurence",
       href: "/#competition-analysis",
@@ -66,7 +55,7 @@ export function SiteHeader() {
       title: "Harmonogram Projektu",
       href: "/#project-timeline",
       // icon: <ShoppingBag className="h-4 w-4 mr-1" />,
-    }
+    },
   ]
 
   return (
@@ -133,8 +122,7 @@ export function SiteHeader() {
                 <span className="sr-only">Vývojář</span>
               </Button>
             </Link>
-            <ThemeToggle />
-
+            
             {/* Mobile menu button */}
             <Button
               variant="ghost"

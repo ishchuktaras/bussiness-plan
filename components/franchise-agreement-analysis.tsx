@@ -646,7 +646,7 @@ export default function FranchiseAgreementAnalysis() {
                 <Card className="shadow-md border-none">
                   <CardHeader className="pb-2 bg-violet-50">
                     <CardTitle className="text-base flex items-center">
-                      <HelpCircle className="mr-2 h-4 w-4 text-violet-600" />
+                      
                       Klíčové právní aspekty smlouvy
                     </CardTitle>
                   </CardHeader>
