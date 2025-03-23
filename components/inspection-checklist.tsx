@@ -212,9 +212,9 @@ const InspectionChecklist = () => {
                         {item.label}
                       </label>
                       {item.checked ? (
-                        <CheckCircle2 size="20" className="text-green-500" />
+                        <CheckCircle2 size={20} className="text-green-500" />
                       ) : (
-                        <XCircle size="20" className="text-red-500" />
+                        <XCircle size={20} className="text-red-500" />
                       )}
                     </div>
                   ))}
@@ -235,7 +235,7 @@ const InspectionChecklist = () => {
           <Card>
             <CardContent className="flex flex-col items-center justify-center text-center p-4">
               <div className="mb-3 rounded-full bg-violet-100 p-3">
-                <CheckCircle2 size="24" className="text-violet-600" />
+                <CheckCircle2 size={24} className="text-violet-600" />
               </div>
               <h3 className="mb-1 font-semibold">Splněné položky</h3>
               <p className="text-2xl font-bold text-violet-600">
@@ -247,7 +247,7 @@ const InspectionChecklist = () => {
           <Card>
             <CardContent className="flex flex-col items-center justify-center text-center p-4">
               <div className="mb-3 rounded-full bg-red-100 p-3">
-                <XCircle size="24" className="text-red-600" />
+                <XCircle size={24} className="text-red-600" />
               </div>
               <h3 className="mb-1 font-semibold">Nesplněné položky</h3>
               <p className="text-2xl font-bold text-red-600">
@@ -259,7 +259,7 @@ const InspectionChecklist = () => {
           <Card>
             <CardContent className="flex flex-col items-center justify-center text-center p-4">
               <div className="mb-3 rounded-full bg-indigo-100 p-3">
-                <Award size="24" className="text-indigo-600" />
+                <Award size={24} className="text-indigo-600" />
               </div>
               <h3 className="mb-1 font-semibold">Celkové hodnocení</h3>
               <p className="text-2xl font-bold text-indigo-600">{calculatePerformance(calculateTotalProgress())}</p>
@@ -269,7 +269,7 @@ const InspectionChecklist = () => {
           <Card>
             <CardContent className="flex flex-col items-center justify-center text-center p-4">
               <div className="mb-3 rounded-full bg-yellow-100 p-3">
-                <Star size="24" className="text-yellow-600" />
+                <Star size={24} className="text-yellow-600" />
               </div>
               <h3 className="mb-1 font-semibold">Potenciální bonus</h3>
               <p className="text-2xl font-bold text-yellow-600">{calculateBonus(calculateTotalProgress())}</p>
@@ -281,7 +281,7 @@ const InspectionChecklist = () => {
           <Card className="mb-6">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-start">
-                <AlertTriangle size="24" className="mr-3 mt-0.5 text-amber-500" />
+                <AlertTriangle size={24} className="mr-3 mt-0.5 text-amber-500" />
                 <div>
                   <h3 className="mb-2 text-lg font-semibold">Doporučení ke zlepšení</h3>
                   <p className="mb-4 text-gray-600">
@@ -290,7 +290,8 @@ const InspectionChecklist = () => {
                   <ul className="space-y-2">
                     {getUncheckedItems().map((item, index) => (
                       <li key={index} className="flex items-start">
-                        <span className="inline-block mr-2 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-amber-100 text-xs text-amber-600">
+                        {/* Fixed the conflicting classnames here - removed inline-block */}
+                        <span className="mr-2 mt-0.5 flex items-center justify-center rounded-full bg-amber-100 text-xs text-amber-600 size-5">
                           !
                         </span>
                         <span>
@@ -308,11 +309,11 @@ const InspectionChecklist = () => {
 
       <div className="flex justify-end space-x-4">
         <Button variant="outline" className="flex items-center">
-          <Save size="16" className="mr-2" />
+          <Save size={16} className="mr-2" />
           Uložit pokrok
         </Button>
         <Button className="flex items-center bg-violet-600 hover:bg-violet-700 text-white">
-          <Send size="16" className="mr-2" />
+          <Send size={16} className="mr-2" />
           Dokončit kontrolu
         </Button>
       </div>
