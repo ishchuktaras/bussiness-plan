@@ -17,7 +17,7 @@ import {
   CheckCircle2,
   HelpCircle,
   Download,
-  Sparkle,
+  Star,
   Users,
 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -32,7 +32,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { MobileTabScroller } from "@/components/ui/mobile-tab-scroller"
 
 export default function ProjectTimeline() {
-  const [projectStartDate, setProjectStartDate] = useState<string>("2023-08-01")
+  const [projectStartDate, setProjectStartDate] = useState<string>("2025-02-01")
   const [isUpdating, setIsUpdating] = useState<boolean>(false)
   const [expandedPhase, setExpandedPhase] = useState<string | null>(null)
   const [expandedRisk, setExpandedRisk] = useState<string | null>(null)
@@ -80,15 +80,15 @@ export default function ProjectTimeline() {
       name: "Přípravná fáze",
       start: calculateDate(0),
       end: calculateDate(30),
-      progress: 100,
-      status: "completed",
+      progress: 70,
+      status: "in-progress",
       description:
         "Analýza lokality, příprava podnikatelského plánu, finanční kalkulace, zajištění finančních prostředků.",
       tasks: [
         { id: "task1", name: "Analýza lokality", deadline: calculateDate(7), completed: true },
         { id: "task2", name: "Příprava podnikatelského plánu", deadline: calculateDate(14), completed: true },
         { id: "task3", name: "Finanční kalkulace", deadline: calculateDate(21), completed: true },
-        { id: "task4", name: "Zajištění financování", deadline: calculateDate(30), completed: true },
+        { id: "task4", name: "Zajištění financování", deadline: calculateDate(30), completed: false },
       ],
       icon: <BarChart3 className="h-5 w-5" />,
       color: "bg-violet-100 text-violet-600",
@@ -98,54 +98,20 @@ export default function ProjectTimeline() {
       name: "Smluvní dokumentace",
       start: calculateDate(31),
       end: calculateDate(60),
-      progress: 75,
+      progress: 0,
       status: "in-progress",
       description:
         "Podpis franšízové smlouvy, smlouvy o nájmu nebytových prostor, založení společnosti, zajištění pojištění.",
       tasks: [
-        { id: "task5", name: "Podpis franšízové smlouvy", deadline: calculateDate(45), completed: true },
-        { id: "task6", name: "Smlouva o nájmu prostor", deadline: calculateDate(50), completed: true },
-        { id: "task7", name: "Založení společnosti", deadline: calculateDate(55), completed: true },
+        { id: "task5", name: "Podpis franšízové smlouvy", deadline: calculateDate(45), completed: false },
+        { id: "task6", name: "Smlouva o nájmu prostor", deadline: calculateDate(50), completed: false },
+        { id: "task7", name: "Založení OSVČ", deadline: calculateDate(55), completed: false },
         { id: "task8", name: "Zajištění pojištění", deadline: calculateDate(60), completed: false },
       ],
       icon: <FileText className="h-5 w-5" />,
       color: "bg-blue-100 text-blue-600",
     },
-    {
-      id: "permits",
-      name: "Povolení a dokumentace",
-      start: calculateDate(61),
-      end: calculateDate(90),
-      progress: 30,
-      status: "in-progress",
-      description:
-        "Získání stavebního povolení, projektová dokumentace, zajištění hygienických povolení a požárního zajištění.",
-      tasks: [
-        { id: "task9", name: "Projektová dokumentace", deadline: calculateDate(70), completed: true },
-        { id: "task10", name: "Stavební povolení", deadline: calculateDate(80), completed: false },
-        { id: "task11", name: "Hygienické povolení", deadline: calculateDate(85), completed: false },
-        { id: "task12", name: "Požární zajištění", deadline: calculateDate(90), completed: false },
-      ],
-      icon: <FileCheck className="h-5 w-5" />,
-      color: "bg-amber-100 text-amber-600",
-    },
-    {
-      id: "construction",
-      name: "Stavební úpravy",
-      start: calculateDate(91),
-      end: calculateDate(120),
-      progress: 0,
-      status: "pending",
-      description: "Realizace stavebních úprav podle standardů Žabka, instalace vybavení, připojení technologií.",
-      tasks: [
-        { id: "task13", name: "Stavební úpravy", deadline: calculateDate(105), completed: false },
-        { id: "task14", name: "Instalace vybavení", deadline: calculateDate(112), completed: false },
-        { id: "task15", name: "Připojení technologií", deadline: calculateDate(118), completed: false },
-        { id: "task16", name: "Kolaudace", deadline: calculateDate(120), completed: false },
-      ],
-      icon: <Building className="h-5 w-5" />,
-      color: "bg-orange-100 text-orange-600",
-    },
+   
     {
       id: "pre-opening",
       name: "Předotevírací přípravy",
@@ -172,7 +138,7 @@ export default function ProjectTimeline() {
       status: "pending",
       description: "Slavnostní otevření prodejny, zahájení provozu.",
       tasks: [{ id: "task21", name: "Slavnostní otevření", deadline: calculateDate(136), completed: false }],
-      icon: <Sparkle className="h-5 w-5" />,
+      icon: <Star className="h-5 w-5" />, // Changed from Sparkles to Star
       color: "bg-green-100 text-green-600",
     },
     {
@@ -214,7 +180,7 @@ export default function ProjectTimeline() {
       completed: false,
       icon: <Building className="h-5 w-5" />,
     },
-    { date: calculateDate(136), name: "Otevření prodejny", completed: false, icon: <Sparkle className="h-5 w-5" /> },
+    { date: calculateDate(136), name: "Otevření prodejny", completed: false, icon: <Star className="h-5 w-5" /> }, // Changed from Sparkles to Star
     {
       date: calculateDate(167),
       name: "Stabilizace provozu",
@@ -520,7 +486,7 @@ export default function ProjectTimeline() {
       <div className="bg-gradient-to-r from-violet-500 to-purple-600 rounded-lg p-6 mb-6 text-white">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold">Harmonogram Projektu Žabka</h1>
+            <h1 className="text-2xl md:text-3xl font-bold">Harmonogram Projektu</h1>
             <p className="mt-2 text-violet-100">
               Komplexní přehled časového plánu, fází, milníků a rizik projektu otevření franšízové prodejny
             </p>
