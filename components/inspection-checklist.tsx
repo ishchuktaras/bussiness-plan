@@ -22,7 +22,7 @@ type ChecklistCategory = {
   items: ChecklistItem[]
 }
 
-export default function InspectionChecklist() {
+const InspectionChecklist = () => {
   // Define the checklist data
   const [categories, setCategories] = useState<ChecklistCategory[]>([
     {
@@ -122,17 +122,17 @@ export default function InspectionChecklist() {
 
   // Calculate performance rating based on progress
   const calculatePerformance = (progress: number) => {
-    if (progress >= 95) return "Výborný"
-    if (progress >= 70) return "Dobrý"
-    if (progress >= 40) return "Uspokojivý"
+    if (progress >= 90) return "Výborný"
+    if (progress >= 75) return "Dobrý"
+    if (progress >= 60) return "Uspokojivý"
     return "Potřebuje zlepšení"
   }
 
   // Calculate potential bonus based on performance
   const calculateBonus = (progress: number) => {
-    if (progress >= 95) return "34,000 Kč"
-    if (progress >= 70) return "25,000 Kč"
-    if (progress >= 40) return "15,000 Kč"
+    if (progress >= 90) return "10,000 Kč"
+    if (progress >= 75) return "5,000 Kč"
+    if (progress >= 60) return "2,000 Kč"
     return "0 Kč"
   }
 
@@ -156,18 +156,18 @@ export default function InspectionChecklist() {
   const servicePerformance = calculatePerformance(serviceProgress)
 
   return (
-    <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
-      <div className="bg-gradient-to-r from-violet-600 to-indigo-600 rounded-lg p-6 mb-6 text-white shadow-lg">
-        <h1 className="text-2xl md:text-3xl font-bold mb-2 flex items-center">
-          <CheckCheck className="mr-3 h-8 w-8" />
+    <div className="container mx-auto p-2 sm:p-4">
+      <div className="mb-6 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 p-6 text-white shadow-lg">
+        <h1 className="mb-2 text-2xl font-bold md:text-3xl flex items-center">
+          <CheckCheck className="mr-3 size-8" />
           Kontrolní seznam prodejny
         </h1>
-        <p className="text-violet-100 mb-6">Pravidelná kontrola zajišťuje kvalitu služeb a spokojenost zákazníků</p>
+        <p className="mb-6 text-violet-100">Pravidelná kontrola zajišťuje kvalitu služeb a spokojenost zákazníků</p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card className="bg-white/10 border-none text-white">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <Card className="border-none bg-white/10 text-white">
             <CardContent className="p-4">
-              <div className="flex justify-between items-center mb-2">
+              <div className="mb-2 flex items-center justify-between">
                 <h3 className="font-semibold">Celkový pokrok</h3>
                 <span className="text-lg font-bold">{Math.round(calculateTotalProgress())}%</span>
               </div>
@@ -175,30 +175,30 @@ export default function InspectionChecklist() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/10 border-none text-white">
-            <CardContent className="p-4 flex items-center justify-between">
+          <Card className="border-none bg-white/10 text-white">
+            <CardContent className="flex items-center justify-between p-4">
               <div>
                 <h3 className="font-semibold">Hodnocení výkonu</h3>
                 <p className="text-lg font-bold">{calculatePerformance(calculateTotalProgress())}</p>
               </div>
-              <Award className="h-10 w-10 text-violet-200" />
+              <Award className="size-10 text-violet-200" />
             </CardContent>
           </Card>
 
-          <Card className="bg-white/10 border-none text-white">
-            <CardContent className="p-4 flex items-center justify-between">
+          <Card className="border-none bg-white/10 text-white">
+            <CardContent className="flex items-center justify-between p-4">
               <div>
                 <h3 className="font-semibold">Potenciální bonus</h3>
                 <p className="text-lg font-bold">{calculateBonus(calculateTotalProgress())}</p>
               </div>
-              <Star className="h-10 w-10 text-yellow-300" />
+              <Star className="size-10 text-yellow-300" />
             </CardContent>
           </Card>
         </div>
       </div>
 
       <Tabs defaultValue="store" className="mb-6">
-        <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-4">
+        <TabsList className="mb-4 grid grid-cols-2 md:grid-cols-4">
           <TabsTrigger value="store">Prodejna</TabsTrigger>
           <TabsTrigger value="products">Zboží</TabsTrigger>
           <TabsTrigger value="staff">Personál</TabsTrigger>
@@ -209,23 +209,23 @@ export default function InspectionChecklist() {
           <TabsContent key={category.id} value={category.id} className="mt-0">
             <Card>
               <CardContent className="p-4 sm:p-6">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-bold flex items-center">
-                    <ClipboardCheck className="mr-2 h-5 w-5 text-violet-600" />
+                <div className="mb-4 flex items-center justify-between">
+                  <h2 className="flex items-center text-xl font-bold">
+                    <ClipboardCheck className="mr-2 size-5 text-violet-600" />
                     {category.title}
                   </h2>
                   <div className="flex items-center">
                     <span className="mr-2 font-medium">{Math.round(calculateProgress(category))}%</span>
-                    <Progress value={calculateProgress(category)} className="w-24 h-2" />
+                    <Progress value={calculateProgress(category)} className="h-2 w-24" />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   {category.items.map((item) => (
                     <div
                       key={item.id}
                       className={cn(
-                        "flex items-center p-3 rounded-md transition-all",
+                        "flex items-center rounded-md transition-all",
                         "hover:bg-violet-50",
                         item.checked ? "bg-violet-50/50" : "bg-white",
                       )}
@@ -237,13 +237,13 @@ export default function InspectionChecklist() {
                         onChange={() => toggleItem(category.id, item.id)}
                         className="h-5 w-5 rounded border-violet-300 text-violet-600 focus:ring-violet-500"
                       />
-                      <label htmlFor={item.id} className="ml-3 flex-grow cursor-pointer">
+                      <label htmlFor={item.id} className="ml-3 cursor-pointer flex-grow">
                         {item.label}
                       </label>
                       {item.checked ? (
-                        <CheckCircle2 className="h-5 w-5 text-green-500" />
+                        <CheckCircle2 className="size-5 text-green-500" />
                       ) : (
-                        <XCircle className="h-5 w-5 text-red-500" />
+                        <XCircle className="size-5 text-red-500" />
                       )}
                     </div>
                   ))}
@@ -255,18 +255,18 @@ export default function InspectionChecklist() {
       </Tabs>
 
       <div className="mb-6">
-        <h2 className="text-xl font-bold mb-4 flex items-center">
-          <ClipboardCheck className="mr-2 h-6 w-6 text-violet-600" />
+        <h2 className="mb-4 flex items-center text-xl font-bold">
+          <ClipboardCheck className="mr-2 size-6 text-violet-600" />
           Shrnutí kontroly
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 gap-4 mb-6 md:grid-cols-2 lg:grid-cols-4">
           <Card>
-            <CardContent className="p-4 flex flex-col items-center justify-center text-center">
-              <div className="rounded-full bg-violet-100 p-3 mb-3">
-                <CheckCircle2 className="h-6 w-6 text-violet-600" />
+            <CardContent className="flex flex-col items-center justify-center text-center p-4">
+              <div className="mb-3 rounded-full bg-violet-100 p-3">
+                <CheckCircle2 className="size-6 text-violet-600" />
               </div>
-              <h3 className="font-semibold mb-1">Splněné položky</h3>
+              <h3 className="mb-1 font-semibold">Splněné položky</h3>
               <p className="text-2xl font-bold text-violet-600">
                 {categories.reduce((acc, category) => acc + category.items.filter((item) => item.checked).length, 0)}
               </p>
@@ -274,11 +274,11 @@ export default function InspectionChecklist() {
           </Card>
 
           <Card>
-            <CardContent className="p-4 flex flex-col items-center justify-center text-center">
-              <div className="rounded-full bg-red-100 p-3 mb-3">
-                <XCircle className="h-6 w-6 text-red-600" />
+            <CardContent className="flex flex-col items-center justify-center text-center p-4">
+              <div className="mb-3 rounded-full bg-red-100 p-3">
+                <XCircle className="size-6 text-red-600" />
               </div>
-              <h3 className="font-semibold mb-1">Nesplněné položky</h3>
+              <h3 className="mb-1 font-semibold">Nesplněné položky</h3>
               <p className="text-2xl font-bold text-red-600">
                 {categories.reduce((acc, category) => acc + category.items.filter((item) => !item.checked).length, 0)}
               </p>
@@ -286,21 +286,21 @@ export default function InspectionChecklist() {
           </Card>
 
           <Card>
-            <CardContent className="p-4 flex flex-col items-center justify-center text-center">
-              <div className="rounded-full bg-indigo-100 p-3 mb-3">
-                <Award className="h-6 w-6 text-indigo-600" />
+            <CardContent className="flex flex-col items-center justify-center text-center p-4">
+              <div className="mb-3 rounded-full bg-indigo-100 p-3">
+                <Award className="size-6 text-indigo-600" />
               </div>
-              <h3 className="font-semibold mb-1">Celkové hodnocení</h3>
+              <h3 className="mb-1 font-semibold">Celkové hodnocení</h3>
               <p className="text-2xl font-bold text-indigo-600">{calculatePerformance(calculateTotalProgress())}</p>
             </CardContent>
           </Card>
 
           <Card>
-            <CardContent className="p-4 flex flex-col items-center justify-center text-center">
-              <div className="rounded-full bg-yellow-100 p-3 mb-3">
-                <Star className="h-6 w-6 text-yellow-600" />
+            <CardContent className="flex flex-col items-center justify-center text-center p-4">
+              <div className="mb-3 rounded-full bg-yellow-100 p-3">
+                <Star className="size-6 text-yellow-600" />
               </div>
-              <h3 className="font-semibold mb-1">Potenciální bonus</h3>
+              <h3 className="mb-1 font-semibold">Potenciální bonus</h3>
               <p className="text-2xl font-bold text-yellow-600">{calculateBonus(calculateTotalProgress())}</p>
             </CardContent>
           </Card>
@@ -309,17 +309,17 @@ export default function InspectionChecklist() {
         {getUncheckedItems().length > 0 && (
           <Card className="mb-6">
             <CardContent className="p-4 sm:p-6">
-              <div className="flex items-start mb-4">
-                <AlertTriangle className="h-6 w-6 text-amber-500 mr-3 mt-0.5" />
+              <div className="flex items-start">
+                <AlertTriangle className="mr-3 mt-0.5 size-6 text-amber-500" />
                 <div>
-                  <h3 className="font-semibold text-lg mb-2">Doporučení ke zlepšení</h3>
-                  <p className="text-gray-600 mb-4">
+                  <h3 className="mb-2 text-lg font-semibold">Doporučení ke zlepšení</h3>
+                  <p className="mb-4 text-gray-600">
                     Na základě kontroly doporučujeme zaměřit se na následující oblasti:
                   </p>
                   <ul className="space-y-2">
                     {getUncheckedItems().map((item, index) => (
                       <li key={index} className="flex items-start">
-                        <span className="inline-block h-5 w-5 rounded-full bg-amber-100 text-amber-600 text-xs flex items-center justify-center mr-2 mt-0.5">
+                        <span className="inline-block mr-2 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-amber-100 text-xs text-amber-600">
                           !
                         </span>
                         <span>
@@ -337,15 +337,17 @@ export default function InspectionChecklist() {
 
       <div className="flex justify-end space-x-4">
         <Button variant="outline" className="flex items-center">
-          <Save className="mr-2 h-4 w-4" />
+          <Save className="mr-2 size-4" />
           Uložit pokrok
         </Button>
-        <Button className="bg-violet-600 hover:bg-violet-700 text-white flex items-center">
-          <Send className="mr-2 h-4 w-4" />
+        <Button className="flex items-center bg-violet-600 text-white hover:bg-violet-700">
+          <Send className="mr-2 size-4" />
           Dokončit kontrolu
         </Button>
       </div>
     </div>
   )
 }
+
+export default InspectionChecklist
 
