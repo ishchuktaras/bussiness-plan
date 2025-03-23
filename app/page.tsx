@@ -2,7 +2,6 @@ import { ResponsiveContainer } from "@/components/ui/responsive-container"
 import ZabkaBusinessPlan from "@/components/business-plan"
 import CompetitionAnalysis from "@/components/competition-analysis"
 import FranchiseAgreementAnalysis from "@/components/franchise-agreement-analysis"
-import FranchiseRequirements from "@/components/franchise-requirements"
 import InspectionChecklist from "@/components/inspection-checklist"
 import OperationalStandards from "@/components/operational-standards"
 import ProjectTimeline from "@/components/project-timeline"
@@ -14,9 +13,7 @@ export default function Home() {
         <div id="franchise-agreement-analysis" className="py-6 md:py-8">
           <FranchiseAgreementAnalysis />
         </div>
-        <div id="franchisee-requirements" className="py-6 md:py-8">
-          <FranchiseRequirements />
-        </div>
+        
         <div id="competition-analysis">
           <CompetitionAnalysis />
         </div>

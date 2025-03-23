@@ -1,7 +1,7 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Žabka Franchise Analysis",
+  name: "Franchise Analysis",
   description: "Komplexní analýza franšízové smlouvy a obchodního modelu Žabka",
   mainNav: [
     {

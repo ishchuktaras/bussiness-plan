@@ -40,11 +40,7 @@ export function SiteHeader() {
       href: "/#franchise-agreement-analysis",
       // icon: <FileText className="h-4 w-4 mr-1" />,
     },
-    {
-      title: "Požadavky na franšízanta",
-      href: "/#franchise-agreement-analysis",
-      // icon: <FileText className="h-4 w-4 mr-1" />,
-    },
+    
     {
       title: "Analýza konkurence",
       href: "/#competition-analysis",
@@ -86,10 +82,10 @@ export function SiteHeader() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="relative w-8 h-8 overflow-hidden rounded-full bg-gradient-to-br from-green-500 to-emerald-700 flex items-center justify-center">
+            <div className="relative w-8 h-8 overflow-hidden rounded-full bg-gradient-to-br from-purple-400 to-purple-800 flex items-center justify-center">
               <span className="text-white font-bold text-lg">Ž</span>
             </div>
-            <span className="font-heading font-bold text-lg sm:text-xl bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400">
+            <span className="font-heading font-bold text-lg sm:text-xl bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-600 dark:from-green-400 dark:to-emerald-400">
               {siteConfig.name}
             </span>
           </Link>

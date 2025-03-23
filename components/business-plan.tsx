@@ -13,6 +13,16 @@ import {
   Target,
   AlertTriangle,
   CheckCircle,
+  Info,
+  Download,
+  Zap,
+  Calendar,
+  Percent,
+  ArrowRight,
+  HelpCircle,
+  FileText,
+  Coins,
+  TrendingDown,
 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -23,6 +33,8 @@ import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
+import { Tooltip as TooltipComponent, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import {
   ResponsiveContainer,
   PieChart as RechartsPieChart,
@@ -34,9 +46,11 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  LineChart as RechartsLineChart,
   Line,
   Cell,
+  Area,
+  AreaChart,
+  ComposedChart,
 } from "recharts"
 
 // Import the MobileTabScroller at the top of the file
@@ -253,198 +267,495 @@ export default function ZabkaBusinessPlan() {
   }
 
   // Barvy pro grafy
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8", "#82ca9d", "#ffc658", "#8dd1e1"]
+  const COLORS = ["#4f46e5", "#10b981", "#f59e0b", "#ef4444", "#8884d8", "#82ca9d", "#ffc658", "#8dd1e1"]
 
   const updateScenario = (scenario: "pessimistic" | "realistic" | "optimistic") => {
     setSelectedScenario(scenario)
-    // další kód...
+  }
+
+  // Funkce pro formátování čísel
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("cs-CZ", {
+      style: "currency",
+      currency: "CZK",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value)
+  }
+
+  // Funkce pro formátování procent
+  const formatPercent = (value: number) => {
+    return new Intl.NumberFormat("cs-CZ", {
+      style: "percent",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value / 100)
+  }
+
+  // Funkce pro získání barvy podle hodnoty
+  const getColorByValue = (value: number, isInverted = false) => {
+    if (isInverted) {
+      return value <= 0 ? "text-green-600" : "text-red-600"
+    }
+    return value >= 0 ? "text-green-600" : "text-red-600"
+  }
+
+  // Funkce pro získání barvy pozadí podle hodnoty
+  const getBgColorByValue = (value: number, isInverted = false) => {
+    if (isInverted) {
+      return value <= 0 ? "bg-green-600" : "bg-red-600"
+    }
+    return value >= 0 ? "bg-green-600" : "bg-red-600"
+  }
+
+  // Funkce pro získání barvy podle scénáře
+  const getScenarioColor = (scenario: "pessimistic" | "realistic" | "optimistic") => {
+    switch (scenario) {
+      case "pessimistic":
+        return "text-red-600"
+      case "realistic":
+        return "text-blue-600"
+      case "optimistic":
+        return "text-green-600"
+    }
+  }
+
+  // Funkce pro získání barvy pozadí podle scénáře
+  const getScenarioBgColor = (scenario: "pessimistic" | "realistic" | "optimistic") => {
+    switch (scenario) {
+      case "pessimistic":
+        return "bg-red-50"
+      case "realistic":
+        return "bg-blue-50"
+      case "optimistic":
+        return "bg-green-50"
+    }
+  }
+
+  // Funkce pro získání barvy okraje podle scénáře
+  const getScenarioBorderColor = (scenario: "pessimistic" | "realistic" | "optimistic") => {
+    switch (scenario) {
+      case "pessimistic":
+        return "border-red-500"
+      case "realistic":
+        return "border-blue-500"
+      case "optimistic":
+        return "border-green-500"
+    }
   }
 
   return (
     <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
-      <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Obchodní model</h1>
+      <div className="bg-gradient-to-r from-violet-600 to-indigo-600 rounded-lg p-6 mb-6 text-white shadow-lg">
+        <h1 className="text-2xl md:text-3xl font-bold mb-2 flex items-center">
+          <Calculator className="mr-3 h-8 w-8" />
+          Obchodní model
+        </h1>
+        <p className="text-violet-100 max-w-3xl">
+          Interaktivní kalkulačka pro analýzu finančních aspektů franšízy Žabka. Prozkoumejte příjmy, výdaje, ziskovost
+          a další klíčové ukazatele pro informované rozhodnutí o vašem podnikání.
+        </p>
+      </div>
+
+      <Alert className="mb-6 border-orange-200 bg-orange-50">
+        <Info className="h-5 w-5 text-orange-600" />
+        <AlertTitle className="text-orange-800 font-semibold">Důležité upozornění</AlertTitle>
+        <AlertDescription className="text-orange-700">
+          Tato kalkulačka slouží pouze k orientačním účelům. Skutečné výsledky se mohou lišit v závislosti na mnoha
+          faktorech, jako je lokalita, sezónnost, konkurence a další. Pro přesné informace kontaktujte přímo společnost
+          Žabka.
+        </AlertDescription>
+      </Alert>
 
       <Tabs defaultValue="calculator">
         <MobileTabScroller showScrollIndicators={true} value="calculator">
-          <TabsList className="flex flex-wrap w-full">
-            <TabsTrigger value="calculator" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
-              <Calculator className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Kalkulačka</span>
+          <TabsList className="flex flex-wrap w-full bg-white p-1 rounded-lg shadow-md">
+            <TabsTrigger value="calculator" className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap">
+              <Calculator className="mr-1.5 h-4 w-4" /> <span className="hidden sm:inline">Kalkulačka</span>
               <span className="sm:hidden">Kalkulačka</span>
             </TabsTrigger>
-            <TabsTrigger value="income" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
-              <DollarSign className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Příjmy</span>
+            <TabsTrigger value="income" className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap">
+              <DollarSign className="mr-1.5 h-4 w-4" /> <span className="hidden sm:inline">Příjmy</span>
               <span className="sm:hidden">Příjmy</span>
             </TabsTrigger>
-            <TabsTrigger value="expenses" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
-              <BarChart className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Výdaje</span>
+            <TabsTrigger value="expenses" className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap">
+              <BarChart className="mr-1.5 h-4 w-4" /> <span className="hidden sm:inline">Výdaje</span>
               <span className="sm:hidden">Výdaje</span>
             </TabsTrigger>
-            <TabsTrigger value="categories" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
-              <PieChart className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Kategorie</span>
+            <TabsTrigger value="categories" className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap">
+              <PieChart className="mr-1.5 h-4 w-4" /> <span className="hidden sm:inline">Kategorie</span>
               <span className="sm:hidden">Kategorie</span>
             </TabsTrigger>
-            <TabsTrigger value="scenarios" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
-              <Target className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Scénáře</span>
+            <TabsTrigger value="scenarios" className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap">
+              <Target className="mr-1.5 h-4 w-4" /> <span className="hidden sm:inline">Scénáře</span>
               <span className="sm:hidden">Scénáře</span>
             </TabsTrigger>
-            <TabsTrigger value="seasonal" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
-              <LineChart className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Sezónnost</span>
+            <TabsTrigger value="seasonal" className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap">
+              <Calendar className="mr-1.5 h-4 w-4" /> <span className="hidden sm:inline">Sezónnost</span>
               <span className="sm:hidden">Sezónnost</span>
             </TabsTrigger>
-            <TabsTrigger value="summary" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
-              <TrendingUp className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Shrnutí</span>
+            <TabsTrigger value="summary" className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap">
+              <TrendingUp className="mr-1.5 h-4 w-4" /> <span className="hidden sm:inline">Shrnutí</span>
               <span className="sm:hidden">Shrnutí</span>
             </TabsTrigger>
           </TabsList>
         </MobileTabScroller>
 
         <TabsContent value="calculator" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Obchodní kalkulačka</CardTitle>
-              <CardDescription>Vypočítejte své předpokládané příjmy, výdaje a zisk</CardDescription>
+          <Card className="shadow-lg border-none overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white">
+              <CardTitle className="flex items-center text-xl">
+                <Calculator className="mr-2 h-5 w-5" />
+                Obchodní kalkulačka
+              </CardTitle>
+              <CardDescription className="text-violet-100">
+                Vypočítejte své předpokládané příjmy, výdaje a zisk
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="daily-turnover">Průměrný denní obrat (Kč)</Label>
-                  <Input
-                    id="daily-turnover"
-                    type="number"
-                    value={dailyTurnover}
-                    onChange={(e) => updateValues({ newDailyTurnover: Number(e.target.value) })}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="monthly-turnover">Měsíční obrat (Kč)</Label>
-                  <Input id="monthly-turnover" type="number" value={monthlyTurnover} readOnly />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="staff-count">Počet zaměstnanců</Label>
-                  <Input
-                    id="staff-count"
-                    type="number"
-                    value={staffCount}
-                    onChange={(e) => updateStaffCosts({ count: Number(e.target.value), cost: staffCost })}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="staff-cost">Průměrné náklady na zaměstnance (Kč)</Label>
-                  <Input
-                    id="staff-cost"
-                    type="number"
-                    value={staffCost}
-                    onChange={(e) => updateStaffCosts({ count: staffCount, cost: Number(e.target.value) })}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="utilities">Energie a služby (Kč)</Label>
-                  <Input
-                    id="utilities"
-                    type="number"
-                    value={utilities}
-                    onChange={(e) => setUtilities(Number(e.target.value))}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="other-costs">Ostatní měsíční náklady (Kč)</Label>
-                  <Input
-                    id="other-costs"
-                    type="number"
-                    value={otherCosts}
-                    onChange={(e) => setOtherCosts(Number(e.target.value))}
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-2 mt-4">
-                <Switch id="advanced-options" checked={showAdvancedOptions} onCheckedChange={setShowAdvancedOptions} />
-                <Label htmlFor="advanced-options">Zobrazit pokročilé možnosti</Label>
-              </div>
-
-              {showAdvancedOptions && (
-                <div className="mt-4 space-y-4">
-                  <h3 className="text-lg font-medium">Pokročilé možnosti</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <CardContent className="space-y-6 p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium flex items-center text-violet-800">
+                    <DollarSign className="mr-2 h-5 w-5 text-violet-600" />
+                    Základní údaje o obratu
+                  </h3>
+                  <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="wastage-rate">Míra ztrát (%)</Label>
-                      <div className="flex items-center space-x-2">
-                        <Slider
-                          id="wastage-rate"
-                          min={0}
-                          max={5}
-                          step={0.1}
-                          value={[wastageRate]}
-                          onValueChange={(value) => setWastageRate(value[0])}
-                          className="flex-1"
-                        />
-                        <span className="w-12 text-right">{wastageRate}%</span>
+                      <div className="flex items-center justify-between">
+                        <Label htmlFor="daily-turnover" className="flex items-center">
+                          Průměrný denní obrat
+                          <TooltipProvider>
+                            <TooltipComponent>
+                              <TooltipTrigger>
+                                <HelpCircle className="h-4 w-4 ml-1 text-gray-400" />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p className="max-w-xs">
+                                  Průměrný denní obrat prodejny. Typická hodnota pro Žabku je mezi 25 000 - 40 000 Kč.
+                                </p>
+                              </TooltipContent>
+                            </TooltipComponent>
+                          </TooltipProvider>
+                        </Label>
+                        <Badge variant="outline" className="font-normal">
+                          Doporučeno: 25 000 - 40 000 Kč
+                        </Badge>
                       </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="marketing-costs">Marketingové náklady (Kč)</Label>
                       <Input
-                        id="marketing-costs"
+                        id="daily-turnover"
                         type="number"
-                        value={marketingCosts}
-                        onChange={(e) => setMarketingCosts(Number(e.target.value))}
+                        value={dailyTurnover}
+                        onChange={(e) => updateValues({ newDailyTurnover: Number(e.target.value) })}
+                        className="text-right"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="maintenance-costs">Náklady na údržbu (Kč)</Label>
+                      <Label htmlFor="monthly-turnover">Měsíční obrat</Label>
                       <Input
-                        id="maintenance-costs"
+                        id="monthly-turnover"
+                        type="text"
+                        value={formatCurrency(monthlyTurnover)}
+                        readOnly
+                        className="bg-gray-50 text-right"
+                      />
+                    </div>
+                  </div>
+
+                  <h3 className="text-lg font-medium flex items-center text-violet-800 mt-6">
+                    <Users className="mr-2 h-5 w-5 text-violet-600" />
+                    Personální náklady
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <Label htmlFor="staff-count" className="flex items-center">
+                          Počet zaměstnanců
+                          <TooltipProvider>
+                            <TooltipComponent>
+                              <TooltipTrigger>
+                                <HelpCircle className="h-4 w-4 ml-1 text-gray-400" />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p className="max-w-xs">
+                                  Celkový počet zaměstnanců (včetně brigádníků přepočtených na plné úvazky).
+                                </p>
+                              </TooltipContent>
+                            </TooltipComponent>
+                          </TooltipProvider>
+                        </Label>
+                        <Badge variant="outline" className="font-normal">
+                          Typicky: 2-4 osoby
+                        </Badge>
+                      </div>
+                      <Input
+                        id="staff-count"
                         type="number"
-                        value={maintenanceCosts}
-                        onChange={(e) => setMaintenanceCosts(Number(e.target.value))}
+                        value={staffCount}
+                        onChange={(e) => updateStaffCosts({ count: Number(e.target.value), cost: staffCost })}
+                        className="text-right"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="insurance-costs">Pojištění (Kč)</Label>
+                      <Label htmlFor="staff-cost">Průměrné náklady na zaměstnance (měsíčně)</Label>
                       <Input
-                        id="insurance-costs"
+                        id="staff-cost"
                         type="number"
-                        value={insuranceCosts}
-                        onChange={(e) => setInsuranceCosts(Number(e.target.value))}
+                        value={staffCost}
+                        onChange={(e) => updateStaffCosts({ count: staffCount, cost: Number(e.target.value) })}
+                        className="text-right"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="accounting-costs">Účetnictví (Kč)</Label>
+                      <Label htmlFor="total-staff-cost">Celkové personální náklady</Label>
                       <Input
-                        id="accounting-costs"
-                        type="number"
-                        value={accountingCosts}
-                        onChange={(e) => setAccountingCosts(Number(e.target.value))}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="training-costs">Školení (Kč)</Label>
-                      <Input
-                        id="training-costs"
-                        type="number"
-                        value={trainingCosts}
-                        onChange={(e) => setTrainingCosts(Number(e.target.value))}
+                        id="total-staff-cost"
+                        type="text"
+                        value={formatCurrency(totalStaffCost)}
+                        readOnly
+                        className="bg-gray-50 text-right"
                       />
                     </div>
                   </div>
                 </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium flex items-center text-violet-800">
+                    <BarChart className="mr-2 h-5 w-5 text-violet-600" />
+                    Další provozní náklady
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <Label htmlFor="rent" className="flex items-center">
+                          Nájem
+                          <TooltipProvider>
+                            <TooltipComponent>
+                              <TooltipTrigger>
+                                <HelpCircle className="h-4 w-4 ml-1 text-gray-400" />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p className="max-w-xs">Nájem je hrazen franšízorem Žabka.</p>
+                              </TooltipContent>
+                            </TooltipComponent>
+                          </TooltipProvider>
+                        </Label>
+                        <Badge className="bg-green-100 text-green-800">Hrazeno franšízorem</Badge>
+                      </div>
+                      <Input
+                        id="rent"
+                        type="text"
+                        value={formatCurrency(rent)}
+                        readOnly
+                        className="bg-gray-50 text-right"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="utilities">Energie a služby</Label>
+                      <Input
+                        id="utilities"
+                        type="number"
+                        value={utilities}
+                        onChange={(e) => setUtilities(Number(e.target.value))}
+                        className="text-right"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="other-costs">Ostatní měsíční náklady</Label>
+                      <Input
+                        id="other-costs"
+                        type="number"
+                        value={otherCosts}
+                        onChange={(e) => setOtherCosts(Number(e.target.value))}
+                        className="text-right"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="license-fee">Licenční poplatek (1% z obratu)</Label>
+                      <Input
+                        id="license-fee"
+                        type="text"
+                        value={formatCurrency(licenseFee)}
+                        readOnly
+                        className="bg-gray-50 text-right"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-2 mt-6">
+                    <Switch
+                      id="advanced-options"
+                      checked={showAdvancedOptions}
+                      onCheckedChange={setShowAdvancedOptions}
+                    />
+                    <Label htmlFor="advanced-options" className="font-medium cursor-pointer">
+                      Zobrazit pokročilé možnosti
+                    </Label>
+                  </div>
+                </div>
+              </div>
+
+              {showAdvancedOptions && (
+                <div className="mt-4 space-y-4">
+                  <Card className="border-violet-200 bg-violet-50">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center text-violet-800">
+                        <Zap className="mr-2 h-4 w-4 text-violet-600" />
+                        Pokročilé možnosti
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="wastage-rate" className="flex items-center">
+                            Míra ztrát (%)
+                            <TooltipProvider>
+                              <TooltipComponent>
+                                <TooltipTrigger>
+                                  <HelpCircle className="h-4 w-4 ml-1 text-gray-400" />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p className="max-w-xs">
+                                    Procento zboží, které se neprodá z důvodu prošlé doby trvanlivosti, poškození nebo
+                                    krádeží.
+                                  </p>
+                                </TooltipContent>
+                              </TooltipComponent>
+                            </TooltipProvider>
+                          </Label>
+                          <div className="flex items-center space-x-2">
+                            <Slider
+                              id="wastage-rate"
+                              min={0}
+                              max={5}
+                              step={0.1}
+                              value={[wastageRate]}
+                              onValueChange={(value) => setWastageRate(value[0])}
+                              className="flex-1"
+                            />
+                            <span className="w-12 text-right">{wastageRate}%</span>
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="marketing-costs">Marketingové náklady (Kč)</Label>
+                          <Input
+                            id="marketing-costs"
+                            type="number"
+                            value={marketingCosts}
+                            onChange={(e) => setMarketingCosts(Number(e.target.value))}
+                            className="text-right"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="maintenance-costs">Náklady na údržbu (Kč)</Label>
+                          <Input
+                            id="maintenance-costs"
+                            type="number"
+                            value={maintenanceCosts}
+                            onChange={(e) => setMaintenanceCosts(Number(e.target.value))}
+                            className="text-right"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="insurance-costs">Pojištění (Kč)</Label>
+                          <Input
+                            id="insurance-costs"
+                            type="number"
+                            value={insuranceCosts}
+                            onChange={(e) => setInsuranceCosts(Number(e.target.value))}
+                            className="text-right"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="accounting-costs">Účetnictví (Kč)</Label>
+                          <Input
+                            id="accounting-costs"
+                            type="number"
+                            value={accountingCosts}
+                            onChange={(e) => setAccountingCosts(Number(e.target.value))}
+                            className="text-right"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="training-costs">Školení (Kč)</Label>
+                          <Input
+                            id="training-costs"
+                            type="number"
+                            value={trainingCosts}
+                            onChange={(e) => setTrainingCosts(Number(e.target.value))}
+                            className="text-right"
+                          />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
               )}
+
+              <div className="mt-6">
+                <Card className="border-none shadow-md bg-gradient-to-r from-violet-50 to-indigo-50">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-lg flex items-center text-violet-800">
+                      <TrendingUp className="mr-2 h-5 w-5 text-violet-600" />
+                      Výsledky kalkulace
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="space-y-2">
+                        <Label className="text-violet-700">Celková měsíční provize</Label>
+                        <div className="text-2xl font-bold text-violet-800">{formatCurrency(totalCommission)}</div>
+                        <div className="text-sm text-violet-600 flex items-center">
+                          <ArrowRight className="h-3 w-3 mr-1" />
+                          Fixní: {formatCurrency(fixedCommission)} + Variabilní: {formatCurrency(variableCommission)}
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-violet-700">Celkové měsíční náklady</Label>
+                        <div className="text-2xl font-bold text-violet-800">{formatCurrency(totalCosts)}</div>
+                        <div className="text-sm text-violet-600 flex items-center">
+                          <ArrowRight className="h-3 w-3 mr-1" />
+                          Personál: {formatCurrency(totalStaffCost)} + Ostatní:{" "}
+                          {formatCurrency(totalCosts - totalStaffCost)}
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-violet-700">Měsíční zisk</Label>
+                        <div className={`text-2xl font-bold ${getColorByValue(profit)}`}>{formatCurrency(profit)}</div>
+                        <div className="text-sm text-violet-600 flex items-center">
+                          <ArrowRight className="h-3 w-3 mr-1" />
+                          Roční zisk: {formatCurrency(profit * 12)}
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </CardContent>
-            <CardFooter className="border-t pt-4">
+            <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full flex flex-col space-y-2">
-                <div className="flex justify-between">
-                  <span>Celková měsíční provize:</span>
-                  <span className="font-bold">{totalCommission.toLocaleString()} Kč</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-violet-700">Hrubá marže:</span>
+                  <Badge className="bg-violet-100 text-violet-800">{formatPercent(grossMarginPercentage)}</Badge>
                 </div>
-                <div className="flex justify-between">
-                  <span>Celkové měsíční náklady:</span>
-                  <span className="font-bold">{totalCosts.toLocaleString()} Kč</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-violet-700">Čistá marže:</span>
+                  <Badge
+                    className={`${netMarginPercentage >= 0 ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
+                  >
+                    {formatPercent(netMarginPercentage)}
+                  </Badge>
                 </div>
-                <div className="flex justify-between text-lg">
-                  <span>Měsíční zisk:</span>
-                  <span className={`font-bold ${profit >= 0 ? "text-green-600" : "text-red-600"}`}>
-                    {profit.toLocaleString()} Kč
-                  </span>
+                <div className="flex justify-between items-center">
+                  <span className="text-violet-700">Návratnost investice (ROI):</span>
+                  <Badge className={`${roi > 0 ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"}`}>
+                    {roi > 0 ? formatPercent(roi) + " ročně" : "N/A"}
+                  </Badge>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-violet-700">Doba návratnosti:</span>
+                  <Badge className={`${profit > 0 ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"}`}>
+                    {profit > 0 ? Math.ceil(paybackPeriod) + " měsíců" : "N/A"}
+                  </Badge>
                 </div>
               </div>
             </CardFooter>
@@ -452,137 +763,253 @@ export default function ZabkaBusinessPlan() {
         </TabsContent>
 
         <TabsContent value="income" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Analýza příjmů</CardTitle>
-              <CardDescription>Rozpis struktury provize a zdrojů příjmů</CardDescription>
+          <Card className="shadow-lg border-none overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white">
+              <CardTitle className="flex items-center text-xl">
+                <DollarSign className="mr-2 h-5 w-5" />
+                Analýza příjmů
+              </CardTitle>
+              <CardDescription className="text-violet-100">Rozpis struktury provize a zdrojů příjmů</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Fixní provize</CardTitle>
+            <CardContent className="space-y-6 p-6">
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Card className="shadow-md border-none overflow-hidden transition-all hover:shadow-lg">
+                    <CardHeader className="bg-gradient-to-r from-violet-50 to-indigo-50 pb-2">
+                      <CardTitle className="text-base flex items-center text-violet-800">
+                        <Coins className="mr-2 h-4 w-4 text-violet-600" />
+                        Fixní provize
+                      </CardTitle>
                     </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold">{fixedCommission.toLocaleString()} Kč</div>
-                      <p className="text-sm text-gray-500">Základní měsíční platba</p>
+                    <CardContent className="p-4">
+                      <div className="text-3xl font-bold text-violet-700">{formatCurrency(fixedCommission)}</div>
+                      <p className="text-sm text-violet-600 mt-2">
+                        Základní měsíční platba nezávislá na obratu. Tvoří{" "}
+                        {formatPercent((fixedCommission / totalCommission) * 100)} z celkové provize.
+                      </p>
+                      <div className="mt-4 bg-violet-50 p-3 rounded-lg">
+                        <h4 className="text-sm font-medium text-violet-800 mb-1">Výhody fixní provize:</h4>
+                        <ul className="text-xs text-violet-700 space-y-1 list-disc pl-4">
+                          <li>Stabilní příjem nezávislý na sezónních výkyvech</li>
+                          <li>Jistota minimálního příjmu i v období nižších prodejů</li>
+                          <li>Snazší plánování cash-flow a rozpočtu</li>
+                        </ul>
+                      </div>
                     </CardContent>
                   </Card>
 
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Variabilní provize</CardTitle>
+                  <Card className="shadow-md border-none overflow-hidden transition-all hover:shadow-lg">
+                    <CardHeader className="bg-gradient-to-r from-violet-50 to-indigo-50 pb-2">
+                      <CardTitle className="text-base flex items-center text-violet-800">
+                        <Percent className="mr-2 h-4 w-4 text-violet-600" />
+                        Variabilní provize
+                      </CardTitle>
                     </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold">{variableCommission.toLocaleString()} Kč</div>
-                      <p className="text-sm text-gray-500">Na základě obratu a kategorií produktů</p>
+                    <CardContent className="p-4">
+                      <div className="text-3xl font-bold text-violet-700">{formatCurrency(variableCommission)}</div>
+                      <p className="text-sm text-violet-600 mt-2">
+                        Provize závislá na obratu a struktuře prodeje. Tvoří{" "}
+                        {formatPercent((variableCommission / totalCommission) * 100)} z celkové provize.
+                      </p>
+                      <div className="mt-4 bg-violet-50 p-3 rounded-lg">
+                        <h4 className="text-sm font-medium text-violet-800 mb-1">Výhody variabilní provize:</h4>
+                        <ul className="text-xs text-violet-700 space-y-1 list-disc pl-4">
+                          <li>Roste s rostoucím obratem prodejny</li>
+                          <li>Motivuje k optimalizaci sortimentu a zvyšování prodejů</li>
+                          <li>Umožňuje profitovat z úspěšných sezón a marketingových akcí</li>
+                        </ul>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Provize podle kategorie produktů</CardTitle>
+                <Card className="shadow-md border-none">
+                  <CardHeader className="bg-violet-50 pb-2">
+                    <CardTitle className="text-base flex items-center">
+                      <PieChart className="mr-2 h-4 w-4 text-violet-600" />
+                      Provize podle kategorie produktů
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {productCategories.map((category, index) => (
-                        <div key={index} className="grid grid-cols-3 text-sm">
-                          <div className="font-medium">{category.name}</div>
-                          <div>{category.margin.toFixed(2)}%</div>
-                          <div className="text-right font-medium">
-                            {Math.round(
-                              monthlyTurnover * (category.percentage / 100) * (category.margin / 100),
-                            ).toLocaleString()}{" "}
-                            Kč
-                          </div>
+                  <CardContent className="p-4">
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse">
+                        <thead>
+                          <tr className="border-b">
+                            <th className="text-left py-2">Kategorie</th>
+                            <th className="text-center py-2">Podíl na obratu</th>
+                            <th className="text-center py-2">Marže</th>
+                            <th className="text-right py-2">Měsíční obrat</th>
+                            <th className="text-right py-2">Měsíční provize</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {productCategories.map((category, index) => (
+                            <tr key={index} className="border-b hover:bg-violet-50 transition-colors">
+                              <td className="py-2 font-medium">{category.name}</td>
+                              <td className="text-center py-2">{category.percentage}%</td>
+                              <td className="text-center py-2">{category.margin.toFixed(2)}%</td>
+                              <td className="text-right py-2">
+                                {formatCurrency(monthlyTurnover * (category.percentage / 100))}
+                              </td>
+                              <td className="text-right py-2">
+                                {formatCurrency(
+                                  monthlyTurnover * (category.percentage / 100) * (category.margin / 100),
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                        <tfoot>
+                          <tr className="bg-violet-50">
+                            <td className="py-2 font-bold">Celkem</td>
+                            <td className="text-center py-2 font-bold">100%</td>
+                            <td className="text-center py-2 font-bold">
+                              {((variableCommission / monthlyTurnover) * 100).toFixed(2)}%
+                            </td>
+                            <td className="text-right py-2 font-bold">{formatCurrency(monthlyTurnover)}</td>
+                            <td className="text-right py-2 font-bold">{formatCurrency(variableCommission)}</td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Card className="shadow-md border-none">
+                    <CardHeader className="bg-violet-50 pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <TrendingUp className="mr-2 h-4 w-4 text-violet-600" />
+                        Analýza hrubé marže
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-4">
+                      <div className="mb-4">
+                        <div className="flex justify-between mb-2">
+                          <span className="font-medium">Hrubá marže:</span>
+                          <span className="font-bold text-violet-800">{formatPercent(grossMarginPercentage)}</span>
                         </div>
-                      ))}
-                      <Separator className="my-2" />
-                      <div className="grid grid-cols-3 text-sm font-bold">
-                        <div>Celkem</div>
-                        <div>{((variableCommission / monthlyTurnover) * 100).toFixed(2)}%</div>
-                        <div className="text-right">{variableCommission.toLocaleString()} Kč</div>
+                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                          <div
+                            className="bg-violet-600 h-2.5 rounded-full"
+                            style={{ width: `${Math.min(grossMarginPercentage, 100)}%` }}
+                          ></div>
+                        </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Analýza hrubé marže</CardTitle>
+                      <div className="space-y-2">
+                        <div className="flex justify-between">
+                          <span>Měsíční obrat:</span>
+                          <span>{formatCurrency(monthlyTurnover)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Celková provize:</span>
+                          <span>{formatCurrency(totalCommission)}</span>
+                        </div>
+                        <div className="flex justify-between font-medium">
+                          <span>Hrubá marže (%):</span>
+                          <span>{formatPercent(grossMarginPercentage)}</span>
+                        </div>
+                      </div>
+
+                      <div className="mt-4 bg-violet-50 p-3 rounded-lg">
+                        <h4 className="text-sm font-medium text-violet-800 mb-1">Co znamená hrubá marže?</h4>
+                        <p className="text-xs text-violet-700">
+                          Hrubá marže představuje poměr mezi celkovou provizí a obratem. Ukazuje, kolik procent z obratu
+                          tvoří vaše příjmy před odečtením nákladů. Vyšší hrubá marže znamená lepší potenciál pro
+                          ziskovost.
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="shadow-md border-none">
+                    <CardHeader className="bg-violet-50 pb-2">
+                      <CardTitle className="text-base flex items-center">
+                        <PieChart className="mr-2 h-4 w-4 text-violet-600" />
+                        Vizualizace příjmů
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-4">
+                      <div className="h-80">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <RechartsPieChart>
+                            <Pie
+                              data={[
+                                { name: "Fixní provize", value: fixedCommission },
+                                { name: "Variabilní provize", value: variableCommission },
+                              ]}
+                              cx="50%"
+                              cy="50%"
+                              labelLine={false}
+                              outerRadius={80}
+                              fill="#8884d8"
+                              dataKey="value"
+                              nameKey="name"
+                              label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                            >
+                              <Cell fill="#4f46e5" />
+                              <Cell fill="#10b981" />
+                            </Pie>
+                            <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                            <Legend />
+                          </RechartsPieChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <Card className="shadow-md border-none">
+                  <CardHeader className="bg-violet-50 pb-2">
+                    <CardTitle className="text-base flex items-center">
+                      <BarChart className="mr-2 h-4 w-4 text-violet-600" />
+                      Příjmy podle kategorií produktů
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <div className="mb-4">
-                      <div className="flex justify-between mb-2">
-                        <span>Hrubá marže:</span>
-                        <span className="font-bold">{grossMarginPercentage.toFixed(2)}%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2.5">
-                        <div
-                          className="bg-green-600 h-2.5 rounded-full"
-                          style={{ width: `${Math.min(grossMarginPercentage, 100)}%` }}
-                        ></div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                        <span>Měsíční obrat:</span>
-                        <span>{monthlyTurnover.toLocaleString()} Kč</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Celková provize:</span>
-                        <span>{totalCommission.toLocaleString()} Kč</span>
-                      </div>
-                      <div className="flex justify-between font-medium">
-                        <span>Hrubá marže (%):</span>
-                        <span>{grossMarginPercentage.toFixed(2)}%</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Vizualizace příjmů</CardTitle>
-                  </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-4">
                     <div className="h-80">
                       <ResponsiveContainer width="100%" height="100%">
-                        <RechartsPieChart>
-                          <Pie
-                            data={[
-                              { name: "Fixní provize", value: fixedCommission },
-                              { name: "Variabilní provize", value: variableCommission },
-                            ]}
-                            cx="50%"
-                            cy="50%"
-                            labelLine={false}
-                            outerRadius={80}
-                            fill="#8884d8"
-                            dataKey="value"
-                            nameKey="name"
-                            label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                          >
-                            <Cell fill="#10b981" />
-                            <Cell fill="#3b82f6" />
-                          </Pie>
-                          <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
+                        <RechartsBarChart
+                          data={productCategories.map((cat) => ({
+                            name: cat.name,
+                            obrat: Math.round(monthlyTurnover * (cat.percentage / 100)),
+                            provize: Math.round(monthlyTurnover * (cat.percentage / 100) * (cat.margin / 100)),
+                          }))}
+                          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                          <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                          <YAxis tick={{ fontSize: 12 }} />
+                          <Tooltip
+                            formatter={(value) => formatCurrency(Number(value))}
+                            contentStyle={{
+                              borderRadius: "8px",
+                              border: "none",
+                              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                            }}
+                          />
                           <Legend />
-                        </RechartsPieChart>
+                          <Bar dataKey="obrat" name="Obrat" fill="#4f46e5" />
+                          <Bar dataKey="provize" name="Provize" fill="#10b981" />
+                        </RechartsBarChart>
                       </ResponsiveContainer>
                     </div>
                   </CardContent>
                 </Card>
               </div>
             </CardContent>
-            <CardFooter className="border-t pt-4">
+            <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full">
-                <div className="flex justify-between text-lg font-bold">
-                  <span>Celkový měsíční příjem:</span>
-                  <span>{totalCommission.toLocaleString()} Kč</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-medium text-violet-800">Celkový měsíční příjem:</span>
+                  <span className="text-lg font-bold text-violet-800">{formatCurrency(totalCommission)}</span>
+                </div>
+                <div className="mt-4 flex justify-end">
+                  <Button className="bg-violet-600 hover:bg-violet-700 text-white">
+                    <Download className="mr-2 h-4 w-4" />
+                    Stáhnout analýzu příjmů (PDF)
+                  </Button>
                 </div>
               </div>
             </CardFooter>
@@ -590,77 +1017,159 @@ export default function ZabkaBusinessPlan() {
         </TabsContent>
 
         <TabsContent value="expenses" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Rozpis výdajů</CardTitle>
-              <CardDescription>Přehled měsíčních provozních nákladů</CardDescription>
+          <Card className="shadow-lg border-none overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white">
+              <CardTitle className="flex items-center text-xl">
+                <BarChart className="mr-2 h-5 w-5" />
+                Rozpis výdajů
+              </CardTitle>
+              <CardDescription className="text-violet-100">Přehled měsíčních provozních nákladů</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-4">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Náklady na zaměstnance</CardTitle>
+            <CardContent className="space-y-6 p-6">
+              <div className="space-y-6">
+                <Card className="shadow-md border-none overflow-hidden">
+                  <CardHeader className="bg-gradient-to-r from-violet-50 to-indigo-50 pb-2">
+                    <CardTitle className="text-base flex items-center text-violet-800">
+                      <Users className="mr-2 h-4 w-4 text-violet-600" />
+                      Náklady na zaměstnance
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-4">
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
-                          <Users className="mr-2 h-4 w-4" />
+                          <Users className="mr-2 h-4 w-4 text-violet-600" />
                           <span>Počet zaměstnanců:</span>
                         </div>
                         <span className="font-medium">{staffCount}</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span>Průměrné náklady na zaměstnance:</span>
-                        <span className="font-medium">{staffCost.toLocaleString()} Kč</span>
+                        <span className="font-medium">{formatCurrency(staffCost)}</span>
                       </div>
                       <div className="flex items-center justify-between font-bold">
                         <span>Celkové náklady na zaměstnance:</span>
-                        <span>{totalStaffCost.toLocaleString()} Kč</span>
+                        <span>{formatCurrency(totalStaffCost)}</span>
+                      </div>
+                      <div className="mt-2 bg-violet-50 p-3 rounded-lg">
+                        <h4 className="text-sm font-medium text-violet-800 mb-1">Personální náklady tvoří:</h4>
+                        <div className="flex items-center mt-2">
+                          <div className="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                            <div
+                              className="bg-violet-600 h-2.5 rounded-full"
+                              style={{ width: `${Math.min((totalStaffCost / totalCosts) * 100, 100)}%` }}
+                            ></div>
+                          </div>
+                          <span className="font-medium text-violet-800">
+                            {formatPercent((totalStaffCost / totalCosts) * 100)}
+                          </span>
+                        </div>
+                        <p className="text-xs text-violet-700 mt-2">
+                          Personální náklady jsou obvykle největší položkou provozních výdajů. Optimalizace směn a
+                          efektivní plánování personálu může výrazně zvýšit ziskovost.
+                        </p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Nájem</CardTitle>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Card className="shadow-md border-none overflow-hidden">
+                    <CardHeader className="bg-gradient-to-r from-violet-50 to-indigo-50 pb-2">
+                      <CardTitle className="text-base flex items-center text-violet-800">
+                        <FileText className="mr-2 h-4 w-4 text-violet-600" />
+                        Nájem
+                      </CardTitle>
                     </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold">{rent.toLocaleString()} Kč</div>
-                      <p className="text-sm text-gray-500">Hrazeno franšízorem</p>
+                    <CardContent className="p-4">
+                      <div className="text-3xl font-bold text-green-600">{formatCurrency(rent)}</div>
+                      <p className="text-sm text-violet-600 mt-2">
+                        Nájem prostor je plně hrazen franšízorem Žabka, což je významná konkurenční výhoda oproti jiným
+                        franšízovým konceptům.
+                      </p>
+                      <div className="mt-4 bg-green-50 p-3 rounded-lg">
+                        <h4 className="text-sm font-medium text-green-800 mb-1">Výhoda nulových nákladů na nájem:</h4>
+                        <ul className="text-xs text-green-700 space-y-1 list-disc pl-4">
+                          <li>Eliminace jednoho z největších fixních nákladů</li>
+                          <li>Nižší finanční riziko pro franchisanta</li>
+                          <li>Lepší cash-flow a rychlejší návratnost investice</li>
+                        </ul>
+                      </div>
                     </CardContent>
                   </Card>
 
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Energie a služby</CardTitle>
+                  <Card className="shadow-md border-none overflow-hidden">
+                    <CardHeader className="bg-gradient-to-r from-violet-50 to-indigo-50 pb-2">
+                      <CardTitle className="text-base flex items-center text-violet-800">
+                        <TrendingUp className="mr-2 h-4 w-4 text-violet-600" />
+                        Energie a služby
+                      </CardTitle>
                     </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold">{utilities.toLocaleString()} Kč</div>
-                      <p className="text-sm text-gray-500">Elektřina, voda, internet atd.</p>
+                    <CardContent className="p-4">
+                      <div className="text-3xl font-bold text-violet-700">{formatCurrency(utilities)}</div>
+                      <p className="text-sm text-violet-600 mt-2">
+                        Náklady na elektřinu, vodu, topení, internet a další služby spojené s provozem prodejny.
+                      </p>
+                      <div className="mt-4 bg-violet-50 p-3 rounded-lg">
+                        <h4 className="text-sm font-medium text-violet-800 mb-1">Tipy pro optimalizaci:</h4>
+                        <ul className="text-xs text-violet-700 space-y-1 list-disc pl-4">
+                          <li>Investice do energeticky úsporných spotřebičů a osvětlení</li>
+                          <li>Pravidelná údržba chladicích zařízení pro maximální efektivitu</li>
+                          <li>Monitoring spotřeby a identifikace možných úniků</li>
+                        </ul>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Licenční poplatek (1 % z obratu)</CardTitle>
+                <Card className="shadow-md border-none overflow-hidden">
+                  <CardHeader className="bg-gradient-to-r from-violet-50 to-indigo-50 pb-2">
+                    <CardTitle className="text-base flex items-center text-violet-800">
+                      <Percent className="mr-2 h-4 w-4 text-violet-600" />
+                      Licenční poplatek (1% z obratu)
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{licenseFee.toLocaleString()} Kč</div>
-                    <p className="text-sm text-gray-500">Měsíční platba franšízorovi</p>
+                  <CardContent className="p-4">
+                    <div className="text-3xl font-bold text-violet-700">{formatCurrency(licenseFee)}</div>
+                    <p className="text-sm text-violet-600 mt-2">
+                      Měsíční poplatek franšízorovi za používání značky, know-how a systému Žabka. Činí 1% z celkového
+                      měsíčního obratu.
+                    </p>
+                    <div className="mt-4 bg-violet-50 p-3 rounded-lg">
+                      <h4 className="text-sm font-medium text-violet-800 mb-1">Srovnání s konkurencí:</h4>
+                      <p className="text-xs text-violet-700 mb-2">
+                        Licenční poplatek 1% je výrazně nižší než u většiny konkurenčních franšízových konceptů, kde se
+                        poplatky běžně pohybují mezi 3-7% z obratu.
+                      </p>
+                      <div className="flex items-center mt-2">
+                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                          <div className="bg-violet-600 h-2.5 rounded-full" style={{ width: "20%" }}></div>
+                        </div>
+                        <span className="ml-2 text-xs font-medium">Žabka: 1%</span>
+                      </div>
+                      <div className="flex items-center mt-1">
+                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                          <div className="bg-gray-400 h-2.5 rounded-full" style={{ width: "60%" }}></div>
+                        </div>
+                        <span className="ml-2 text-xs font-medium">Konkurence: 3-7%</span>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Ztráty zásob ({wastageRate}% z obratu)</CardTitle>
+                <Card className="shadow-md border-none overflow-hidden">
+                  <CardHeader className="bg-gradient-to-r from-violet-50 to-indigo-50 pb-2">
+                    <CardTitle className="text-base flex items-center text-violet-800">
+                      <TrendingDown className="mr-2 h-4 w-4 text-violet-600" />
+                      Ztráty zásob ({wastageRate}% z obratu)
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{wastageAmount.toLocaleString()} Kč</div>
-                    <p className="text-sm text-gray-500">Prošlé zboží, poškození, krádeže</p>
+                  <CardContent className="p-4">
+                    <div className="text-3xl font-bold text-violet-700">{formatCurrency(wastageAmount)}</div>
+                    <p className="text-sm text-violet-600 mt-2">
+                      Ztráty způsobené prošlým zbožím, poškozením, krádežemi a dalšími faktory. Průměrně se pohybují
+                      mezi 1-3% z obratu.
+                    </p>
                     <div className="mt-4">
                       <Label htmlFor="wastage-slider">Míra ztrát (%)</Label>
                       <div className="flex items-center space-x-2">
@@ -676,63 +1185,77 @@ export default function ZabkaBusinessPlan() {
                         <span className="w-12 text-right">{wastageRate}%</span>
                       </div>
                     </div>
+                    <div className="mt-4 bg-violet-50 p-3 rounded-lg">
+                      <h4 className="text-sm font-medium text-violet-800 mb-1">Jak snížit ztráty:</h4>
+                      <ul className="text-xs text-violet-700 space-y-1 list-disc pl-4">
+                        <li>Pečlivé řízení zásob a objednávek podle prodejních dat</li>
+                        <li>Pravidelné kontroly dat spotřeby a rotace zboží</li>
+                        <li>Efektivní cenové akce na zboží s blížícím se datem spotřeby</li>
+                        <li>Bezpečnostní opatření proti krádežím</li>
+                      </ul>
+                    </div>
                   </CardContent>
                 </Card>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Další provozní náklady</CardTitle>
+                <Card className="shadow-md border-none">
+                  <CardHeader className="bg-violet-50 pb-2">
+                    <CardTitle className="text-base flex items-center">
+                      <BarChart className="mr-2 h-4 w-4 text-violet-600" />
+                      Další provozní náklady
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-4">
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span>Marketing:</span>
-                        <span>{marketingCosts.toLocaleString()} Kč</span>
+                        <span>{formatCurrency(marketingCosts)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Údržba:</span>
-                        <span>{maintenanceCosts.toLocaleString()} Kč</span>
+                        <span>{formatCurrency(maintenanceCosts)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Pojištění:</span>
-                        <span>{insuranceCosts.toLocaleString()} Kč</span>
+                        <span>{formatCurrency(insuranceCosts)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Účetnictví:</span>
-                        <span>{accountingCosts.toLocaleString()} Kč</span>
+                        <span>{formatCurrency(accountingCosts)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Školení:</span>
-                        <span>{trainingCosts.toLocaleString()} Kč</span>
+                        <span>{formatCurrency(trainingCosts)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Ostatní náklady:</span>
-                        <span>{otherCosts.toLocaleString()} Kč</span>
+                        <span>{formatCurrency(otherCosts)}</span>
                       </div>
                       <Separator className="my-2" />
                       <div className="flex justify-between font-bold">
                         <span>Celkem další náklady:</span>
                         <span>
-                          {(
+                          {formatCurrency(
                             marketingCosts +
-                            maintenanceCosts +
-                            insuranceCosts +
-                            accountingCosts +
-                            trainingCosts +
-                            otherCosts
-                          ).toLocaleString()}{" "}
-                          Kč
+                              maintenanceCosts +
+                              insuranceCosts +
+                              accountingCosts +
+                              trainingCosts +
+                              otherCosts,
+                          )}
                         </span>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Počáteční jednorázové náklady</CardTitle>
+                <Card className="shadow-md border-none">
+                  <CardHeader className="bg-violet-50 pb-2">
+                    <CardTitle className="text-base flex items-center">
+                      <Coins className="mr-2 h-4 w-4 text-violet-600" />
+                      Počáteční jednorázové náklady
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-4">
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 text-sm">
                         <div className="font-medium">Jistina (počáteční)</div>
@@ -746,15 +1269,29 @@ export default function ZabkaBusinessPlan() {
                         <div className="font-medium">Poplatek při převzetí provozovny</div>
                         <div>10 000 Kč + DPH</div>
                       </div>
+                      <div className="grid grid-cols-2 text-sm">
+                        <div className="font-medium">Celková počáteční investice</div>
+                        <div className="font-bold">180 000 Kč</div>
+                      </div>
+                      <div className="mt-2 bg-violet-50 p-3 rounded-lg">
+                        <h4 className="text-sm font-medium text-violet-800 mb-1">Poznámka k jistině:</h4>
+                        <p className="text-xs text-violet-700">
+                          Jistina se postupně navyšuje z počátečních 20 000 Kč na konečných 150 000 Kč. Slouží jako
+                          záruka pro franšízora a je vratná při ukončení spolupráce.
+                        </p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Vizualizace nákladů</CardTitle>
+                <Card className="shadow-md border-none">
+                  <CardHeader className="bg-violet-50 pb-2">
+                    <CardTitle className="text-base flex items-center">
+                      <PieChart className="mr-2 h-4 w-4 text-violet-600" />
+                      Vizualizace nákladů
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-4">
                     <div className="h-80">
                       <ResponsiveContainer width="100%" height="100%">
                         <RechartsPieChart>
@@ -778,6 +1315,9 @@ export default function ZabkaBusinessPlan() {
                             fill="#8884d8"
                             dataKey="value"
                             nameKey="name"
+                            label={({ name, percent }) =>
+                              percent > 0.05 ? `${name}: ${(percent * 100).toFixed(0)}%` : ""
+                            }
                           >
                             {[
                               { name: "Personál", value: totalStaffCost },
@@ -794,7 +1334,7 @@ export default function ZabkaBusinessPlan() {
                               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
                           </Pie>
-                          <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
+                          <Tooltip formatter={(value) => formatCurrency(Number(value))} />
                           <Legend />
                         </RechartsPieChart>
                       </ResponsiveContainer>
@@ -803,11 +1343,17 @@ export default function ZabkaBusinessPlan() {
                 </Card>
               </div>
             </CardContent>
-            <CardFooter className="border-t pt-4">
+            <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full">
-                <div className="flex justify-between text-lg font-bold">
-                  <span>Celkové měsíční výdaje:</span>
-                  <span>{totalCosts.toLocaleString()} Kč</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-medium text-violet-800">Celkové měsíční výdaje:</span>
+                  <span className="text-lg font-bold text-violet-800">{formatCurrency(totalCosts)}</span>
+                </div>
+                <div className="mt-4 flex justify-end">
+                  <Button className="bg-violet-600 hover:bg-violet-700 text-white">
+                    <Download className="mr-2 h-4 w-4" />
+                    Stáhnout analýzu výdajů (PDF)
+                  </Button>
                 </div>
               </div>
             </CardFooter>
@@ -815,134 +1361,259 @@ export default function ZabkaBusinessPlan() {
         </TabsContent>
 
         <TabsContent value="categories" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Analýza produktových kategorií</CardTitle>
-              <CardDescription>Podíl jednotlivých kategorií na obratu a marži</CardDescription>
+          <Card className="shadow-lg border-none overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white">
+              <CardTitle className="flex items-center text-xl">
+                <PieChart className="mr-2 h-5 w-5" />
+                Analýza produktových kategorií
+              </CardTitle>
+              <CardDescription className="text-violet-100">
+                Podíl jednotlivých kategorií na obratu a marži
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-4">
-                {productCategories.map((category, index) => (
-                  <div key={index} className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <Label htmlFor={`category-${index}`}>{category.name}</Label>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-sm text-gray-500">Podíl na obratu:</span>
-                        <Badge variant="outline">{category.percentage}%</Badge>
-                      </div>
+            <CardContent className="space-y-6 p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="shadow-md border-none">
+                  <CardHeader className="bg-violet-50 pb-2">
+                    <CardTitle className="text-base flex items-center">
+                      <PieChart className="mr-2 h-4 w-4 text-violet-600" />
+                      Podíl kategorií na obratu
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-4">
+                    <div className="h-80">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <RechartsPieChart>
+                          <Pie
+                            data={productCategories.map((cat) => ({
+                              name: cat.name,
+                              value: cat.percentage,
+                            }))}
+                            cx="50%"
+                            cy="50%"
+                            labelLine={false}
+                            outerRadius={80}
+                            fill="#8884d8"
+                            dataKey="value"
+                            nameKey="name"
+                            label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                          >
+                            {productCategories.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                          </Pie>
+                          <Tooltip formatter={(value) => value + "%"} />
+                          <Legend />
+                        </RechartsPieChart>
+                      </ResponsiveContainer>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <Slider
-                        id={`category-${index}`}
-                        min={0}
-                        max={50}
-                        step={1}
-                        value={[category.percentage]}
-                        onValueChange={(value) => updateCategoryPercentage(index, value[0])}
-                        className="flex-1"
-                      />
-                      <span className="w-12 text-right">{category.percentage}%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-500">Marže:</span>
-                      <div className="flex items-center space-x-2">
-                        <Input
-                          id={`margin-${index}`}
-                          type="number"
-                          value={category.margin}
-                          onChange={(e) => updateCategoryMargin({ index, newMargin: Number(e.target.value) })}
-                          className="w-20"
-                        />
-                        <span>%</span>
-                      </div>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Měsíční obrat kategorie:</span>
-                      <span className="font-medium">
-                        {Math.round(monthlyTurnover * (category.percentage / 100)).toLocaleString()} Kč
-                      </span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Měsíční provize z kategorie:</span>
-                      <span className="font-medium">
-                        {Math.round(
-                          monthlyTurnover * (category.percentage / 100) * (category.margin / 100),
-                        ).toLocaleString()}{" "}
-                        Kč
-                      </span>
-                    </div>
-                    <Separator className="my-2" />
-                  </div>
-                ))}
-              </div>
+                  </CardContent>
+                </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Vizualizace kategorií</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-80">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <RechartsBarChart
-                        data={productCategories.map((cat) => ({
-                          name: cat.name,
-                          obrat: Math.round(monthlyTurnover * (cat.percentage / 100)),
-                          provize: Math.round(monthlyTurnover * (cat.percentage / 100) * (cat.margin / 100)),
-                        }))}
-                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
-                        <Legend />
-                        <Bar dataKey="obrat" name="Obrat" fill="#3b82f6" />
-                        <Bar dataKey="provize" name="Provize" fill="#10b981" />
-                      </RechartsBarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Podíl kategorií na obratu</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-80">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <RechartsPieChart>
-                        <Pie
+                <Card className="shadow-md border-none">
+                  <CardHeader className="bg-violet-50 pb-2">
+                    <CardTitle className="text-base flex items-center">
+                      <BarChart className="mr-2 h-4 w-4 text-violet-600" />
+                      Obrat a provize podle kategorií
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-4">
+                    <div className="h-80">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <RechartsBarChart
                           data={productCategories.map((cat) => ({
                             name: cat.name,
-                            value: cat.percentage,
+                            obrat: Math.round(monthlyTurnover * (cat.percentage / 100)),
+                            provize: Math.round(monthlyTurnover * (cat.percentage / 100) * (cat.margin / 100)),
                           }))}
-                          cx="50%"
-                          cy="50%"
-                          labelLine={false}
-                          outerRadius={80}
-                          fill="#8884d8"
-                          dataKey="value"
-                          nameKey="name"
-                          label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                         >
-                          {productCategories.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                          <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                          <YAxis tick={{ fontSize: 12 }} />
+                          <Tooltip
+                            formatter={(value) => formatCurrency(Number(value))}
+                            contentStyle={{
+                              borderRadius: "8px",
+                              border: "none",
+                              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                            }}
+                          />
+                          <Legend />
+                          <Bar dataKey="obrat" name="Obrat" fill="#4f46e5" />
+                          <Bar dataKey="provize" name="Provize" fill="#10b981" />
+                        </RechartsBarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium flex items-center text-violet-800">
+                  <Percent className="mr-2 h-5 w-5 text-violet-600" />
+                  Nastavení kategorií
+                </h3>
+                <p className="text-sm text-violet-600">
+                  Upravte podíl jednotlivých kategorií na celkovém obratu a jejich marže. Součet podílů na obratu musí
+                  být vždy 100%.
+                </p>
+
+                <div className="space-y-6">
+                  {productCategories.map((category, index) => (
+                    <Card key={index} className="shadow-sm border-none">
+                      <CardContent className="p-4">
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center">
+                            <Label htmlFor={`category-${index}`} className="font-medium text-violet-800">
+                              {category.name}
+                            </Label>
+                            <div className="flex items-center space-x-2">
+                              <span className="text-sm text-gray-500">Podíl na obratu:</span>
+                              <Badge variant="outline">{category.percentage}%</Badge>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Slider
+                              id={`category-${index}`}
+                              min={0}
+                              max={50}
+                              step={1}
+                              value={[category.percentage]}
+                              onValueChange={(value) => updateCategoryPercentage(index, value[0])}
+                              className="flex-1"
+                            />
+                            <span className="w-12 text-right">{category.percentage}%</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <div className="flex items-center">
+                              <span className="text-sm text-gray-500 mr-2">Marže:</span>
+                              <TooltipProvider>
+                                <TooltipComponent>
+                                  <TooltipTrigger>
+                                    <HelpCircle className="h-4 w-4 text-gray-400" />
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p className="max-w-xs">
+                                      Marže představuje procento z obratu dané kategorie, které získáte jako provizi.
+                                      Hodnoty jsou nastaveny podle standardních podmínek Žabka.
+                                    </p>
+                                  </TooltipContent>
+                                </TooltipComponent>
+                              </TooltipProvider>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Input
+                                id={`margin-${index}`}
+                                type="number"
+                                value={category.margin}
+                                onChange={(e) => updateCategoryMargin({ index, newMargin: Number(e.target.value) })}
+                                className="w-20 text-right"
+                              />
+                              <span>%</span>
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4 mt-2">
+                            <div className="flex justify-between text-sm">
+                              <span>Měsíční obrat kategorie:</span>
+                              <span className="font-medium">
+                                {formatCurrency(monthlyTurnover * (category.percentage / 100))}
+                              </span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                              <span>Měsíční provize z kategorie:</span>
+                              <span className="font-medium">
+                                {formatCurrency(
+                                  monthlyTurnover * (category.percentage / 100) * (category.margin / 100),
+                                )}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+
+              <Card className="shadow-md border-none">
+                <CardHeader className="bg-violet-50 pb-2">
+                  <CardTitle className="text-base flex items-center">
+                    <TrendingUp className="mr-2 h-4 w-4 text-violet-600" />
+                    Efektivita kategorií
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left py-2">Kategorie</th>
+                          <th className="text-center py-2">Podíl na obratu</th>
+                          <th className="text-center py-2">Marže</th>
+                          <th className="text-center py-2">Podíl na provizi</th>
+                          <th className="text-center py-2">Efektivita</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {productCategories
+                          .map((cat) => ({
+                            ...cat,
+                            provizeValue: monthlyTurnover * (cat.percentage / 100) * (cat.margin / 100),
+                            podilNaProvizi:
+                              ((monthlyTurnover * (cat.percentage / 100) * (cat.margin / 100)) / variableCommission) *
+                              100,
+                            efektivita: cat.margin / cat.percentage,
+                          }))
+                          .sort((a, b) => b.efektivita - a.efektivita)
+                          .map((category, index) => (
+                            <tr key={index} className="border-b hover:bg-violet-50 transition-colors">
+                              <td className="py-2 font-medium">{category.name}</td>
+                              <td className="text-center py-2">{category.percentage}%</td>
+                              <td className="text-center py-2">{category.margin.toFixed(2)}%</td>
+                              <td className="text-center py-2">{category.podilNaProvizi.toFixed(2)}%</td>
+                              <td className="text-center py-2">
+                                <Badge
+                                  className={
+                                    category.efektivita > 1.5
+                                      ? "bg-green-100 text-green-800"
+                                      : category.efektivita > 1
+                                        ? "bg-blue-100 text-blue-800"
+                                        : category.efektivita > 0.5
+                                          ? "bg-amber-100 text-amber-800"
+                                          : "bg-red-100 text-red-800"
+                                  }
+                                >
+                                  {category.efektivita.toFixed(2)}
+                                </Badge>
+                              </td>
+                            </tr>
                           ))}
-                        </Pie>
-                        <Tooltip formatter={(value) => value + "%"} />
-                        <Legend />
-                      </RechartsPieChart>
-                    </ResponsiveContainer>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="mt-4 bg-violet-50 p-3 rounded-lg">
+                    <h4 className="text-sm font-medium text-violet-800 mb-1">Co znamená efektivita?</h4>
+                    <p className="text-xs text-violet-700">
+                      Efektivita je poměr mezi marží kategorie a jejím podílem na obratu. Hodnota vyšší než 1 znamená,
+                      že kategorie přináší nadprůměrnou provizi vzhledem ke svému podílu na obratu. Zaměřte se na
+                      podporu prodeje kategorií s vysokou efektivitou.
+                    </p>
                   </div>
                 </CardContent>
               </Card>
             </CardContent>
-            <CardFooter className="border-t pt-4">
+            <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full">
-                <div className="flex justify-between text-lg font-bold">
-                  <span>Celková variabilní provize:</span>
-                  <span>{variableCommission.toLocaleString()} Kč</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-medium text-violet-800">Celková variabilní provize:</span>
+                  <span className="text-lg font-bold text-violet-800">{formatCurrency(variableCommission)}</span>
+                </div>
+                <div className="mt-4 flex justify-end">
+                  <Button className="bg-violet-600 hover:bg-violet-700 text-white">
+                    <Download className="mr-2 h-4 w-4" />
+                    Stáhnout analýzu kategorií (PDF)
+                  </Button>
                 </div>
               </div>
             </CardFooter>
@@ -950,17 +1621,24 @@ export default function ZabkaBusinessPlan() {
         </TabsContent>
 
         <TabsContent value="scenarios" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Analýza scénářů</CardTitle>
-              <CardDescription>Porovnání pesimistického, realistického a optimistického scénáře</CardDescription>
+          <Card className="shadow-lg border-none overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white">
+              <CardTitle className="flex items-center text-xl">
+                <Target className="mr-2 h-5 w-5" />
+                Analýza scénářů
+              </CardTitle>
+              <CardDescription className="text-violet-100">
+                Porovnání pesimistického, realistického a optimistického scénáře
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex justify-center space-x-2 mb-6">
+            <CardContent className="space-y-6 p-6">
+              <div className="flex justify-center space-x-4 mb-6">
                 <Button
                   variant={selectedScenario === "pessimistic" ? "default" : "outline"}
                   onClick={() => updateScenario("pessimistic")}
-                  className="flex items-center"
+                  className={`flex items-center ${
+                    selectedScenario === "pessimistic" ? "bg-red-600 hover:bg-red-700" : "text-red-600 border-red-200"
+                  }`}
                 >
                   <AlertTriangle className="mr-2 h-4 w-4" />
                   Pesimistický
@@ -968,7 +1646,9 @@ export default function ZabkaBusinessPlan() {
                 <Button
                   variant={selectedScenario === "realistic" ? "default" : "outline"}
                   onClick={() => updateScenario("realistic")}
-                  className="flex items-center"
+                  className={`flex items-center ${
+                    selectedScenario === "realistic" ? "bg-blue-600 hover:bg-blue-700" : "text-blue-600 border-blue-200"
+                  }`}
                 >
                   <ArrowUpDown className="mr-2 h-4 w-4" />
                   Realistický
@@ -976,119 +1656,185 @@ export default function ZabkaBusinessPlan() {
                 <Button
                   variant={selectedScenario === "optimistic" ? "default" : "outline"}
                   onClick={() => updateScenario("optimistic")}
-                  className="flex items-center"
+                  className={`flex items-center ${
+                    selectedScenario === "optimistic"
+                      ? "bg-green-600 hover:bg-green-700"
+                      : "text-green-600 border-green-200"
+                  }`}
                 >
                   <CheckCircle className="mr-2 h-4 w-4" />
                   Optimistický
                 </Button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className={selectedScenario === "pessimistic" ? "border-red-500 border-2" : ""}>
-                  <CardHeader className="bg-red-50">
-                    <CardTitle className="flex items-center">
-                      <AlertTriangle className="mr-2 h-5 w-5 text-red-500" />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card
+                  className={`shadow-md border-none overflow-hidden transition-all hover:shadow-lg ${
+                    selectedScenario === "pessimistic" ? "border-2 border-red-500" : ""
+                  }`}
+                >
+                  <CardHeader className="bg-red-50 pb-2">
+                    <CardTitle className="text-base flex items-center text-red-800">
+                      <AlertTriangle className="mr-2 h-4 w-4 text-red-600" />
                       Pesimistický scénář
                     </CardTitle>
-                    <CardDescription>Obrat: -20%, Náklady: +10%, Ztráty: 3%</CardDescription>
+                    <CardDescription className="text-red-600">Obrat: -20%, Náklady: +10%, Ztráty: 3%</CardDescription>
                   </CardHeader>
-                  <CardContent className="pt-4">
+                  <CardContent className="p-4">
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span>Měsíční obrat:</span>
-                        <span>{pessimisticScenario.turnover.toLocaleString()} Kč</span>
+                        <span className="font-medium">{formatCurrency(pessimisticScenario.turnover)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Celková provize:</span>
-                        <span>{pessimisticScenario.commission.toLocaleString()} Kč</span>
+                        <span className="font-medium">{formatCurrency(pessimisticScenario.commission)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Celkové náklady:</span>
-                        <span>{pessimisticScenario.costs.toLocaleString()} Kč</span>
+                        <span className="font-medium">{formatCurrency(pessimisticScenario.costs)}</span>
                       </div>
                       <Separator className="my-2" />
                       <div className="flex justify-between font-bold">
                         <span>Měsíční zisk:</span>
-                        <span className={pessimisticScenario.profit >= 0 ? "text-green-600" : "text-red-600"}>
-                          {pessimisticScenario.profit.toLocaleString()} Kč
+                        <span className={getColorByValue(pessimisticScenario.profit)}>
+                          {formatCurrency(pessimisticScenario.profit)}
                         </span>
                       </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Roční zisk:</span>
+                        <span className={getColorByValue(pessimisticScenario.profit)}>
+                          {formatCurrency(pessimisticScenario.profit * 12)}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-4 bg-red-50 p-3 rounded-lg">
+                      <h4 className="text-sm font-medium text-red-800 mb-1">Předpoklady scénáře:</h4>
+                      <ul className="text-xs text-red-700 space-y-1 list-disc pl-4">
+                        <li>Nižší návštěvnost prodejny než očekáváno</li>
+                        <li>Silnější konkurence v okolí</li>
+                        <li>Vyšší provozní náklady</li>
+                        <li>Vyšší míra ztrát zboží</li>
+                      </ul>
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card className={selectedScenario === "realistic" ? "border-blue-500 border-2" : ""}>
-                  <CardHeader className="bg-blue-50">
-                    <CardTitle className="flex items-center">
-                      <ArrowUpDown className="mr-2 h-5 w-5 text-blue-500" />
+                <Card
+                  className={`shadow-md border-none overflow-hidden transition-all hover:shadow-lg ${
+                    selectedScenario === "realistic" ? "border-2 border-blue-500" : ""
+                  }`}
+                >
+                  <CardHeader className="bg-blue-50 pb-2">
+                    <CardTitle className="text-base flex items-center text-blue-800">
+                      <ArrowUpDown className="mr-2 h-4 w-4 text-blue-600" />
                       Realistický scénář
                     </CardTitle>
-                    <CardDescription>Obrat: 100%, Náklady: 100%, Ztráty: 2%</CardDescription>
+                    <CardDescription className="text-blue-600">Obrat: 100%, Náklady: 100%, Ztráty: 2%</CardDescription>
                   </CardHeader>
-                  <CardContent className="pt-4">
+                  <CardContent className="p-4">
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span>Měsíční obrat:</span>
-                        <span>{realisticScenario.turnover.toLocaleString()} Kč</span>
+                        <span className="font-medium">{formatCurrency(realisticScenario.turnover)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Celková provize:</span>
-                        <span>{realisticScenario.commission.toLocaleString()} Kč</span>
+                        <span className="font-medium">{formatCurrency(realisticScenario.commission)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Celkové náklady:</span>
-                        <span>{realisticScenario.costs.toLocaleString()} Kč</span>
+                        <span className="font-medium">{formatCurrency(realisticScenario.costs)}</span>
                       </div>
                       <Separator className="my-2" />
                       <div className="flex justify-between font-bold">
                         <span>Měsíční zisk:</span>
-                        <span className={realisticScenario.profit >= 0 ? "text-green-600" : "text-red-600"}>
-                          {realisticScenario.profit.toLocaleString()} Kč
+                        <span className={getColorByValue(realisticScenario.profit)}>
+                          {formatCurrency(realisticScenario.profit)}
                         </span>
                       </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Roční zisk:</span>
+                        <span className={getColorByValue(realisticScenario.profit)}>
+                          {formatCurrency(realisticScenario.profit * 12)}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-4 bg-blue-50 p-3 rounded-lg">
+                      <h4 className="text-sm font-medium text-blue-800 mb-1">Předpoklady scénáře:</h4>
+                      <ul className="text-xs text-blue-700 space-y-1 list-disc pl-4">
+                        <li>Standardní návštěvnost prodejny</li>
+                        <li>Běžná úroveň konkurence</li>
+                        <li>Očekávané provozní náklady</li>
+                        <li>Průměrná míra ztrát zboží</li>
+                      </ul>
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card className={selectedScenario === "optimistic" ? "border-green-500 border-2" : ""}>
-                  <CardHeader className="bg-green-50">
-                    <CardTitle className="flex items-center">
-                      <CheckCircle className="mr-2 h-5 w-5 text-green-500" />
+                <Card
+                  className={`shadow-md border-none overflow-hidden transition-all hover:shadow-lg ${
+                    selectedScenario === "optimistic" ? "border-2 border-green-500" : ""
+                  }`}
+                >
+                  <CardHeader className="bg-green-50 pb-2">
+                    <CardTitle className="text-base flex items-center text-green-800">
+                      <CheckCircle className="mr-2 h-4 w-4 text-green-600" />
                       Optimistický scénář
                     </CardTitle>
-                    <CardDescription>Obrat: +20%, Náklady: -5%, Ztráty: 1.5%</CardDescription>
+                    <CardDescription className="text-green-600">
+                      Obrat: +20%, Náklady: -5%, Ztráty: 1.5%
+                    </CardDescription>
                   </CardHeader>
-                  <CardContent className="pt-4">
+                  <CardContent className="p-4">
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span>Měsíční obrat:</span>
-                        <span>{optimisticScenario.turnover.toLocaleString()} Kč</span>
+                        <span className="font-medium">{formatCurrency(optimisticScenario.turnover)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Celková provize:</span>
-                        <span>{optimisticScenario.commission.toLocaleString()} Kč</span>
+                        <span className="font-medium">{formatCurrency(optimisticScenario.commission)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Celkové náklady:</span>
-                        <span>{optimisticScenario.costs.toLocaleString()} Kč</span>
+                        <span className="font-medium">{formatCurrency(optimisticScenario.costs)}</span>
                       </div>
                       <Separator className="my-2" />
                       <div className="flex justify-between font-bold">
                         <span>Měsíční zisk:</span>
-                        <span className={optimisticScenario.profit >= 0 ? "text-green-600" : "text-red-600"}>
-                          {optimisticScenario.profit.toLocaleString()} Kč
+                        <span className={getColorByValue(optimisticScenario.profit)}>
+                          {formatCurrency(optimisticScenario.profit)}
                         </span>
                       </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Roční zisk:</span>
+                        <span className={getColorByValue(optimisticScenario.profit)}>
+                          {formatCurrency(optimisticScenario.profit * 12)}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-4 bg-green-50 p-3 rounded-lg">
+                      <h4 className="text-sm font-medium text-green-800 mb-1">Předpoklady scénáře:</h4>
+                      <ul className="text-xs text-green-700 space-y-1 list-disc pl-4">
+                        <li>Vyšší návštěvnost prodejny než očekáváno</li>
+                        <li>Slabší konkurence v okolí</li>
+                        <li>Optimalizované provozní náklady</li>
+                        <li>Nižší míra ztrát zboží díky efektivnímu řízení</li>
+                      </ul>
                     </div>
                   </CardContent>
                 </Card>
               </div>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Porovnání scénářů</CardTitle>
+              <Card className="shadow-md border-none">
+                <CardHeader className="bg-violet-50 pb-2">
+                  <CardTitle className="text-base flex items-center">
+                    <BarChart className="mr-2 h-4 w-4 text-violet-600" />
+                    Porovnání scénářů
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4">
                   <div className="h-80">
                     <ResponsiveContainer width="100%" height="100%">
                       <RechartsBarChart
@@ -1117,12 +1863,19 @@ export default function ZabkaBusinessPlan() {
                         ]}
                         margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                       >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                        <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                        <YAxis tick={{ fontSize: 12 }} />
+                        <Tooltip
+                          formatter={(value) => formatCurrency(Number(value))}
+                          contentStyle={{
+                            borderRadius: "8px",
+                            border: "none",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                          }}
+                        />
                         <Legend />
-                        <Bar dataKey="obrat" name="Obrat" fill="#3b82f6" />
+                        <Bar dataKey="obrat" name="Obrat" fill="#4f46e5" />
                         <Bar dataKey="provize" name="Provize" fill="#10b981" />
                         <Bar dataKey="naklady" name="Náklady" fill="#ef4444" />
                         <Bar dataKey="zisk" name="Zisk" fill="#f59e0b" />
@@ -1132,92 +1885,176 @@ export default function ZabkaBusinessPlan() {
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Finanční ukazatele podle scénářů</CardTitle>
+              <Card className="shadow-md border-none">
+                <CardHeader className="bg-violet-50 pb-2">
+                  <CardTitle className="text-base flex items-center">
+                    <TrendingUp className="mr-2 h-4 w-4 text-violet-600" />
+                    Finanční ukazatele podle scénářů
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-4 gap-2 font-medium border-b pb-2">
-                      <div>Ukazatel</div>
-                      <div>Pesimistický</div>
-                      <div>Realistický</div>
-                      <div>Optimistický</div>
-                    </div>
+                <CardContent className="p-4">
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left py-2">Ukazatel</th>
+                          <th className="text-center py-2 bg-red-50">Pesimistický</th>
+                          <th className="text-center py-2 bg-blue-50">Realistický</th>
+                          <th className="text-center py-2 bg-green-50">Optimistický</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b hover:bg-violet-50 transition-colors">
+                          <td className="py-2 font-medium">Hrubá marže (%)</td>
+                          <td className="text-center py-2 bg-red-50">
+                            {formatPercent((pessimisticScenario.commission / pessimisticScenario.turnover) * 100)}
+                          </td>
+                          <td className="text-center py-2 bg-blue-50">
+                            {formatPercent((realisticScenario.commission / realisticScenario.turnover) * 100)}
+                          </td>
+                          <td className="text-center py-2 bg-green-50">
+                            {formatPercent((optimisticScenario.commission / optimisticScenario.turnover) * 100)}
+                          </td>
+                        </tr>
+                        <tr className="border-b hover:bg-violet-50 transition-colors">
+                          <td className="py-2 font-medium">Čistá marže (%)</td>
+                          <td className="text-center py-2 bg-red-50">
+                            {formatPercent((pessimisticScenario.profit / pessimisticScenario.turnover) * 100)}
+                          </td>
+                          <td className="text-center py-2 bg-blue-50">
+                            {formatPercent((realisticScenario.profit / realisticScenario.turnover) * 100)}
+                          </td>
+                          <td className="text-center py-2 bg-green-50">
+                            {formatPercent((optimisticScenario.profit / optimisticScenario.turnover) * 100)}
+                          </td>
+                        </tr>
+                        <tr className="border-b hover:bg-violet-50 transition-colors">
+                          <td className="py-2 font-medium">Roční zisk</td>
+                          <td className="text-center py-2 bg-red-50">
+                            {formatCurrency(pessimisticScenario.profit * 12)}
+                          </td>
+                          <td className="text-center py-2 bg-blue-50">
+                            {formatCurrency(realisticScenario.profit * 12)}
+                          </td>
+                          <td className="text-center py-2 bg-green-50">
+                            {formatCurrency(optimisticScenario.profit * 12)}
+                          </td>
+                        </tr>
+                        <tr className="border-b hover:bg-violet-50 transition-colors">
+                          <td className="py-2 font-medium">ROI (%)</td>
+                          <td className="text-center py-2 bg-red-50">
+                            {pessimisticScenario.profit > 0
+                              ? formatPercent(((pessimisticScenario.profit * 12) / initialInvestment) * 100)
+                              : "N/A"}
+                          </td>
+                          <td className="text-center py-2 bg-blue-50">
+                            {realisticScenario.profit > 0
+                              ? formatPercent(((realisticScenario.profit * 12) / initialInvestment) * 100)
+                              : "N/A"}
+                          </td>
+                          <td className="text-center py-2 bg-green-50">
+                            {optimisticScenario.profit > 0
+                              ? formatPercent(((optimisticScenario.profit * 12) / initialInvestment) * 100)
+                              : "N/A"}
+                          </td>
+                        </tr>
+                        <tr className="border-b hover:bg-violet-50 transition-colors">
+                          <td className="py-2 font-medium">Doba návratnosti (měsíce)</td>
+                          <td className="text-center py-2 bg-red-50">
+                            {pessimisticScenario.profit > 0
+                              ? Math.ceil(initialInvestment / pessimisticScenario.profit)
+                              : "N/A"}
+                          </td>
+                          <td className="text-center py-2 bg-blue-50">
+                            {realisticScenario.profit > 0
+                              ? Math.ceil(initialInvestment / realisticScenario.profit)
+                              : "N/A"}
+                          </td>
+                          <td className="text-center py-2 bg-green-50">
+                            {optimisticScenario.profit > 0
+                              ? Math.ceil(initialInvestment / optimisticScenario.profit)
+                              : "N/A"}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
 
-                    <div className="grid grid-cols-4 gap-2">
-                      <div>Hrubá marže (%)</div>
-                      <div>{((pessimisticScenario.commission / pessimisticScenario.turnover) * 100).toFixed(2)}%</div>
-                      <div>{((realisticScenario.commission / realisticScenario.turnover) * 100).toFixed(2)}%</div>
-                      <div>{((optimisticScenario.commission / optimisticScenario.turnover) * 100).toFixed(2)}%</div>
-                    </div>
-
-                    <div className="grid grid-cols-4 gap-2">
-                      <div>Čistá marže (%)</div>
-                      <div>{((pessimisticScenario.profit / pessimisticScenario.turnover) * 100).toFixed(2)}%</div>
-                      <div>{((realisticScenario.profit / realisticScenario.turnover) * 100).toFixed(2)}%</div>
-                      <div>{((optimisticScenario.profit / optimisticScenario.turnover) * 100).toFixed(2)}%</div>
-                    </div>
-
-                    <div className="grid grid-cols-4 gap-2">
-                      <div>Roční zisk</div>
-                      <div>{(pessimisticScenario.profit * 12).toLocaleString()} Kč</div>
-                      <div>{(realisticScenario.profit * 12).toLocaleString()} Kč</div>
-                      <div>{(optimisticScenario.profit * 12).toLocaleString()} Kč</div>
-                    </div>
-
-                    <div className="grid grid-cols-4 gap-2">
-                      <div>ROI (%)</div>
-                      <div>
-                        {pessimisticScenario.profit > 0
-                          ? (((pessimisticScenario.profit * 12) / initialInvestment) * 100).toFixed(2) + "%"
-                          : "N/A"}
-                      </div>
-                      <div>
-                        {realisticScenario.profit > 0
-                          ? (((realisticScenario.profit * 12) / initialInvestment) * 100).toFixed(2) + "%"
-                          : "N/A"}
-                      </div>
-                      <div>
-                        {optimisticScenario.profit > 0
-                          ? (((optimisticScenario.profit * 12) / initialInvestment) * 100).toFixed(2) + "%"
-                          : "N/A"}
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-4 gap-2">
-                      <div>Doba návratnosti (měsíce)</div>
-                      <div>
-                        {pessimisticScenario.profit > 0
-                          ? Math.ceil(initialInvestment / pessimisticScenario.profit)
-                          : "N/A"}
-                      </div>
-                      <div>
-                        {realisticScenario.profit > 0 ? Math.ceil(initialInvestment / realisticScenario.profit) : "N/A"}
-                      </div>
-                      <div>
-                        {optimisticScenario.profit > 0
-                          ? Math.ceil(initialInvestment / optimisticScenario.profit)
-                          : "N/A"}
-                      </div>
-                    </div>
+              <Card className="shadow-md border-none">
+                <CardHeader className="bg-violet-50 pb-2">
+                  <CardTitle className="text-base flex items-center">
+                    <Info className="mr-2 h-4 w-4 text-violet-600" />
+                    Analýza citlivosti
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <p className="text-sm text-violet-700 mb-4">
+                    Analýza citlivosti ukazuje, jak se změní zisk při změně klíčových parametrů. Níže je zobrazen vliv
+                    změny obratu a nákladů na měsíční zisk.
+                  </p>
+                  <div className="h-80">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <ComposedChart
+                        data={[
+                          { name: "-20%", obrat: profit * 0.8, naklady: profit * 1.2 },
+                          { name: "-10%", obrat: profit * 0.9, naklady: profit * 1.1 },
+                          { name: "0%", obrat: profit, naklady: profit },
+                          { name: "+10%", obrat: profit * 1.1, naklady: profit * 0.9 },
+                          { name: "+20%", obrat: profit * 1.2, naklady: profit * 0.8 },
+                        ]}
+                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                        <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                        <YAxis tick={{ fontSize: 12 }} />
+                        <Tooltip
+                          formatter={(value) => formatCurrency(Number(value))}
+                          contentStyle={{
+                            borderRadius: "8px",
+                            border: "none",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                          }}
+                        />
+                        <Legend />
+                        <Line
+                          type="monotone"
+                          dataKey="obrat"
+                          name="Změna obratu"
+                          stroke="#4f46e5"
+                          strokeWidth={2}
+                          dot={{ r: 5 }}
+                          activeDot={{ r: 8 }}
+                        />
+                        <Line
+                          type="monotone"
+                          dataKey="naklady"
+                          name="Změna nákladů"
+                          stroke="#ef4444"
+                          strokeWidth={2}
+                          dot={{ r: 5 }}
+                          activeDot={{ r: 8 }}
+                        />
+                      </ComposedChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div className="mt-4 bg-violet-50 p-3 rounded-lg">
+                    <h4 className="text-sm font-medium text-violet-800 mb-1">Interpretace:</h4>
+                    <p className="text-xs text-violet-700">
+                      Graf ukazuje, že zisk je citlivější na změny obratu než na změny nákladů. Zvýšení obratu o 10% má
+                      větší pozitivní dopad na zisk než snížení nákladů o 10%. Proto je vhodné se primárně zaměřit na
+                      strategie zvyšování obratu.
+                    </p>
                   </div>
                 </CardContent>
               </Card>
             </CardContent>
-            <CardFooter className="border-t pt-4">
+            <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full">
-                <div className="flex justify-between text-lg font-bold">
-                  <span>Vybraný scénář:</span>
-                  <span
-                    className={
-                      selectedScenario === "pessimistic"
-                        ? "text-red-600"
-                        : selectedScenario === "optimistic"
-                          ? "text-green-600"
-                          : "text-blue-600"
-                    }
-                  >
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-medium text-violet-800">Vybraný scénář:</span>
+                  <span className={`text-lg font-bold ${getScenarioColor(selectedScenario)}`}>
                     {selectedScenario === "pessimistic"
                       ? "Pesimistický"
                       : selectedScenario === "optimistic"
@@ -1225,65 +2062,131 @@ export default function ZabkaBusinessPlan() {
                         : "Realistický"}
                   </span>
                 </div>
+                <div className="mt-4 flex justify-end">
+                  <Button className="bg-violet-600 hover:bg-violet-700 text-white">
+                    <Download className="mr-2 h-4 w-4" />
+                    Stáhnout analýzu scénářů (PDF)
+                  </Button>
+                </div>
               </div>
             </CardFooter>
           </Card>
         </TabsContent>
 
         <TabsContent value="seasonal" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Sezónní analýza</CardTitle>
-              <CardDescription>Projekce obratu, nákladů a zisku v průběhu roku</CardDescription>
+          <Card className="shadow-lg border-none overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white">
+              <CardTitle className="flex items-center text-xl">
+                <Calendar className="mr-2 h-5 w-5" />
+                Sezónní analýza
+              </CardTitle>
+              <CardDescription className="text-violet-100">
+                Projekce obratu, nákladů a zisku v průběhu roku
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Měsíční projekce obratu</CardTitle>
+            <CardContent className="space-y-6 p-6">
+              <Card className="shadow-md border-none">
+                <CardHeader className="bg-violet-50 pb-2">
+                  <CardTitle className="text-base flex items-center">
+                    <LineChart className="mr-2 h-4 w-4 text-violet-600" />
+                    Měsíční projekce obratu
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4">
                   <div className="h-80">
                     <ResponsiveContainer width="100%" height="100%">
-                      <RechartsLineChart data={monthlyData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
+                      <AreaChart data={monthlyData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                        <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                        <YAxis tick={{ fontSize: 12 }} />
+                        <Tooltip
+                          formatter={(value) => formatCurrency(Number(value))}
+                          contentStyle={{
+                            borderRadius: "8px",
+                            border: "none",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                          }}
+                        />
                         <Legend />
-                        <Line type="monotone" dataKey="turnover" name="Obrat" stroke="#3b82f6" activeDot={{ r: 8 }} />
-                      </RechartsLineChart>
+                        <Area
+                          type="monotone"
+                          dataKey="turnover"
+                          name="Obrat"
+                          stroke="#4f46e5"
+                          fill="#4f46e5"
+                          fillOpacity={0.2}
+                          activeDot={{ r: 8 }}
+                        />
+                      </AreaChart>
                     </ResponsiveContainer>
+                  </div>
+                  <div className="mt-4 bg-violet-50 p-3 rounded-lg">
+                    <h4 className="text-sm font-medium text-violet-800 mb-1">Sezónní trendy:</h4>
+                    <p className="text-xs text-violet-700">
+                      Graf zobrazuje očekávané sezónní výkyvy v obratu. Nejvyšší obrat je typicky v prosinci (vánoční
+                      sezóna) a letních měsících (červenec, srpen). Nejnižší obrat bývá v únoru a lednu po vánočních
+                      svátcích.
+                    </p>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Měsíční projekce zisku</CardTitle>
+              <Card className="shadow-md border-none">
+                <CardHeader className="bg-violet-50 pb-2">
+                  <CardTitle className="text-base flex items-center">
+                    <BarChart className="mr-2 h-4 w-4 text-violet-600" />
+                    Měsíční projekce zisku
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4">
                   <div className="h-80">
                     <ResponsiveContainer width="100%" height="100%">
-                      <RechartsBarChart data={monthlyData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
+                      <ComposedChart data={monthlyData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                        <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                        <YAxis tick={{ fontSize: 12 }} />
+                        <Tooltip
+                          formatter={(value) => formatCurrency(Number(value))}
+                          contentStyle={{
+                            borderRadius: "8px",
+                            border: "none",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                          }}
+                        />
                         <Legend />
                         <Bar dataKey="commission" name="Provize" fill="#10b981" />
                         <Bar dataKey="costs" name="Náklady" fill="#ef4444" />
-                        <Line type="monotone" dataKey="profit" name="Zisk" stroke="#f59e0b" strokeWidth={2} />
-                      </RechartsBarChart>
+                        <Line
+                          type="monotone"
+                          dataKey="profit"
+                          name="Zisk"
+                          stroke="#f59e0b"
+                          strokeWidth={2}
+                          dot={{ r: 5 }}
+                          activeDot={{ r: 8 }}
+                        />
+                      </ComposedChart>
                     </ResponsiveContainer>
+                  </div>
+                  <div className="mt-4 bg-violet-50 p-3 rounded-lg">
+                    <h4 className="text-sm font-medium text-violet-800 mb-1">Analýza ziskovosti:</h4>
+                    <p className="text-xs text-violet-700">
+                      Ziskovost kopíruje sezónní trendy obratu, ale je ovlivněna i fixními náklady, které zůstávají
+                      relativně konstantní. Proto je důležité v období nižšího obratu optimalizovat variabilní náklady,
+                      zejména personální.
+                    </p>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Tabulka měsíčních projekcí</CardTitle>
+              <Card className="shadow-md border-none">
+                <CardHeader className="bg-violet-50 pb-2">
+                  <CardTitle className="text-base flex items-center">
+                    <FileText className="mr-2 h-4 w-4 text-violet-600" />
+                    Tabulka měsíčních projekcí
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4">
                   <div className="overflow-x-auto">
                     <table className="w-full border-collapse">
                       <thead>
@@ -1297,33 +2200,31 @@ export default function ZabkaBusinessPlan() {
                       </thead>
                       <tbody>
                         {monthlyData.map((month, index) => (
-                          <tr key={index} className="border-b">
-                            <td className="py-2">{month.name}</td>
-                            <td className="text-right py-2">{Math.round(month.turnover).toLocaleString()}</td>
-                            <td className="text-right py-2">{Math.round(month.commission).toLocaleString()}</td>
-                            <td className="text-right py-2">{Math.round(month.costs).toLocaleString()}</td>
-                            <td
-                              className={`text-right py-2 font-medium ${month.profit >= 0 ? "text-green-600" : "text-red-600"}`}
-                            >
-                              {Math.round(month.profit).toLocaleString()}
+                          <tr key={index} className="border-b hover:bg-violet-50 transition-colors">
+                            <td className="py-2 font-medium">{month.name}</td>
+                            <td className="text-right py-2">{formatCurrency(Math.round(month.turnover))}</td>
+                            <td className="text-right py-2">{formatCurrency(Math.round(month.commission))}</td>
+                            <td className="text-right py-2">{formatCurrency(Math.round(month.costs))}</td>
+                            <td className={`text-right py-2 font-medium ${getColorByValue(month.profit)}`}>
+                              {formatCurrency(Math.round(month.profit))}
                             </td>
                           </tr>
                         ))}
                       </tbody>
                       <tfoot>
-                        <tr className="border-t font-bold">
+                        <tr className="border-t font-bold bg-violet-50">
                           <td className="py-2">Celkem za rok</td>
                           <td className="text-right py-2">
-                            {monthlyData.reduce((sum, month) => sum + month.turnover, 0).toLocaleString()} Kč
+                            {formatCurrency(monthlyData.reduce((sum, month) => sum + month.turnover, 0))}
                           </td>
                           <td className="text-right py-2">
-                            {monthlyData.reduce((sum, month) => sum + month.commission, 0).toLocaleString()} Kč
+                            {formatCurrency(monthlyData.reduce((sum, month) => sum + month.commission, 0))}
                           </td>
                           <td className="text-right py-2">
-                            {monthlyData.reduce((sum, month) => sum + month.costs, 0).toLocaleString()} Kč
+                            {formatCurrency(monthlyData.reduce((sum, month) => sum + month.costs, 0))}
                           </td>
                           <td className="text-right py-2">
-                            {monthlyData.reduce((sum, month) => sum + month.profit, 0).toLocaleString()} Kč
+                            {formatCurrency(monthlyData.reduce((sum, month) => sum + month.profit, 0))}
                           </td>
                         </tr>
                       </tfoot>
@@ -1332,46 +2233,148 @@ export default function ZabkaBusinessPlan() {
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Sezónní faktory</CardTitle>
-                  <CardDescription>Relativní změny obratu v průběhu roku</CardDescription>
+              <Card className="shadow-md border-none">
+                <CardHeader className="bg-violet-50 pb-2">
+                  <CardTitle className="text-base flex items-center">
+                    <Calendar className="mr-2 h-4 w-4 text-violet-600" />
+                    Sezónní faktory
+                  </CardTitle>
+                  <CardDescription className="text-violet-600">Relativní změny obratu v průběhu roku</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4">
                   <div className="h-60">
                     <ResponsiveContainer width="100%" height="100%">
-                      <RechartsBarChart
+                      <ComposedChart
                         data={monthNames.map((month, index) => ({
                           name: month,
                           factor: seasonalFactors[index],
                         }))}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                       >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis domain={[0.7, 1.3]} />
-                        <Tooltip />
-                        <Bar dataKey="factor" name="Sezónní faktor" fill="#8884d8" />
-                        <Line type="monotone" dataKey="factor" stroke="#ff7300" strokeWidth={2} />
-                      </RechartsBarChart>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                        <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                        <YAxis domain={[0.7, 1.3]} tick={{ fontSize: 12 }} />
+                        <Tooltip
+                          formatter={(value) => (Number(value) * 100).toFixed(0) + "%"}
+                          contentStyle={{
+                            borderRadius: "8px",
+                            border: "none",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                          }}
+                        />
+                        <Bar dataKey="factor" name="Sezónní faktor" fill="#4f46e5" />
+                        <Line
+                          type="monotone"
+                          dataKey="factor"
+                          name="Trend"
+                          stroke="#f59e0b"
+                          strokeWidth={2}
+                          dot={{ r: 5 }}
+                        />
+                      </ComposedChart>
                     </ResponsiveContainer>
+                  </div>
+                  <div className="mt-4 bg-violet-50 p-3 rounded-lg">
+                    <h4 className="text-sm font-medium text-violet-800 mb-1">Vysvětlení sezónních faktorů:</h4>
+                    <p className="text-xs text-violet-700">
+                      Sezónní faktory ukazují relativní změny obratu v průběhu roku. Hodnota 1.0 představuje průměrný
+                      měsíční obrat. Hodnota 1.2 znamená, že v daném měsíci je obrat o 20% vyšší než průměr, zatímco
+                      hodnota 0.8 znamená, že je o 20% nižší.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="shadow-md border-none">
+                <CardHeader className="bg-violet-50 pb-2">
+                  <CardTitle className="text-base flex items-center">
+                    <TrendingUp className="mr-2 h-4 w-4 text-violet-600" />
+                    Strategie pro sezónní výkyvy
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <h4 className="font-medium text-violet-800">Strategie pro silné měsíce:</h4>
+                      <ul className="space-y-2">
+                        <li className="flex items-start">
+                          <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center mr-2 mt-0.5">
+                            <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                          </div>
+                          <span className="text-sm">Maximalizace prodejů pomocí speciálních nabídek a akcí</span>
+                        </li>
+                        <li className="flex items-start">
+                          <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center mr-2 mt-0.5">
+                            <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                          </div>
+                          <span className="text-sm">Rozšíření otevírací doby v nejvytíženějších dnech</span>
+                        </li>
+                        <li className="flex items-start">
+                          <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center mr-2 mt-0.5">
+                            <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                          </div>
+                          <span className="text-sm">Posílení personálu pro zajištění plynulého provozu</span>
+                        </li>
+                        <li className="flex items-start">
+                          <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center mr-2 mt-0.5">
+                            <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                          </div>
+                          <span className="text-sm">Vytvoření finanční rezervy pro slabší měsíce</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="space-y-4">
+                      <h4 className="font-medium text-violet-800">Strategie pro slabé měsíce:</h4>
+                      <ul className="space-y-2">
+                        <li className="flex items-start">
+                          <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mr-2 mt-0.5">
+                            <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                          </div>
+                          <span className="text-sm">Optimalizace personálních nákladů (úprava směn)</span>
+                        </li>
+                        <li className="flex items-start">
+                          <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mr-2 mt-0.5">
+                            <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                          </div>
+                          <span className="text-sm">Zaměření na produkty s vyšší marží pro udržení ziskovosti</span>
+                        </li>
+                        <li className="flex items-start">
+                          <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mr-2 mt-0.5">
+                            <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                          </div>
+                          <span className="text-sm">Speciální marketingové akce pro zvýšení návštěvnosti</span>
+                        </li>
+                        <li className="flex items-start">
+                          <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mr-2 mt-0.5">
+                            <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                          </div>
+                          <span className="text-sm">Snížení ztrát důsledným řízením zásob a objednávek</span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
             </CardContent>
-            <CardFooter className="border-t pt-4">
+            <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full">
-                <div className="flex justify-between text-lg font-bold">
-                  <span>Průměrný měsíční zisk:</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-medium text-violet-800">Průměrný měsíční zisk:</span>
                   <span
-                    className={
+                    className={`text-lg font-bold ${
                       monthlyData.reduce((sum, month) => sum + month.profit, 0) / 12 >= 0
                         ? "text-green-600"
                         : "text-red-600"
-                    }
+                    }`}
                   >
-                    {Math.round(monthlyData.reduce((sum, month) => sum + month.profit, 0) / 12).toLocaleString()} Kč
+                    {formatCurrency(Math.round(monthlyData.reduce((sum, month) => sum + month.profit, 0) / 12))}
                   </span>
+                </div>
+                <div className="mt-4 flex justify-end">
+                  <Button className="bg-violet-600 hover:bg-violet-700 text-white">
+                    <Download className="mr-2 h-4 w-4" />
+                    Stáhnout sezónní analýzu (PDF)
+                  </Button>
                 </div>
               </div>
             </CardFooter>
@@ -1379,67 +2382,118 @@ export default function ZabkaBusinessPlan() {
         </TabsContent>
 
         <TabsContent value="summary" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Finanční shrnutí</CardTitle>
-              <CardDescription>Měsíční zisk a klíčové finanční ukazatele</CardDescription>
+          <Card className="shadow-lg border-none overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white">
+              <CardTitle className="flex items-center text-xl">
+                <TrendingUp className="mr-2 h-5 w-5" />
+                Finanční shrnutí
+              </CardTitle>
+              <CardDescription className="text-violet-100">Měsíční zisk a klíčové finanční ukazatele</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-8">
-              <div className="flex flex-col md:flex-row gap-8">
-                <div className="flex-1">
-                  <h3 className="text-lg font-medium mb-2">Měsíční přehled</h3>
-                  <div className="space-y-4">
-                    <div className="flex justify-between">
-                      <span>Měsíční obrat:</span>
-                      <span className="font-bold">{monthlyTurnover.toLocaleString()} Kč</span>
+            <CardContent className="space-y-8 p-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card className="shadow-md border-none overflow-hidden transition-all hover:shadow-lg">
+                  <CardHeader className="bg-gradient-to-r from-violet-50 to-indigo-50 pb-2">
+                    <CardTitle className="text-base flex items-center text-violet-800">
+                      <DollarSign className="mr-2 h-4 w-4 text-violet-600" />
+                      Měsíční přehled
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-4">
+                    <div className="space-y-4">
+                      <div className="flex justify-between">
+                        <span>Měsíční obrat:</span>
+                        <span className="font-bold">{formatCurrency(monthlyTurnover)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Celková provize:</span>
+                        <span className="font-bold">{formatCurrency(totalCommission)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Celkové výdaje:</span>
+                        <span className="font-bold">{formatCurrency(totalCosts)}</span>
+                      </div>
+                      <div className="flex justify-between border-t pt-2">
+                        <span>Měsíční zisk:</span>
+                        <span className={`font-bold ${getColorByValue(profit)}`}>{formatCurrency(profit)}</span>
+                      </div>
                     </div>
-                    <div className="flex justify-between">
-                      <span>Celková provize:</span>
-                      <span className="font-bold">{totalCommission.toLocaleString()} Kč</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Celkové výdaje:</span>
-                      <span className="font-bold">{totalCosts.toLocaleString()} Kč</span>
-                    </div>
-                    <div className="flex justify-between border-t pt-2">
-                      <span>Měsíční zisk:</span>
-                      <span className={`font-bold ${profit >= 0 ? "text-green-600" : "text-red-600"}`}>
-                        {profit.toLocaleString()} Kč
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
 
-                <div className="flex-1">
-                  <h3 className="text-lg font-medium mb-2">Roční projekce</h3>
-                  <div className="space-y-4">
-                    <div className="flex justify-between">
-                      <span>Roční obrat:</span>
-                      <span className="font-bold">{(monthlyTurnover * 12).toLocaleString()} Kč</span>
+                <Card className="shadow-md border-none overflow-hidden transition-all hover:shadow-lg">
+                  <CardHeader className="bg-gradient-to-r from-violet-50 to-indigo-50 pb-2">
+                    <CardTitle className="text-base flex items-center text-violet-800">
+                      <Calendar className="mr-2 h-4 w-4 text-violet-600" />
+                      Roční projekce
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-4">
+                    <div className="space-y-4">
+                      <div className="flex justify-between">
+                        <span>Roční obrat:</span>
+                        <span className="font-bold">{formatCurrency(monthlyTurnover * 12)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Roční provize:</span>
+                        <span className="font-bold">{formatCurrency(totalCommission * 12)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Roční výdaje:</span>
+                        <span className="font-bold">{formatCurrency(totalCosts * 12)}</span>
+                      </div>
+                      <div className="flex justify-between border-t pt-2">
+                        <span>Roční zisk:</span>
+                        <span className={`font-bold ${getColorByValue(profit)}`}>{formatCurrency(profit * 12)}</span>
+                      </div>
                     </div>
-                    <div className="flex justify-between">
-                      <span>Roční provize:</span>
-                      <span className="font-bold">{(totalCommission * 12).toLocaleString()} Kč</span>
+                  </CardContent>
+                </Card>
+
+                <Card className="shadow-md border-none overflow-hidden transition-all hover:shadow-lg">
+                  <CardHeader className="bg-gradient-to-r from-violet-50 to-indigo-50 pb-2">
+                    <CardTitle className="text-base flex items-center text-violet-800">
+                      <Coins className="mr-2 h-4 w-4 text-violet-600" />
+                      Investice a návratnost
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-4">
+                    <div className="space-y-4">
+                      <div className="flex justify-between">
+                        <span>Počáteční investice:</span>
+                        <span className="font-bold">{formatCurrency(initialInvestment)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Roční návratnost (ROI):</span>
+                        <span className={`font-bold ${roi > 0 ? "text-green-600" : "text-gray-500"}`}>
+                          {roi > 0 ? formatPercent(roi) : "N/A"}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Doba návratnosti:</span>
+                        <span className={`font-bold ${profit > 0 ? "text-green-600" : "text-gray-500"}`}>
+                          {profit > 0 ? Math.ceil(paybackPeriod) + " měsíců" : "N/A"}
+                        </span>
+                      </div>
+                      <div className="flex justify-between border-t pt-2">
+                        <span>Zisk po 3 letech:</span>
+                        <span className={`font-bold ${profit > 0 ? "text-green-600" : "text-red-600"}`}>
+                          {formatCurrency(profit * 36 - initialInvestment)}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex justify-between">
-                      <span>Roční výdaje:</span>
-                      <span className="font-bold">{(totalCosts * 12).toLocaleString()} Kč</span>
-                    </div>
-                    <div className="flex justify-between border-t pt-2">
-                      <span>Roční zisk:</span>
-                      <span className={`font-bold ${profit >= 0 ? "text-green-600" : "text-red-600"}`}>
-                        {(profit * 12).toLocaleString()} Kč
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
               </div>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Klíčové finanční ukazatele</CardTitle>
+              <Card className="shadow-md border-none">
+                <CardHeader className="bg-violet-50 pb-2">
+                  <CardTitle className="text-base flex items-center">
+                    <TrendingUp className="mr-2 h-4 w-4 text-violet-600" />
+                    Klíčové finanční ukazatele
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-4">
                       <div>
@@ -1447,12 +2501,16 @@ export default function ZabkaBusinessPlan() {
                         <div className="flex items-center mt-1">
                           <div className="w-full bg-gray-200 rounded-full h-2.5 mr-2">
                             <div
-                              className="bg-green-600 h-2.5 rounded-full"
+                              className="bg-violet-600 h-2.5 rounded-full"
                               style={{ width: `${Math.min(grossMarginPercentage, 100)}%` }}
                             ></div>
                           </div>
-                          <span className="font-bold">{grossMarginPercentage.toFixed(2)}%</span>
+                          <span className="font-bold">{formatPercent(grossMarginPercentage)}</span>
                         </div>
+                        <p className="text-xs text-violet-600 mt-1">
+                          Poměr mezi celkovou provizí a obratem. Ukazuje, kolik procent z obratu tvoří vaše příjmy před
+                          odečtením nákladů.
+                        </p>
                       </div>
 
                       <div>
@@ -1464,8 +2522,12 @@ export default function ZabkaBusinessPlan() {
                               style={{ width: `${Math.min(Math.abs(netMarginPercentage), 100)}%` }}
                             />
                           </div>
-                          <span className="font-bold">{netMarginPercentage.toFixed(2)}%</span>
+                          <span className="font-bold">{formatPercent(netMarginPercentage)}</span>
                         </div>
+                        <p className="text-xs text-violet-600 mt-1">
+                          Poměr mezi ziskem a obratem. Ukazuje, kolik procent z obratu tvoří váš čistý zisk po odečtení
+                          všech nákladů.
+                        </p>
                       </div>
 
                       <div>
@@ -1477,9 +2539,9 @@ export default function ZabkaBusinessPlan() {
                               style={{ width: `${Math.min((monthlyTurnover / breakEvenTurnover) * 100, 100)}%` }}
                             ></div>
                           </div>
-                          <span className="font-bold">{breakEvenTurnover.toLocaleString()} Kč</span>
+                          <span className="font-bold">{formatCurrency(breakEvenTurnover)}</span>
                         </div>
-                        <p className="text-sm text-gray-500 mt-1">
+                        <p className="text-xs text-violet-600 mt-1">
                           {monthlyTurnover >= breakEvenTurnover
                             ? "Obrat je " +
                               Math.round((monthlyTurnover / breakEvenTurnover - 1) * 100) +
@@ -1501,11 +2563,11 @@ export default function ZabkaBusinessPlan() {
                               style={{ width: `${Math.min(roi, 100)}%` }}
                             ></div>
                           </div>
-                          <span className="font-bold">{roi.toFixed(2)}%</span>
+                          <span className="font-bold">{formatPercent(roi)}</span>
                         </div>
-                        <p className="text-sm text-gray-500 mt-1">
+                        <p className="text-xs text-violet-600 mt-1">
                           {roi > 0
-                            ? "Roční návratnost investice " + roi.toFixed(2) + "%"
+                            ? "Roční návratnost investice " + formatPercent(roi)
                             : "Investice se nevrací (negativní zisk)"}
                         </p>
                       </div>
@@ -1516,7 +2578,7 @@ export default function ZabkaBusinessPlan() {
                           <span className="text-xl font-bold">
                             {profit > 0 ? Math.ceil(paybackPeriod) + " měsíců" : "N/A - Negativní zisk"}
                           </span>
-                          <p className="text-sm text-gray-500 mt-1">
+                          <p className="text-xs text-violet-600 mt-1">
                             {profit > 0
                               ? "Investice se vrátí za " + Math.ceil(paybackPeriod) + " měsíců při současné ziskovosti"
                               : "Při současné ziskovosti se investice nevrátí"}
@@ -1529,18 +2591,14 @@ export default function ZabkaBusinessPlan() {
                         <div className="flex items-center mt-1">
                           <div className="w-full bg-gray-200 rounded-full h-2.5 mr-2">
                             <div
-                              className="bg-yellow-600 h-2.5 rounded-full"
+                              className="bg-amber-600 h-2.5 rounded-full"
                               style={{ width: `${Math.min((totalCosts / totalCommission) * 100, 100)}%` }}
                             ></div>
                           </div>
-                          <span className="font-bold">
-                            {"Náklady tvoří "}
-                            {((totalCosts / totalCommission) * 100).toFixed(2)}
-                            {"% z celkové provize"}
-                          </span>
+                          <span className="font-bold">{formatPercent((totalCosts / totalCommission) * 100)}</span>
                         </div>
-                        <p className="text-sm text-gray-500 mt-1">
-                          Náklady tvoří {((totalCosts / totalCommission) * 100).toFixed(2)}% z celkové provize
+                        <p className="text-xs text-violet-600 mt-1">
+                          Náklady tvoří {formatPercent((totalCosts / totalCommission) * 100)} z celkové provize
                         </p>
                       </div>
                     </div>
@@ -1548,21 +2606,22 @@ export default function ZabkaBusinessPlan() {
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Analýza návratnosti investice</CardTitle>
+              <Card className="shadow-md border-none">
+                <CardHeader className="bg-violet-50 pb-2">
+                  <CardTitle className="text-base flex items-center">
+                    <Coins className="mr-2 h-4 w-4 text-violet-600" />
+                    Analýza návratnosti investice
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4">
                   <div className="space-y-4">
                     <div className="flex justify-between">
                       <span>Počáteční investice:</span>
-                      <span className="font-bold">180 000 Kč</span>
+                      <span className="font-bold">{formatCurrency(initialInvestment)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Měsíční zisk:</span>
-                      <span className={`font-bold ${profit >= 0 ? "text-green-600" : "text-red-600"}`}>
-                        {profit.toLocaleString()} Kč
-                      </span>
+                      <span className={`font-bold ${getColorByValue(profit)}`}>{formatCurrency(profit)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Doba návratnosti investice:</span>
@@ -1576,7 +2635,7 @@ export default function ZabkaBusinessPlan() {
                         <Label>Průběh návratnosti investice</Label>
                         <div className="h-60 mt-4">
                           <ResponsiveContainer width="100%" height="100%">
-                            <RechartsLineChart
+                            <AreaChart
                               data={Array.from({ length: Math.ceil(paybackPeriod) + 3 }, (_, i) => ({
                                 month: i,
                                 investment: initialInvestment,
@@ -1584,26 +2643,44 @@ export default function ZabkaBusinessPlan() {
                               }))}
                               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                             >
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis dataKey="month" label={{ value: "Měsíc", position: "insideBottom", offset: -5 }} />
-                              <YAxis label={{ value: "Kč", angle: -90, position: "insideLeft" }} />
-                              <Tooltip formatter={(value) => value.toLocaleString() + " Kč"} />
+                              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                              <XAxis
+                                dataKey="month"
+                                label={{ value: "Měsíc", position: "insideBottom", offset: -5 }}
+                                tick={{ fontSize: 12 }}
+                              />
+                              <YAxis
+                                label={{ value: "Kč", angle: -90, position: "insideLeft" }}
+                                tick={{ fontSize: 12 }}
+                              />
+                              <Tooltip
+                                formatter={(value) => formatCurrency(Number(value))}
+                                contentStyle={{
+                                  borderRadius: "8px",
+                                  border: "none",
+                                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                                }}
+                              />
                               <Legend />
-                              <Line
+                              <Area
                                 type="monotone"
                                 dataKey="investment"
                                 name="Počáteční investice"
                                 stroke="#ef4444"
+                                fill="#ef4444"
+                                fillOpacity={0.1}
                                 strokeWidth={2}
                               />
-                              <Line
+                              <Area
                                 type="monotone"
                                 dataKey="returned"
                                 name="Vráceno"
                                 stroke="#10b981"
+                                fill="#10b981"
+                                fillOpacity={0.2}
                                 strokeWidth={2}
                               />
-                            </RechartsLineChart>
+                            </AreaChart>
                           </ResponsiveContainer>
                         </div>
                       </div>
@@ -1612,11 +2689,14 @@ export default function ZabkaBusinessPlan() {
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Porovnání příjmů a výdajů</CardTitle>
+              <Card className="shadow-md border-none">
+                <CardHeader className="bg-violet-50 pb-2">
+                  <CardTitle className="text-base flex items-center">
+                    <PieChart className="mr-2 h-4 w-4 text-violet-600" />
+                    Porovnání příjmů a výdajů
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4">
                   <div className="h-80">
                     <ResponsiveContainer width="100%" height="100%">
                       <RechartsPieChart>
@@ -1647,6 +2727,9 @@ export default function ZabkaBusinessPlan() {
                           fill="#8884d8"
                           dataKey="value"
                           nameKey="name"
+                          label={({ name, percent }) =>
+                            Math.abs(percent) > 0.05 ? `${name}: ${(percent * 100).toFixed(0)}%` : ""
+                          }
                         >
                           {[
                             { name: "Fixní provize", value: fixedCommission },
@@ -1667,19 +2750,109 @@ export default function ZabkaBusinessPlan() {
                               ),
                             },
                           ].map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={entry.value > 0 ? COLORS[index % 2] : COLORS[(index % 5) + 2]}
+                            />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(value) => Math.abs(Number(value)).toLocaleString() + " Kč"} />
+                        <Tooltip formatter={(value) => formatCurrency(Math.abs(Number(value)))} />
                         <Legend />
                       </RechartsPieChart>
                     </ResponsiveContainer>
                   </div>
                 </CardContent>
               </Card>
+
+              <Card className="shadow-md border-none">
+                <CardHeader className="bg-violet-50 pb-2">
+                  <CardTitle className="text-base flex items-center">
+                    <Info className="mr-2 h-4 w-4 text-violet-600" />
+                    Závěrečné hodnocení
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="space-y-4">
+                    <div className="bg-violet-50 p-4 rounded-lg">
+                      <h4 className="font-medium text-violet-800 mb-2">Celkové zhodnocení projektu</h4>
+                      <p className="text-sm text-violet-700 mb-2">
+                        {profit >= 20000
+                          ? "Projekt vykazuje vynikající ziskovost s měsíčním ziskem přes 20 000 Kč. Návratnost investice je rychlá a dlouhodobý potenciál velmi dobrý."
+                          : profit >= 10000
+                            ? "Projekt vykazuje dobrou ziskovost s měsíčním ziskem přes 10 000 Kč. Návratnost investice je v rozumném časovém horizontu."
+                            : profit > 0
+                              ? "Projekt je ziskový, ale s nižším měsíčním ziskem. Zvažte možnosti optimalizace nákladů nebo zvýšení obratu."
+                              : "Projekt v současné konfiguraci není ziskový. Je nutné přehodnotit náklady nebo zvýšit obrat."}
+                      </p>
+                      <p className="text-sm text-violet-700">
+                        {profit > 0
+                          ? `Při současné ziskovosti se počáteční investice vrátí za ${Math.ceil(
+                              paybackPeriod,
+                            )} měsíců, což je ${
+                              paybackPeriod <= 12 ? "velmi dobrá" : paybackPeriod <= 18 ? "přijatelná" : "delší"
+                            } doba návratnosti.`
+                          : "Při současných parametrech se investice nevrátí, je nutné upravit obchodní model."}
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-green-50 p-4 rounded-lg">
+                        <h4 className="font-medium text-green-800 mb-2">Silné stránky projektu</h4>
+                        <ul className="text-sm text-green-700 space-y-1 list-disc pl-4">
+                          <li>Nízký vstupní poplatek (10 000 Kč) oproti konkurenčním franšízám</li>
+                          <li>Nájem hrazený franšízorem, což výrazně snižuje fixní náklady</li>
+                          <li>Nízký licenční poplatek (1% z obratu)</li>
+                          <li>Zavedená značka s rostoucím povědomím na trhu</li>
+                          <li>Komplexní podpora ze strany franšízora</li>
+                        </ul>
+                      </div>
+
+                      <div className="bg-amber-50 p-4 rounded-lg">
+                        <h4 className="font-medium text-amber-800 mb-2">Doporučení pro zvýšení ziskovosti</h4>
+                        <ul className="text-sm text-amber-700 space-y-1 list-disc pl-4">
+                          <li>Optimalizace personálních nákladů, které tvoří největší část výdajů</li>
+                          <li>Zaměření na kategorie s vyšší marží (pekařské výrobky, lahůdkový pult)</li>
+                          <li>Snížení ztrát zásob efektivním řízením objednávek</li>
+                          <li>Marketingové aktivity pro zvýšení obratu v slabších měsících</li>
+                          <li>Pravidelná analýza prodejních dat pro optimalizaci sortimentu</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </CardContent>
-            <CardFooter className="border-t pt-4">
-              <Button className="w-full">Vygenerovat podrobnou zprávu</Button>
+            <CardFooter className="border-t pt-4 bg-violet-50">
+              <div className="w-full">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-lg font-medium text-violet-800">Celkové hodnocení projektu:</span>
+                  <Badge
+                    className={`text-base ${
+                      profit >= 20000
+                        ? "bg-green-100 text-green-800"
+                        : profit >= 10000
+                          ? "bg-blue-100 text-blue-800"
+                          : profit > 0
+                            ? "bg-amber-100 text-amber-800"
+                            : "bg-red-100 text-red-800"
+                    }`}
+                  >
+                    {profit >= 20000
+                      ? "Vynikající"
+                      : profit >= 10000
+                        ? "Dobrý"
+                        : profit > 0
+                          ? "Přijatelný"
+                          : "Rizikový"}
+                  </Badge>
+                </div>
+                <div className="flex justify-end">
+                  <Button className="bg-violet-600 hover:bg-violet-700 text-white">
+                    <Download className="mr-2 h-4 w-4" />
+                    Stáhnout kompletní obchodní plán (PDF)
+                  </Button>
+                </div>
+              </div>
             </CardFooter>
           </Card>
         </TabsContent>
