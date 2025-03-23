@@ -131,7 +131,7 @@ const InspectionChecklist = () => {
     <div className="container mx-auto p-2 sm:p-4">
       <div className="mb-6 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 p-6 text-white shadow-lg">
         <h1 className="mb-2 text-2xl font-bold md:text-3xl flex items-center">
-          <CheckCheck size="32" className="mr-3" />
+          <CheckCheck size={32} className="mr-3" />
           Kontrolní seznam prodejny
         </h1>
         <p className="text-violet-100 mb-6">Pravidelná kontrola zajišťuje kvalitu služeb a spokojenost zákazníků</p>
@@ -153,7 +153,7 @@ const InspectionChecklist = () => {
                 <h3 className="font-semibold">Hodnocení výkonu</h3>
                 <p className="text-lg font-bold">{calculatePerformance(calculateTotalProgress())}</p>
               </div>
-              <Award size="40" className="text-violet-200" />
+              <Award size={40} className="text-violet-200" />
             </CardContent>
           </Card>
 
@@ -163,7 +163,7 @@ const InspectionChecklist = () => {
                 <h3 className="font-semibold">Potenciální bonus</h3>
                 <p className="text-lg font-bold">{calculateBonus(calculateTotalProgress())}</p>
               </div>
-              <Star size="40" className="text-yellow-300" />
+              <Star size={40} className="text-yellow-300" />
             </CardContent>
           </Card>
         </div>
@@ -183,7 +183,7 @@ const InspectionChecklist = () => {
               <CardContent className="p-4 sm:p-6">
                 <div className="mb-4 flex items-center justify-between">
                   <h2 className="text-xl font-bold flex items-center">
-                    <ClipboardCheck size="20" className="mr-2 text-violet-600" />
+                    <ClipboardCheck size={20} className="mr-2 text-violet-600" />
                     {category.title}
                   </h2>
                   <div className="flex items-center">
@@ -197,7 +197,7 @@ const InspectionChecklist = () => {
                     <div
                       key={item.id}
                       className={cn(
-                        "flex items-center rounded-md transition-all hover:bg-violet-50",
+                        "flex items-center rounded-md transition-colors hover:bg-violet-50",
                         item.checked ? "bg-violet-50/50" : "bg-white",
                       )}
                     >
@@ -227,7 +227,7 @@ const InspectionChecklist = () => {
 
       <div className="mb-6">
         <h2 className="mb-4 flex items-center text-xl font-bold">
-          <ClipboardCheck size="24" className="mr-2 text-violet-600" />
+          <ClipboardCheck size={24} className="mr-2 text-violet-600" />
           Shrnutí kontroly
         </h2>
 
