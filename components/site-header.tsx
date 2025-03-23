@@ -66,6 +66,11 @@ export function SiteHeader() {
       href: "/#operational-standards",
       // icon: <ShoppingBag className="h-4 w-4 mr-1" />,
     },
+    {
+      title: "Harmonogram Projektu",
+      href: "/#project-timeline",
+      // icon: <ShoppingBag className="h-4 w-4 mr-1" />,
+    }
   ]
 
   return (

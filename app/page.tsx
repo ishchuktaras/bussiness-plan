@@ -2,9 +2,10 @@ import { ResponsiveContainer } from "@/components/ui/responsive-container"
 import ZabkaBusinessPlan from "@/components/business-plan"
 import CompetitionAnalysis from "@/components/competition-analysis"
 import FranchiseAgreementAnalysis from "@/components/franchise-agreement-analysis"
+import FranchiseRequirements from "@/components/franchise-requirements"
 import InspectionChecklist from "@/components/inspection-checklist"
 import OperationalStandards from "@/components/operational-standards"
-import FranchiseRequirements from "@/components/franchise-requirements"
+import ProjectTimeline from "@/components/project-timeline"
 
 export default function Home() {
   return (
@@ -16,17 +17,20 @@ export default function Home() {
         <div id="franchisee-requirements" className="py-6 md:py-8">
           <FranchiseRequirements />
         </div>
-        <div id="business-plan">
-          <ZabkaBusinessPlan />
-        </div>
         <div id="competition-analysis">
           <CompetitionAnalysis />
+        </div>
+        <div id="business-plan">
+          <ZabkaBusinessPlan />
         </div>
         <div id="inspection-checklist">
           <InspectionChecklist />
         </div>
         <div id="operational-standards">
           <OperationalStandards />
+        </div>
+        <div id="project-timeline">
+          <ProjectTimeline />
         </div>
       </div>
     </ResponsiveContainer>
