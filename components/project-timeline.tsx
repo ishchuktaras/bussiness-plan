@@ -2,34 +2,47 @@
 
 import { useState } from "react"
 import {
-  Check,
-  Clock,
-  ArrowRight,
-  CalendarDays,
   AlertTriangle,
-  FileCheck,
-  ChevronDown,
-  Calendar,
+  ArrowRight,
   BarChart3,
-  FileText,
   Briefcase,
   Building,
+  Calendar,
+  CalendarDays,
+  Check,
   CheckCircle2,
-  HelpCircle,
+  ChevronDown,
+  Clock,
   Download,
+  FileCheck,
+  FileText,
+  HelpCircle,
   Star,
   Users,
 } from "lucide-react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
+
 import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Separator } from "@/components/ui/separator"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { MobileTabScroller } from "@/components/ui/mobile-tab-scroller"
+import { Progress } from "@/components/ui/progress"
+import { Separator } from "@/components/ui/separator"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export default function ProjectTimeline() {
   const [projectStartDate, setProjectStartDate] = useState<string>("2025-02-01")
@@ -69,7 +82,9 @@ export default function ProjectTimeline() {
   // Calculate overall project progress
   const calculateOverallProgress = (): number => {
     const totalTasks = phases.flatMap((phase) => phase.tasks).length
-    const completedTasks = phases.flatMap((phase) => phase.tasks).filter((task) => task.completed).length
+    const completedTasks = phases
+      .flatMap((phase) => phase.tasks)
+      .filter((task) => task.completed).length
     return Math.round((completedTasks / totalTasks) * 100)
   }
 
@@ -85,10 +100,30 @@ export default function ProjectTimeline() {
       description:
         "Analýza lokality, příprava podnikatelského plánu, finanční kalkulace, zajištění finančních prostředků.",
       tasks: [
-        { id: "task1", name: "Analýza lokality", deadline: calculateDate(7), completed: true },
-        { id: "task2", name: "Příprava podnikatelského plánu", deadline: calculateDate(14), completed: true },
-        { id: "task3", name: "Finanční kalkulace", deadline: calculateDate(21), completed: true },
-        { id: "task4", name: "Zajištění financování", deadline: calculateDate(30), completed: false },
+        {
+          id: "task1",
+          name: "Analýza lokality",
+          deadline: calculateDate(7),
+          completed: true,
+        },
+        {
+          id: "task2",
+          name: "Příprava podnikatelského plánu",
+          deadline: calculateDate(14),
+          completed: true,
+        },
+        {
+          id: "task3",
+          name: "Finanční kalkulace",
+          deadline: calculateDate(21),
+          completed: true,
+        },
+        {
+          id: "task4",
+          name: "Zajištění financování",
+          deadline: calculateDate(30),
+          completed: false,
+        },
       ],
       icon: <BarChart3 className="h-5 w-5" />,
       color: "bg-violet-100 text-violet-600",
@@ -103,15 +138,35 @@ export default function ProjectTimeline() {
       description:
         "Podpis franšízové smlouvy, smlouvy o nájmu nebytových prostor, založení společnosti, zajištění pojištění.",
       tasks: [
-        { id: "task5", name: "Podpis franšízové smlouvy", deadline: calculateDate(45), completed: false },
-        { id: "task6", name: "Smlouva o nájmu prostor", deadline: calculateDate(50), completed: false },
-        { id: "task7", name: "Založení OSVČ", deadline: calculateDate(55), completed: false },
-        { id: "task8", name: "Zajištění pojištění", deadline: calculateDate(60), completed: false },
+        {
+          id: "task5",
+          name: "Podpis franšízové smlouvy",
+          deadline: calculateDate(45),
+          completed: false,
+        },
+        {
+          id: "task6",
+          name: "Smlouva o nájmu prostor",
+          deadline: calculateDate(50),
+          completed: false,
+        },
+        {
+          id: "task7",
+          name: "Založení OSVČ",
+          deadline: calculateDate(55),
+          completed: false,
+        },
+        {
+          id: "task8",
+          name: "Zajištění pojištění",
+          deadline: calculateDate(60),
+          completed: false,
+        },
       ],
       icon: <FileText className="h-5 w-5" />,
       color: "bg-blue-100 text-blue-600",
     },
-   
+
     {
       id: "pre-opening",
       name: "Předotevírací přípravy",
@@ -119,12 +174,33 @@ export default function ProjectTimeline() {
       end: calculateDate(135),
       progress: 0,
       status: "pending",
-      description: "Nábor personálu, školení personálu, zaškolení, první naskladnění, marketingová kampaň.",
+      description:
+        "Nábor personálu, školení personálu, zaškolení, první naskladnění, marketingová kampaň.",
       tasks: [
-        { id: "task17", name: "Nábor personálu", deadline: calculateDate(125), completed: false },
-        { id: "task18", name: "Školení personálu", deadline: calculateDate(130), completed: false },
-        { id: "task19", name: "První naskladnění", deadline: calculateDate(133), completed: false },
-        { id: "task20", name: "Marketingová kampaň", deadline: calculateDate(135), completed: false },
+        {
+          id: "task17",
+          name: "Nábor personálu",
+          deadline: calculateDate(125),
+          completed: false,
+        },
+        {
+          id: "task18",
+          name: "Školení personálu",
+          deadline: calculateDate(130),
+          completed: false,
+        },
+        {
+          id: "task19",
+          name: "První naskladnění",
+          deadline: calculateDate(133),
+          completed: false,
+        },
+        {
+          id: "task20",
+          name: "Marketingová kampaň",
+          deadline: calculateDate(135),
+          completed: false,
+        },
       ],
       icon: <Users className="h-5 w-5" />,
       color: "bg-pink-100 text-pink-600",
@@ -137,7 +213,14 @@ export default function ProjectTimeline() {
       progress: 0,
       status: "pending",
       description: "Slavnostní otevření prodejny, zahájení provozu.",
-      tasks: [{ id: "task21", name: "Slavnostní otevření", deadline: calculateDate(136), completed: false }],
+      tasks: [
+        {
+          id: "task21",
+          name: "Slavnostní otevření",
+          deadline: calculateDate(136),
+          completed: false,
+        },
+      ],
       icon: <Star className="h-5 w-5" />, // Changed from Sparkles to Star
       color: "bg-green-100 text-green-600",
     },
@@ -148,11 +231,27 @@ export default function ProjectTimeline() {
       end: calculateDate(167),
       progress: 0,
       status: "pending",
-      description: "Stabilizace provozu, optimalizace procesu, marketingové aktivity, hodnocení výkonnosti.",
+      description:
+        "Stabilizace provozu, optimalizace procesu, marketingové aktivity, hodnocení výkonnosti.",
       tasks: [
-        { id: "task22", name: "Stabilizace provozu", deadline: calculateDate(150), completed: false },
-        { id: "task23", name: "Optimalizace procesů", deadline: calculateDate(160), completed: false },
-        { id: "task24", name: "Hodnocení výkonnosti", deadline: calculateDate(167), completed: false },
+        {
+          id: "task22",
+          name: "Stabilizace provozu",
+          deadline: calculateDate(150),
+          completed: false,
+        },
+        {
+          id: "task23",
+          name: "Optimalizace procesů",
+          deadline: calculateDate(160),
+          completed: false,
+        },
+        {
+          id: "task24",
+          name: "Hodnocení výkonnosti",
+          deadline: calculateDate(167),
+          completed: false,
+        },
       ],
       icon: <Briefcase className="h-5 w-5" />,
       color: "bg-indigo-100 text-indigo-600",
@@ -161,7 +260,12 @@ export default function ProjectTimeline() {
 
   // Milestones
   const milestones = [
-    { date: calculateDate(30), name: "Získání financování", completed: true, icon: <BarChart3 className="h-5 w-5" /> },
+    {
+      date: calculateDate(30),
+      name: "Získání financování",
+      completed: false,
+      icon: <BarChart3 className="h-5 w-5" />,
+    },
     {
       date: calculateDate(60),
       name: "Dokončení smluvní dokumentace",
@@ -174,13 +278,13 @@ export default function ProjectTimeline() {
       completed: false,
       icon: <FileCheck className="h-5 w-5" />,
     },
+
     {
-      date: calculateDate(120),
-      name: "Dokončení stavebních úprav",
+      date: calculateDate(136),
+      name: "Otevření prodejny",
       completed: false,
-      icon: <Building className="h-5 w-5" />,
-    },
-    { date: calculateDate(136), name: "Otevření prodejny", completed: false, icon: <Star className="h-5 w-5" /> }, // Changed from Sparkles to Star
+      icon: <Star className="h-5 w-5" />,
+    }, // Changed from Sparkles to Star
     {
       date: calculateDate(167),
       name: "Stabilizace provozu",
@@ -192,25 +296,15 @@ export default function ProjectTimeline() {
   // Risk management
   const risks = [
     {
-      id: "risk1",
-      name: "Zpoždění stavebních úprav",
-      impact: "high",
-      probability: "medium",
-      mitigation:
-        "Včasné plánování, výběr spolehlivého dodavatele, smluvní penále za zpoždění, rezerva v časovém plánu.",
-      phase: "construction",
-      contingency: "Připravit alternativní dodavatele, mít připravený krizový plán pro urychlení prací.",
-      owner: "Projektový manažer",
-      status: "Aktivní",
-    },
-    {
       id: "risk2",
       name: "Problémy s povolením",
       impact: "high",
       probability: "medium",
-      mitigation: "Včasná komunikace s úřady, konzultace s odborníky, příprava alternativních řešení.",
+      mitigation:
+        "Včasná komunikace s úřady, konzultace s odborníky, příprava alternativních řešení.",
       phase: "permits",
-      contingency: "Zajistit právní podporu, připravit alternativní návrhy řešení.",
+      contingency:
+        "Zajistit právní podporu, připravit alternativní návrhy řešení.",
       owner: "Právní oddělení",
       status: "Aktivní",
     },
@@ -219,9 +313,11 @@ export default function ProjectTimeline() {
       name: "Nedostatek kvalifikovaného personálu",
       impact: "medium",
       probability: "medium",
-      mitigation: "Včasný nábor, konkurenceschopné platové podmínky, spolupráce s úřadem práce.",
+      mitigation:
+        "Včasný nábor, konkurenceschopné platové podmínky, spolupráce s úřadem práce.",
       phase: "pre-opening",
-      contingency: "Připravit plán zaškolení méně kvalifikovaných pracovníků, dočasná výpomoc z jiných poboček.",
+      contingency:
+        "Připravit plán zaškolení méně kvalifikovaných pracovníků, dočasná výpomoc z jiných poboček.",
       owner: "HR manažer",
       status: "Sledovaný",
     },
@@ -230,9 +326,11 @@ export default function ProjectTimeline() {
       name: "Nízká návštěvnost při otevření",
       impact: "medium",
       probability: "low",
-      mitigation: "Efektivní marketingová kampaň, speciální nabídky při otevření, zapojení místní komunity.",
+      mitigation:
+        "Efektivní marketingová kampaň, speciální nabídky při otevření, zapojení místní komunity.",
       phase: "opening",
-      contingency: "Připravit dodatečné marketingové akce, speciální slevy a nabídky.",
+      contingency:
+        "Připravit dodatečné marketingové akce, speciální slevy a nabídky.",
       owner: "Marketingový manažer",
       status: "Sledovaný",
     },
@@ -241,9 +339,11 @@ export default function ProjectTimeline() {
       name: "Překročení rozpočtu",
       impact: "high",
       probability: "medium",
-      mitigation: "Detailní rozpočtování, pravidelná kontrola nákladů, finanční rezerva ve výši 15%.",
+      mitigation:
+        "Detailní rozpočtování, pravidelná kontrola nákladů, finanční rezerva ve výši 15%.",
       phase: "all",
-      contingency: "Identifikovat možné úspory, připravit plán pro dodatečné financování.",
+      contingency:
+        "Identifikovat možné úspory, připravit plán pro dodatečné financování.",
       owner: "Finanční manažer",
       status: "Aktivní",
     },
@@ -338,7 +438,7 @@ export default function ProjectTimeline() {
         },
         {
           name: "Nájemní smlouva",
-          status: "completed",
+          status: "in-progress",
           deadline: calculateDate(50),
           note: "Smlouva o nájmu nebytových prostor pro provozovnu",
         },
@@ -350,38 +450,9 @@ export default function ProjectTimeline() {
         },
         {
           name: "Zakládací dokumenty společnosti",
-          status: "completed",
+          status: "in-progress",
           deadline: calculateDate(55),
           note: "Výpis z obchodního rejstříku, společenská smlouva, apod.",
-        },
-      ],
-    },
-    {
-      category: "Povolení a dokumentace",
-      items: [
-        {
-          name: "Projektová dokumentace",
-          status: "completed",
-          deadline: calculateDate(70),
-          note: "Stavební a technická dokumentace pro stavební úpravy",
-        },
-        {
-          name: "Stavební povolení",
-          status: "in-progress",
-          deadline: calculateDate(80),
-          note: "Povolení ke stavebním úpravám od stavebního úřadu",
-        },
-        {
-          name: "Hygienické povolení",
-          status: "pending",
-          deadline: calculateDate(85),
-          note: "Povolení od krajské hygienické stanice",
-        },
-        {
-          name: "Požární zpráva",
-          status: "pending",
-          deadline: calculateDate(90),
-          note: "Požárně bezpečnostní řešení schválené hasičským sborem",
         },
       ],
     },
@@ -400,7 +471,12 @@ export default function ProjectTimeline() {
           deadline: calculateDate(130),
           note: "Interní předpisy pro provoz obchodu",
         },
-        { name: "Pracovní smlouvy", status: "pending", deadline: calculateDate(125), note: "Smlouvy se zaměstnanci" },
+        {
+          name: "Pracovní smlouvy",
+          status: "pending",
+          deadline: calculateDate(125),
+          note: "Smlouvy se zaměstnanci",
+        },
         {
           name: "Kolaudační rozhodnutí",
           status: "pending",
@@ -414,13 +490,29 @@ export default function ProjectTimeline() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "completed":
-        return <Badge className="bg-green-100 text-green-800 border-green-200">Dokončeno</Badge>
+        return (
+          <Badge className="bg-green-100 text-green-800 border-green-200">
+            Dokončeno
+          </Badge>
+        )
       case "in-progress":
-        return <Badge className="bg-blue-100 text-blue-800 border-blue-200">Probíhá</Badge>
+        return (
+          <Badge className="bg-blue-100 text-blue-800 border-blue-200">
+            Probíhá
+          </Badge>
+        )
       case "pending":
-        return <Badge className="bg-gray-100 text-gray-800 border-gray-200">Čeká</Badge>
+        return (
+          <Badge className="bg-gray-100 text-gray-800 border-gray-200">
+            Čeká
+          </Badge>
+        )
       default:
-        return <Badge className="bg-gray-100 text-gray-800 border-gray-200">{status}</Badge>
+        return (
+          <Badge className="bg-gray-100 text-gray-800 border-gray-200">
+            {status}
+          </Badge>
+        )
     }
   }
 
@@ -440,13 +532,29 @@ export default function ProjectTimeline() {
   const getRiskBadge = (level: string) => {
     switch (level) {
       case "high":
-        return <Badge className="bg-red-100 text-red-800 border-red-200">Vysoký</Badge>
+        return (
+          <Badge className="bg-red-100 text-red-800 border-red-200">
+            Vysoký
+          </Badge>
+        )
       case "medium":
-        return <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">Střední</Badge>
+        return (
+          <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">
+            Střední
+          </Badge>
+        )
       case "low":
-        return <Badge className="bg-green-100 text-green-800 border-green-200">Nízký</Badge>
+        return (
+          <Badge className="bg-green-100 text-green-800 border-green-200">
+            Nízký
+          </Badge>
+        )
       default:
-        return <Badge className="bg-gray-100 text-gray-800 border-gray-200">{level}</Badge>
+        return (
+          <Badge className="bg-gray-100 text-gray-800 border-gray-200">
+            {level}
+          </Badge>
+        )
     }
   }
 
@@ -476,9 +584,15 @@ export default function ProjectTimeline() {
   // Calculate document statistics
   const documentStats = {
     total: documents.flatMap((cat) => cat.items).length,
-    completed: documents.flatMap((cat) => cat.items).filter((doc) => doc.status === "completed").length,
-    inProgress: documents.flatMap((cat) => cat.items).filter((doc) => doc.status === "in-progress").length,
-    pending: documents.flatMap((cat) => cat.items).filter((doc) => doc.status === "pending").length,
+    completed: documents
+      .flatMap((cat) => cat.items)
+      .filter((doc) => doc.status === "completed").length,
+    inProgress: documents
+      .flatMap((cat) => cat.items)
+      .filter((doc) => doc.status === "in-progress").length,
+    pending: documents
+      .flatMap((cat) => cat.items)
+      .filter((doc) => doc.status === "pending").length,
   }
 
   return (
@@ -486,19 +600,26 @@ export default function ProjectTimeline() {
       <div className="bg-gradient-to-r from-violet-500 to-purple-600 rounded-lg p-6 mb-6 text-white">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold">Harmonogram Projektu</h1>
+            <h1 className="text-2xl md:text-3xl font-bold">
+              Harmonogram Projektu
+            </h1>
             <p className="mt-2 text-violet-100">
-              Komplexní přehled časového plánu, fází, milníků a rizik projektu otevření franšízové prodejny
+              Komplexní přehled časového plánu, fází, milníků a rizik projektu
+              otevření franšízové prodejny
             </p>
           </div>
           <div className="mt-4 md:mt-0 flex items-center space-x-2">
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
               <div className="text-sm text-violet-100">Celkový průběh</div>
-              <div className="text-2xl font-bold">{calculateOverallProgress()}%</div>
+              <div className="text-2xl font-bold">
+                {calculateOverallProgress()}%
+              </div>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
               <div className="text-sm text-violet-100">Plánované otevření</div>
-              <div className="text-lg font-bold">{formatDate(calculateDate(136))}</div>
+              <div className="text-lg font-bold">
+                {formatDate(calculateDate(136))}
+              </div>
             </div>
           </div>
         </div>
@@ -514,7 +635,10 @@ export default function ProjectTimeline() {
               <Clock className="size-3.5 mr-1.5" />
               <span>Časový plán</span>
             </TabsTrigger>
-            <TabsTrigger value="phases" className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">
+            <TabsTrigger
+              value="phases"
+              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+            >
               <ArrowRight className="size-3.5 mr-1.5" />
               <span>Fáze projektu</span>
             </TabsTrigger>
@@ -525,11 +649,17 @@ export default function ProjectTimeline() {
               <CalendarDays className="size-3.5 mr-1.5" />
               <span>Milníky</span>
             </TabsTrigger>
-            <TabsTrigger value="risks" className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">
+            <TabsTrigger
+              value="risks"
+              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+            >
               <AlertTriangle className="size-3.5 mr-1.5" />
               <span>Rizika</span>
             </TabsTrigger>
-            <TabsTrigger value="docs" className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">
+            <TabsTrigger
+              value="docs"
+              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+            >
               <FileCheck className="size-3.5 mr-1.5" />
               <span>Dokumentace</span>
             </TabsTrigger>
@@ -541,8 +671,12 @@ export default function ProjectTimeline() {
             <CardHeader className="bg-violet-50 rounded-t-lg border-b border-violet-100">
               <div className="flex justify-between items-center">
                 <div>
-                  <CardTitle className="text-violet-800">Časový plán projektu</CardTitle>
-                  <CardDescription>Přehled jednotlivých fází a úkolů</CardDescription>
+                  <CardTitle className="text-violet-800">
+                    Časový plán projektu
+                  </CardTitle>
+                  <CardDescription>
+                    Přehled jednotlivých fází a úkolů
+                  </CardDescription>
                 </div>
                 <TooltipProvider>
                   <Tooltip>
@@ -561,7 +695,10 @@ export default function ProjectTimeline() {
             </CardHeader>
             <CardContent className="space-y-6 pt-6">
               <div className="bg-violet-50 rounded-lg p-4 border border-violet-100">
-                <Label htmlFor="start-date" className="text-violet-800 font-medium">
+                <Label
+                  htmlFor="start-date"
+                  className="text-violet-800 font-medium"
+                >
                   Datum zahájení projektu
                 </Label>
                 <div className="flex gap-2 mt-2">
@@ -591,7 +728,9 @@ export default function ProjectTimeline() {
                 <div className="mt-3 text-sm text-violet-700">
                   <p className="flex justify-between">
                     <span>Plánované otevření:</span>
-                    <span className="font-medium">{formatDate(calculateDate(136))}</span>
+                    <span className="font-medium">
+                      {formatDate(calculateDate(136))}
+                    </span>
                   </p>
                   <p className="flex justify-between mt-1">
                     <span>Celková délka projektu:</span>
@@ -613,14 +752,18 @@ export default function ProjectTimeline() {
                             phase.status === "completed"
                               ? "bg-green-100 text-green-600"
                               : phase.status === "in-progress"
-                                ? "bg-violet-100 text-violet-600"
-                                : "bg-gray-100 text-gray-600"
+                              ? "bg-violet-100 text-violet-600"
+                              : "bg-gray-100 text-gray-600"
                           }`}
                         >
                           {phase.status === "completed" ? (
                             <Check className="h-5 w-5" />
                           ) : (
-                            phase.icon || <span className="text-sm font-medium">{index + 1}</span>
+                            phase.icon || (
+                              <span className="text-sm font-medium">
+                                {index + 1}
+                              </span>
+                            )
                           )}
                         </div>
                       </div>
@@ -632,7 +775,9 @@ export default function ProjectTimeline() {
                           <h3 className="text-lg font-medium flex items-center">
                             {phase.name}
                             <ChevronDown
-                              className={`ml-2 h-4 w-4 transition-transform ${expandedPhase === phase.id ? "rotate-180" : ""}`}
+                              className={`ml-2 h-4 w-4 transition-transform ${
+                                expandedPhase === phase.id ? "rotate-180" : ""
+                              }`}
                             />
                           </h3>
                           {getStatusBadge(phase.status)}
@@ -649,28 +794,44 @@ export default function ProjectTimeline() {
                             <span>Průběh:</span>
                             <span>{phase.progress}%</span>
                           </div>
-                          <Progress value={phase.progress} className="h-2 bg-violet-100" />
+                          <Progress
+                            value={phase.progress}
+                            className="h-2 bg-violet-100"
+                          />
                         </div>
                       </div>
                     </div>
 
                     {expandedPhase === phase.id && (
                       <div className="ml-14 mt-4 mb-6 bg-violet-50 p-4 rounded-lg border border-violet-100 animate-in fade-in-50 duration-300">
-                        <h4 className="text-sm font-medium mb-2 text-violet-800">Úkoly:</h4>
+                        <h4 className="text-sm font-medium mb-2 text-violet-800">
+                          Úkoly:
+                        </h4>
                         <div className="space-y-2">
                           {phase.tasks.map((task) => (
-                            <div key={task.id} className="flex items-start bg-white p-2 rounded-md shadow-sm">
+                            <div
+                              key={task.id}
+                              className="flex items-start bg-white p-2 rounded-md shadow-sm"
+                            >
                               <div
                                 className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center ${
-                                  task.completed ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-600"
+                                  task.completed
+                                    ? "bg-green-100 text-green-600"
+                                    : "bg-gray-100 text-gray-600"
                                 }`}
                               >
-                                {task.completed ? <Check className="h-3 w-3" /> : null}
+                                {task.completed ? (
+                                  <Check className="h-3 w-3" />
+                                ) : null}
                               </div>
                               <div className="ml-2 flex-1">
                                 <div className="flex items-center justify-between">
                                   <span
-                                    className={`text-sm ${task.completed ? "line-through text-gray-500" : "text-violet-900"}`}
+                                    className={`text-sm ${
+                                      task.completed
+                                        ? "line-through text-gray-500"
+                                        : "text-violet-900"
+                                    }`}
                                   >
                                     {task.name}
                                   </span>
@@ -691,28 +852,49 @@ export default function ProjectTimeline() {
             <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full">
                 <div className="flex justify-between">
-                  <span className="font-medium text-violet-800">Celkový průběh projektu:</span>
-                  <span className="font-bold text-violet-800">{calculateOverallProgress()}%</span>
+                  <span className="font-medium text-violet-800">
+                    Celkový průběh projektu:
+                  </span>
+                  <span className="font-bold text-violet-800">
+                    {calculateOverallProgress()}%
+                  </span>
                 </div>
-                <Progress value={calculateOverallProgress()} className="h-3 mt-2 bg-violet-100" />
+                <Progress
+                  value={calculateOverallProgress()}
+                  className="h-3 mt-2 bg-violet-100"
+                />
                 <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                    <div className="text-sm text-violet-800 font-medium">Dokončené fáze</div>
+                    <div className="text-sm text-violet-800 font-medium">
+                      Dokončené fáze
+                    </div>
                     <div className="text-2xl font-bold text-violet-900">
-                      {phases.filter((p) => p.status === "completed").length} / {phases.length}
+                      {phases.filter((p) => p.status === "completed").length} /{" "}
+                      {phases.length}
                     </div>
                   </div>
                   <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                    <div className="text-sm text-violet-800 font-medium">Dokončené úkoly</div>
+                    <div className="text-sm text-violet-800 font-medium">
+                      Dokončené úkoly
+                    </div>
                     <div className="text-2xl font-bold text-violet-900">
-                      {phases.flatMap((p) => p.tasks).filter((t) => t.completed).length} /{" "}
-                      {phases.flatMap((p) => p.tasks).length}
+                      {
+                        phases
+                          .flatMap((p) => p.tasks)
+                          .filter((t) => t.completed).length
+                      }{" "}
+                      / {phases.flatMap((p) => p.tasks).length}
                     </div>
                   </div>
                   <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                    <div className="text-sm text-violet-800 font-medium">Dní do otevření</div>
+                    <div className="text-sm text-violet-800 font-medium">
+                      Dní do otevření
+                    </div>
                     <div className="text-2xl font-bold text-violet-900">
-                      {calculateDaysBetween(new Date().toISOString().split("T")[0], calculateDate(136))}
+                      {calculateDaysBetween(
+                        new Date().toISOString().split("T")[0],
+                        calculateDate(136)
+                      )}
                     </div>
                   </div>
                 </div>
@@ -726,8 +908,12 @@ export default function ProjectTimeline() {
             <CardHeader className="bg-violet-50 rounded-t-lg border-b border-violet-100">
               <div className="flex justify-between items-center">
                 <div>
-                  <CardTitle className="text-violet-800">Fáze projektu</CardTitle>
-                  <CardDescription>Detailní popis jednotlivých fází a jejich náplně</CardDescription>
+                  <CardTitle className="text-violet-800">
+                    Fáze projektu
+                  </CardTitle>
+                  <CardDescription>
+                    Detailní popis jednotlivých fází a jejich náplně
+                  </CardDescription>
                 </div>
                 <TooltipProvider>
                   <Tooltip>
@@ -753,14 +939,16 @@ export default function ProjectTimeline() {
                       phase.status === "completed"
                         ? "border-green-200"
                         : phase.status === "in-progress"
-                          ? "border-violet-200"
-                          : "border-gray-200"
+                        ? "border-violet-200"
+                        : "border-gray-200"
                     }`}
                   >
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-center">
                         <CardTitle className="text-base flex items-center">
-                          <div className={`w-6 h-6 rounded-full mr-2 flex items-center justify-center ${phase.color}`}>
+                          <div
+                            className={`w-6 h-6 rounded-full mr-2 flex items-center justify-center ${phase.color}`}
+                          >
                             {phase.icon}
                           </div>
                           {phase.name}
@@ -779,14 +967,23 @@ export default function ProjectTimeline() {
                           <span>Průběh:</span>
                           <span>{phase.progress}%</span>
                         </div>
-                        <Progress value={phase.progress} className="h-2 bg-violet-100" />
+                        <Progress
+                          value={phase.progress}
+                          className="h-2 bg-violet-100"
+                        />
                       </div>
                       <div className="text-xs space-y-1">
                         <div className="font-medium">Hlavní výstupy fáze:</div>
                         <ul className="list-disc pl-4 space-y-1">
                           {phase.tasks.map((task) => (
-                            <li key={task.id} className={task.completed ? "text-gray-500" : ""}>
-                              {task.name} {task.completed && <span className="text-green-600">(✓)</span>}
+                            <li
+                              key={task.id}
+                              className={task.completed ? "text-gray-500" : ""}
+                            >
+                              {task.name}{" "}
+                              {task.completed && (
+                                <span className="text-green-600">(✓)</span>
+                              )}
                             </li>
                           ))}
                         </ul>
@@ -804,14 +1001,16 @@ export default function ProjectTimeline() {
                       phase.status === "completed"
                         ? "border-green-200"
                         : phase.status === "in-progress"
-                          ? "border-violet-200"
-                          : "border-gray-200"
+                        ? "border-violet-200"
+                        : "border-gray-200"
                     }`}
                   >
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-center">
                         <CardTitle className="text-base flex items-center">
-                          <div className={`w-6 h-6 rounded-full mr-2 flex items-center justify-center ${phase.color}`}>
+                          <div
+                            className={`w-6 h-6 rounded-full mr-2 flex items-center justify-center ${phase.color}`}
+                          >
                             {phase.icon}
                           </div>
                           {phase.name}
@@ -830,14 +1029,23 @@ export default function ProjectTimeline() {
                           <span>Průběh:</span>
                           <span>{phase.progress}%</span>
                         </div>
-                        <Progress value={phase.progress} className="h-2 bg-violet-100" />
+                        <Progress
+                          value={phase.progress}
+                          className="h-2 bg-violet-100"
+                        />
                       </div>
                       <div className="text-xs space-y-1">
                         <div className="font-medium">Hlavní výstupy fáze:</div>
                         <ul className="list-disc pl-4 space-y-1">
                           {phase.tasks.map((task) => (
-                            <li key={task.id} className={task.completed ? "text-gray-500" : ""}>
-                              {task.name} {task.completed && <span className="text-green-600">(✓)</span>}
+                            <li
+                              key={task.id}
+                              className={task.completed ? "text-gray-500" : ""}
+                            >
+                              {task.name}{" "}
+                              {task.completed && (
+                                <span className="text-green-600">(✓)</span>
+                              )}
                             </li>
                           ))}
                         </ul>
@@ -849,27 +1057,47 @@ export default function ProjectTimeline() {
 
               <Card className="border-violet-200">
                 <CardHeader className="bg-violet-50 border-b border-violet-100">
-                  <CardTitle className="text-violet-800">Celkový přehled fází</CardTitle>
+                  <CardTitle className="text-violet-800">
+                    Celkový přehled fází
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-4">
                   <div className="overflow-x-auto">
                     <table className="w-full border-collapse">
                       <thead>
                         <tr className="border-b border-violet-100">
-                          <th className="text-left py-2 text-violet-800">Fáze</th>
-                          <th className="text-center py-2 text-violet-800">Od</th>
-                          <th className="text-center py-2 text-violet-800">Do</th>
-                          <th className="text-center py-2 text-violet-800">Trvání (dny)</th>
-                          <th className="text-center py-2 text-violet-800">Průběh</th>
-                          <th className="text-right py-2 text-violet-800">Status</th>
+                          <th className="text-left py-2 text-violet-800">
+                            Fáze
+                          </th>
+                          <th className="text-center py-2 text-violet-800">
+                            Od
+                          </th>
+                          <th className="text-center py-2 text-violet-800">
+                            Do
+                          </th>
+                          <th className="text-center py-2 text-violet-800">
+                            Trvání (dny)
+                          </th>
+                          <th className="text-center py-2 text-violet-800">
+                            Průběh
+                          </th>
+                          <th className="text-right py-2 text-violet-800">
+                            Status
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         {phases.map((phase) => {
-                          const duration = calculateDaysBetween(phase.start, phase.end)
+                          const duration = calculateDaysBetween(
+                            phase.start,
+                            phase.end
+                          )
 
                           return (
-                            <tr key={phase.id} className="border-b hover:bg-violet-50">
+                            <tr
+                              key={phase.id}
+                              className="border-b hover:bg-violet-50"
+                            >
                               <td className="py-2 flex items-center">
                                 <div
                                   className={`w-6 h-6 rounded-full mr-2 flex items-center justify-center ${phase.color}`}
@@ -878,16 +1106,27 @@ export default function ProjectTimeline() {
                                 </div>
                                 {phase.name}
                               </td>
-                              <td className="text-center py-2">{formatDate(phase.start)}</td>
-                              <td className="text-center py-2">{formatDate(phase.end)}</td>
+                              <td className="text-center py-2">
+                                {formatDate(phase.start)}
+                              </td>
+                              <td className="text-center py-2">
+                                {formatDate(phase.end)}
+                              </td>
                               <td className="text-center py-2">{duration}</td>
                               <td className="py-2">
                                 <div className="flex items-center">
-                                  <Progress value={phase.progress} className="h-2 w-32 bg-violet-100" />
-                                  <span className="ml-2 text-xs">{phase.progress}%</span>
+                                  <Progress
+                                    value={phase.progress}
+                                    className="h-2 w-32 bg-violet-100"
+                                  />
+                                  <span className="ml-2 text-xs">
+                                    {phase.progress}%
+                                  </span>
                                 </div>
                               </td>
-                              <td className="text-right py-2">{getStatusBadge(phase.status)}</td>
+                              <td className="text-right py-2">
+                                {getStatusBadge(phase.status)}
+                              </td>
                             </tr>
                           )
                         })}
@@ -900,18 +1139,29 @@ export default function ProjectTimeline() {
             <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                  <div className="text-sm text-violet-800 font-medium">Celková délka projektu</div>
-                  <div className="text-2xl font-bold text-violet-900">168 dní</div>
-                </div>
-                <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                  <div className="text-sm text-violet-800 font-medium">Aktuální fáze</div>
-                  <div className="text-xl font-bold text-violet-900">
-                    {phases.find((p) => p.status === "in-progress")?.name || "Žádná"}
+                  <div className="text-sm text-violet-800 font-medium">
+                    Celková délka projektu
+                  </div>
+                  <div className="text-2xl font-bold text-violet-900">
+                    168 dní
                   </div>
                 </div>
                 <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                  <div className="text-sm text-violet-800 font-medium">Celkový průběh</div>
-                  <div className="text-2xl font-bold text-violet-900">{calculateOverallProgress()}%</div>
+                  <div className="text-sm text-violet-800 font-medium">
+                    Aktuální fáze
+                  </div>
+                  <div className="text-xl font-bold text-violet-900">
+                    {phases.find((p) => p.status === "in-progress")?.name ||
+                      "Žádná"}
+                  </div>
+                </div>
+                <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
+                  <div className="text-sm text-violet-800 font-medium">
+                    Celkový průběh
+                  </div>
+                  <div className="text-2xl font-bold text-violet-900">
+                    {calculateOverallProgress()}%
+                  </div>
                 </div>
               </div>
             </CardFooter>
@@ -923,8 +1173,12 @@ export default function ProjectTimeline() {
             <CardHeader className="bg-violet-50 rounded-t-lg border-b border-violet-100">
               <div className="flex justify-between items-center">
                 <div>
-                  <CardTitle className="text-violet-800">Klíčové milníky projektu</CardTitle>
-                  <CardDescription>Přehled důležitých termínů a událostí</CardDescription>
+                  <CardTitle className="text-violet-800">
+                    Klíčové milníky projektu
+                  </CardTitle>
+                  <CardDescription>
+                    Přehled důležitých termínů a událostí
+                  </CardDescription>
                 </div>
                 <TooltipProvider>
                   <Tooltip>
@@ -949,7 +1203,8 @@ export default function ProjectTimeline() {
                     const milestoneDate = new Date(milestone.date)
                     const today = new Date()
                     const isPast = milestoneDate < today
-                    const isToday = milestoneDate.toDateString() === today.toDateString()
+                    const isToday =
+                      milestoneDate.toDateString() === today.toDateString()
 
                     return (
                       <div key={index} className="flex relative">
@@ -959,43 +1214,62 @@ export default function ProjectTimeline() {
                               milestone.completed
                                 ? "bg-green-100 text-green-600"
                                 : isPast
-                                  ? "bg-red-100 text-red-600"
-                                  : isToday
-                                    ? "bg-amber-100 text-amber-600"
-                                    : "bg-violet-100 text-violet-600"
+                                ? "bg-red-100 text-red-600"
+                                : isToday
+                                ? "bg-amber-100 text-amber-600"
+                                : "bg-violet-100 text-violet-600"
                             }`}
                           >
                             {milestone.completed ? (
                               <Check className="h-5 w-5" />
                             ) : (
-                              milestone.icon || <CalendarDays className="h-5 w-5" />
+                              milestone.icon || (
+                                <CalendarDays className="h-5 w-5" />
+                              )
                             )}
                           </div>
                         </div>
                         <div className="ml-4 flex-1">
                           <div className="flex items-center justify-between">
-                            <h3 className="text-lg font-medium">{milestone.name}</h3>
+                            <h3 className="text-lg font-medium">
+                              {milestone.name}
+                            </h3>
                             <Badge
                               className={`${
                                 milestone.completed
                                   ? "bg-green-100 text-green-800 border-green-200"
                                   : isPast
-                                    ? "bg-red-100 text-red-800 border-red-200"
-                                    : isToday
-                                      ? "bg-amber-100 text-amber-800 border-amber-200"
-                                      : "bg-violet-100 text-violet-800 border-violet-200"
+                                  ? "bg-red-100 text-red-800 border-red-200"
+                                  : isToday
+                                  ? "bg-amber-100 text-amber-800 border-amber-200"
+                                  : "bg-violet-100 text-violet-800 border-violet-200"
                               }`}
                             >
-                              {milestone.completed ? "Splněno" : isPast ? "Zpožděno" : isToday ? "Dnes" : "Plánováno"}
+                              {milestone.completed
+                                ? "Splněno"
+                                : isPast
+                                ? "Zpožděno"
+                                : isToday
+                                ? "Dnes"
+                                : "Plánováno"}
                             </Badge>
                           </div>
                           <div className="text-sm mt-1 flex items-center">
                             <CalendarDays className="mr-1 h-4 w-4 text-muted-foreground" />
-                            <span className="text-muted-foreground">Termín: {formatDate(milestone.date)}</span>
+                            <span className="text-muted-foreground">
+                              Termín: {formatDate(milestone.date)}
+                            </span>
                             {isPast && !milestone.completed && (
-                              <Badge variant="outline" className="ml-2 text-red-600 border-red-200">
+                              <Badge
+                                variant="outline"
+                                className="ml-2 text-red-600 border-red-200"
+                              >
                                 Zpoždění:{" "}
-                                {Math.floor((today.getTime() - milestoneDate.getTime()) / (1000 * 60 * 60 * 24))} dní
+                                {Math.floor(
+                                  (today.getTime() - milestoneDate.getTime()) /
+                                    (1000 * 60 * 60 * 24)
+                                )}{" "}
+                                dní
                               </Badge>
                             )}
                           </div>
@@ -1008,7 +1282,9 @@ export default function ProjectTimeline() {
 
               <Card className="border-violet-200">
                 <CardHeader className="bg-violet-50 border-b border-violet-100">
-                  <CardTitle className="text-base text-violet-800">Celková časová osa projektu</CardTitle>
+                  <CardTitle className="text-base text-violet-800">
+                    Celková časová osa projektu
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-4">
                   <div className="relative pt-1 pb-12">
@@ -1021,16 +1297,28 @@ export default function ProjectTimeline() {
                         const isCompleted = milestone.completed
 
                         return (
-                          <div key={index} className="relative z-10 flex flex-col items-center">
-                            <div className="text-xs mb-2 text-center w-24 truncate" title={milestone.name}>
+                          <div
+                            key={index}
+                            className="relative z-10 flex flex-col items-center"
+                          >
+                            <div
+                              className="text-xs mb-2 text-center w-24 truncate"
+                              title={milestone.name}
+                            >
                               {milestone.name}
                             </div>
                             <div
                               className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                                isCompleted ? "bg-green-600" : isPast ? "bg-red-500" : "bg-violet-500"
+                                isCompleted
+                                  ? "bg-green-600"
+                                  : isPast
+                                  ? "bg-red-500"
+                                  : "bg-violet-500"
                               }`}
                             >
-                              {isCompleted && <Check className="h-3 w-3 text-white" />}
+                              {isCompleted && (
+                                <Check className="h-3 w-3 text-white" />
+                              )}
                             </div>
                             <div className="text-xs mt-2 text-muted-foreground">
                               {formatDate(milestone.date).split(" ")[0]}
@@ -1046,7 +1334,9 @@ export default function ProjectTimeline() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card className="border-violet-200 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2 bg-violet-50 border-b border-violet-100">
-                    <CardTitle className="text-base text-violet-800">Plánované milníky</CardTitle>
+                    <CardTitle className="text-base text-violet-800">
+                      Plánované milníky
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="pt-4">
                     <div className="space-y-2">
@@ -1059,11 +1349,15 @@ export default function ProjectTimeline() {
                           >
                             <span className="flex items-center">
                               <div className="w-5 h-5 rounded-full bg-violet-100 text-violet-600 flex items-center justify-center mr-2">
-                                {milestone.icon || <CalendarDays className="h-3 w-3" />}
+                                {milestone.icon || (
+                                  <CalendarDays className="h-3 w-3" />
+                                )}
                               </div>
                               {milestone.name}
                             </span>
-                            <span className="text-muted-foreground">{formatDate(milestone.date)}</span>
+                            <span className="text-muted-foreground">
+                              {formatDate(milestone.date)}
+                            </span>
                           </div>
                         ))}
                     </div>
@@ -1072,7 +1366,9 @@ export default function ProjectTimeline() {
 
                 <Card className="border-violet-200 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2 bg-violet-50 border-b border-violet-100">
-                    <CardTitle className="text-base text-violet-800">Dokončené milníky</CardTitle>
+                    <CardTitle className="text-base text-violet-800">
+                      Dokončené milníky
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="pt-4">
                     <div className="space-y-2">
@@ -1087,7 +1383,9 @@ export default function ProjectTimeline() {
                               <Check className="h-4 w-4 text-green-600 mr-2" />
                               {milestone.name}
                             </span>
-                            <span className="text-muted-foreground">{formatDate(milestone.date)}</span>
+                            <span className="text-muted-foreground">
+                              {formatDate(milestone.date)}
+                            </span>
                           </div>
                         ))}
                       {milestones.filter((m) => m.completed).length === 0 && (
@@ -1101,31 +1399,45 @@ export default function ProjectTimeline() {
 
                 <Card className="border-violet-200 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2 bg-violet-50 border-b border-violet-100">
-                    <CardTitle className="text-base text-violet-800">Kritické termíny</CardTitle>
+                    <CardTitle className="text-base text-violet-800">
+                      Kritické termíny
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="pt-4">
                     <div className="space-y-2">
                       <div className="flex justify-between items-center text-sm p-2 hover:bg-violet-50 rounded-md">
-                        <span>Získání stavebního povolení</span>
-                        <Badge variant="outline" className="text-red-600 border-red-200">
+                        <span>Podpis smlouvy</span>
+                        <Badge
+                          variant="outline"
+                          className="text-red-600 border-red-200"
+                        >
                           Kritické
                         </Badge>
                       </div>
                       <div className="flex justify-between items-center text-sm p-2 hover:bg-violet-50 rounded-md">
-                        <span>Kolaudace</span>
-                        <Badge variant="outline" className="text-red-600 border-red-200">
+                        <span>Dodání vybavení</span>
+                        <Badge
+                          variant="outline"
+                          className="text-red-600 border-red-200"
+                        >
                           Kritické
                         </Badge>
                       </div>
                       <div className="flex justify-between items-center text-sm p-2 hover:bg-violet-50 rounded-md">
                         <span>Podpis franšízové smlouvy</span>
-                        <Badge variant="outline" className="text-amber-600 border-amber-200">
+                        <Badge
+                          variant="outline"
+                          className="text-amber-600 border-amber-200"
+                        >
                           Důležité
                         </Badge>
                       </div>
                       <div className="flex justify-between items-center text-sm p-2 hover:bg-violet-50 rounded-md">
                         <span>Otevření prodejny</span>
-                        <Badge variant="outline" className="text-red-600 border-red-200">
+                        <Badge
+                          variant="outline"
+                          className="text-red-600 border-red-200"
+                        >
                           Kritické
                         </Badge>
                       </div>
@@ -1138,28 +1450,42 @@ export default function ProjectTimeline() {
               <div className="w-full">
                 <div className="text-sm text-violet-700 mb-4">
                   <p>
-                    Milníky představují klíčové události v průběhu projektu, které jsou využívány pro sledování
-                    celkového postupu. Dodržení termínů milníků je kritické pro úspěšné dokončení projektu v plánovaném
-                    čase.
+                    Milníky představují klíčové události v průběhu projektu,
+                    které jsou využívány pro sledování celkového postupu.
+                    Dodržení termínů milníků je kritické pro úspěšné dokončení
+                    projektu v plánovaném čase.
                   </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                    <div className="text-sm text-violet-800 font-medium">Dokončené milníky</div>
+                    <div className="text-sm text-violet-800 font-medium">
+                      Dokončené milníky
+                    </div>
                     <div className="text-2xl font-bold text-violet-900">
-                      {milestones.filter((m) => m.completed).length} / {milestones.length}
+                      {milestones.filter((m) => m.completed).length} /{" "}
+                      {milestones.length}
                     </div>
                   </div>
                   <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                    <div className="text-sm text-violet-800 font-medium">Zpožděné milníky</div>
+                    <div className="text-sm text-violet-800 font-medium">
+                      Zpožděné milníky
+                    </div>
                     <div className="text-2xl font-bold text-red-600">
-                      {milestones.filter((m) => new Date(m.date) < new Date() && !m.completed).length}
+                      {
+                        milestones.filter(
+                          (m) => new Date(m.date) < new Date() && !m.completed
+                        ).length
+                      }
                     </div>
                   </div>
                   <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                    <div className="text-sm text-violet-800 font-medium">Následující milník</div>
+                    <div className="text-sm text-violet-800 font-medium">
+                      Následující milník
+                    </div>
                     <div className="text-lg font-bold text-violet-900">
-                      {milestones.find((m) => !m.completed && new Date(m.date) >= new Date())?.name || "Žádný"}
+                      {milestones.find(
+                        (m) => !m.completed && new Date(m.date) >= new Date()
+                      )?.name || "Žádný"}
                     </div>
                   </div>
                 </div>
@@ -1173,8 +1499,12 @@ export default function ProjectTimeline() {
             <CardHeader className="bg-violet-50 rounded-t-lg border-b border-violet-100">
               <div className="flex justify-between items-center">
                 <div>
-                  <CardTitle className="text-violet-800">Řízení rizik projektu</CardTitle>
-                  <CardDescription>Identifikace, analýza a opatření proti rizikům</CardDescription>
+                  <CardTitle className="text-violet-800">
+                    Řízení rizik projektu
+                  </CardTitle>
+                  <CardDescription>
+                    Identifikace, analýza a opatření proti rizikům
+                  </CardDescription>
                 </div>
                 <TooltipProvider>
                   <Tooltip>
@@ -1194,7 +1524,10 @@ export default function ProjectTimeline() {
             <CardContent className="space-y-6 pt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {risks.map((risk) => (
-                  <Card key={risk.id} className="border-violet-200 hover:shadow-md transition-shadow">
+                  <Card
+                    key={risk.id}
+                    className="border-violet-200 hover:shadow-md transition-shadow"
+                  >
                     <CardHeader className="pb-2">
                       <div
                         className="flex justify-between items-center cursor-pointer"
@@ -1204,7 +1537,9 @@ export default function ProjectTimeline() {
                           <AlertTriangle className="h-5 w-5 text-amber-500 mr-2" />
                           {risk.name}
                           <ChevronDown
-                            className={`ml-2 h-4 w-4 transition-transform ${expandedRisk === risk.id ? "rotate-180" : ""}`}
+                            className={`ml-2 h-4 w-4 transition-transform ${
+                              expandedRisk === risk.id ? "rotate-180" : ""
+                            }`}
                           />
                         </CardTitle>
                         <div className="flex gap-2">
@@ -1221,29 +1556,40 @@ export default function ProjectTimeline() {
                       <div className="space-y-2">
                         <div>
                           <h4 className="text-sm font-medium">Opatření:</h4>
-                          <p className="text-sm text-muted-foreground">{risk.mitigation}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {risk.mitigation}
+                          </p>
                         </div>
 
                         {expandedRisk === risk.id && (
                           <div className="mt-4 space-y-3 bg-violet-50 p-3 rounded-md border border-violet-100 animate-in fade-in-50 duration-300">
                             <div>
-                              <h4 className="text-xs font-medium text-violet-800">Fáze projektu:</h4>
+                              <h4 className="text-xs font-medium text-violet-800">
+                                Fáze projektu:
+                              </h4>
                               <p className="text-xs">
                                 {risk.phase === "all"
                                   ? "Všechny fáze"
-                                  : phases.find((p) => p.id === risk.phase)?.name || risk.phase}
+                                  : phases.find((p) => p.id === risk.phase)
+                                      ?.name || risk.phase}
                               </p>
                             </div>
                             <div>
-                              <h4 className="text-xs font-medium text-violet-800">Krizový plán:</h4>
+                              <h4 className="text-xs font-medium text-violet-800">
+                                Krizový plán:
+                              </h4>
                               <p className="text-xs">{risk.contingency}</p>
                             </div>
                             <div>
-                              <h4 className="text-xs font-medium text-violet-800">Vlastník rizika:</h4>
+                              <h4 className="text-xs font-medium text-violet-800">
+                                Vlastník rizika:
+                              </h4>
                               <p className="text-xs">{risk.owner}</p>
                             </div>
                             <div>
-                              <h4 className="text-xs font-medium text-violet-800">Status:</h4>
+                              <h4 className="text-xs font-medium text-violet-800">
+                                Status:
+                              </h4>
                               <p className="text-xs">{risk.status}</p>
                             </div>
                           </div>
@@ -1256,35 +1602,56 @@ export default function ProjectTimeline() {
 
               <Card className="border-violet-200">
                 <CardHeader className="bg-violet-50 border-b border-violet-100">
-                  <CardTitle className="text-violet-800">Matice rizik</CardTitle>
+                  <CardTitle className="text-violet-800">
+                    Matice rizik
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-4">
                   <div className="grid grid-cols-4 gap-px bg-violet-200 rounded overflow-hidden">
                     <div className="bg-white p-2 text-center font-medium"></div>
-                    <div className="bg-white p-2 text-center font-medium text-sm">Nízký dopad</div>
-                    <div className="bg-white p-2 text-center font-medium text-sm">Střední dopad</div>
-                    <div className="bg-white p-2 text-center font-medium text-sm">Vysoký dopad</div>
+                    <div className="bg-white p-2 text-center font-medium text-sm">
+                      Nízký dopad
+                    </div>
+                    <div className="bg-white p-2 text-center font-medium text-sm">
+                      Střední dopad
+                    </div>
+                    <div className="bg-white p-2 text-center font-medium text-sm">
+                      Vysoký dopad
+                    </div>
 
-                    <div className="bg-white p-2 text-center font-medium text-sm">Vysoká pravd.</div>
+                    <div className="bg-white p-2 text-center font-medium text-sm">
+                      Vysoká pravd.
+                    </div>
                     <div className="bg-yellow-50 p-2 text-center text-xs"></div>
                     <div className="bg-orange-50 p-2 text-center text-xs"></div>
                     <div className="bg-red-50 p-2 text-center text-xs"></div>
 
-                    <div className="bg-white p-2 text-center font-medium text-sm">Střední pravd.</div>
+                    <div className="bg-white p-2 text-center font-medium text-sm">
+                      Střední pravd.
+                    </div>
                     <div className="bg-green-50 p-2 text-center text-xs"></div>
                     <div className="bg-yellow-50 p-2 text-center text-xs">
-                      <div className="bg-white shadow rounded-sm p-1 mb-1">Nedostatek personálu</div>
+                      <div className="bg-white shadow rounded-sm p-1 mb-1">
+                        Nedostatek personálu
+                      </div>
                     </div>
                     <div className="bg-orange-50 p-2 text-center text-xs">
-                      <div className="bg-white shadow rounded-sm p-1 mb-1">Zpoždění stavby</div>
-                      <div className="bg-white shadow rounded-sm p-1 mb-1">Problémy s povolením</div>
-                      <div className="bg-white shadow rounded-sm p-1">Překročení rozpočtu</div>
+                      <div className="bg-white shadow rounded-sm p-1 mb-1">
+                        Problémy s povolením
+                      </div>
+                      <div className="bg-white shadow rounded-sm p-1">
+                        Překročení rozpočtu
+                      </div>
                     </div>
 
-                    <div className="bg-white p-2 text-center font-medium text-sm">Nízká pravd.</div>
+                    <div className="bg-white p-2 text-center font-medium text-sm">
+                      Nízká pravd.
+                    </div>
                     <div className="bg-green-50 p-2 text-center text-xs"></div>
                     <div className="bg-green-50 p-2 text-center text-xs">
-                      <div className="bg-white shadow rounded-sm p-1">Nízká návštěvnost</div>
+                      <div className="bg-white shadow rounded-sm p-1">
+                        Nízká návštěvnost
+                      </div>
                     </div>
                     <div className="bg-yellow-50 p-2 text-center text-xs"></div>
                   </div>
@@ -1293,18 +1660,24 @@ export default function ProjectTimeline() {
 
               <Card className="border-violet-200">
                 <CardHeader className="bg-violet-50 border-b border-violet-100">
-                  <CardTitle className="text-violet-800">Celkové hodnocení rizik</CardTitle>
+                  <CardTitle className="text-violet-800">
+                    Celkové hodnocení rizik
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-4">
                   <div className="space-y-4">
                     <p className="text-sm">
-                      Projekt otevření Žabky čelí několika významným rizikům, která byla identifikována a pro která byla
-                      navržena zmírňující opatření. Celková rizikovost projektu je hodnocena jako{" "}
+                      Projekt otevření Žabky čelí několika významným rizikům,
+                      která byla identifikována a pro která byla navržena
+                      zmírňující opatření. Celková rizikovost projektu je
+                      hodnocena jako{" "}
                       <strong className="text-violet-800">střední</strong>.
                     </p>
 
                     <div>
-                      <h3 className="text-sm font-medium mb-2 text-violet-800">Nejvýznamnější rizika:</h3>
+                      <h3 className="text-sm font-medium mb-2 text-violet-800">
+                        Nejvýznamnější rizika:
+                      </h3>
                       <ul className="list-disc pl-5 space-y-1 text-sm">
                         <li>Zpoždění stavebních úprav</li>
                         <li>Problémy s získáním potřebných povolení</li>
@@ -1315,13 +1688,29 @@ export default function ProjectTimeline() {
                     <Separator className="bg-violet-200" />
 
                     <div>
-                      <h3 className="text-sm font-medium mb-2 text-violet-800">Doporučená opatření:</h3>
+                      <h3 className="text-sm font-medium mb-2 text-violet-800">
+                        Doporučená opatření:
+                      </h3>
                       <ul className="list-disc pl-5 space-y-1 text-sm">
-                        <li>Vytvořit časovou rezervu v harmonogramu pro kritické činnosti (min. 2 týdny)</li>
-                        <li>Zajistit finanční rezervu ve výši min. 15% rozpočtu</li>
-                        <li>Pravidelné kontrolní body pro sledování postupu projektu (týdenní)</li>
-                        <li>Včasná komunikace s úřady a předběžné konzultace před podáním žádostí</li>
-                        <li>Pečlivý výběr dodavatelů s referencemi a zkušenostmi s podobnými projekty</li>
+                        <li>
+                          Vytvořit časovou rezervu v harmonogramu pro kritické
+                          činnosti (min. 2 týdny)
+                        </li>
+                        <li>
+                          Zajistit finanční rezervu ve výši min. 15% rozpočtu
+                        </li>
+                        <li>
+                          Pravidelné kontrolní body pro sledování postupu
+                          projektu (týdenní)
+                        </li>
+                        <li>
+                          Včasná komunikace s úřady a předběžné konzultace před
+                          podáním žádostí
+                        </li>
+                        <li>
+                          Pečlivý výběr dodavatelů s referencemi a zkušenostmi s
+                          podobnými projekty
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -1331,25 +1720,36 @@ export default function ProjectTimeline() {
             <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                  <div className="text-sm text-violet-800 font-medium">Vysoká priorita</div>
-                  <div className="text-2xl font-bold text-red-600">
-                    {risks.filter((r) => r.impact === "high" && r.probability === "medium").length}
+                  <div className="text-sm text-violet-800 font-medium">
+                    Vysoká priorita
                   </div>
-                </div>
-                <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                  <div className="text-sm text-violet-800 font-medium">Střední priorita</div>
-                  <div className="text-2xl font-bold text-amber-600">
+                  <div className="text-2xl font-bold text-red-600">
                     {
                       risks.filter(
-                        (r) =>
-                          (r.impact === "medium" && r.probability === "medium") ||
-                          (r.impact === "medium" && r.probability === "low"),
+                        (r) => r.impact === "high" && r.probability === "medium"
                       ).length
                     }
                   </div>
                 </div>
                 <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                  <div className="text-sm text-violet-800 font-medium">Aktivní rizika</div>
+                  <div className="text-sm text-violet-800 font-medium">
+                    Střední priorita
+                  </div>
+                  <div className="text-2xl font-bold text-amber-600">
+                    {
+                      risks.filter(
+                        (r) =>
+                          (r.impact === "medium" &&
+                            r.probability === "medium") ||
+                          (r.impact === "medium" && r.probability === "low")
+                      ).length
+                    }
+                  </div>
+                </div>
+                <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
+                  <div className="text-sm text-violet-800 font-medium">
+                    Aktivní rizika
+                  </div>
                   <div className="text-2xl font-bold text-violet-900">
                     {risks.filter((r) => r.status === "Aktivní").length}
                   </div>
@@ -1364,8 +1764,12 @@ export default function ProjectTimeline() {
             <CardHeader className="bg-violet-50 rounded-t-lg border-b border-violet-100">
               <div className="flex justify-between items-center">
                 <div>
-                  <CardTitle className="text-violet-800">Požadovaná dokumentace</CardTitle>
-                  <CardDescription>Přehled dokumentů potřebných v jednotlivých fázích projektu</CardDescription>
+                  <CardTitle className="text-violet-800">
+                    Požadovaná dokumentace
+                  </CardTitle>
+                  <CardDescription>
+                    Přehled dokumentů potřebných v jednotlivých fázích projektu
+                  </CardDescription>
                 </div>
                 <TooltipProvider>
                   <Tooltip>
@@ -1386,16 +1790,26 @@ export default function ProjectTimeline() {
               <div className="bg-violet-50 rounded-lg p-4 border border-violet-100">
                 <div className="flex justify-between items-center mb-4">
                   <div className="space-y-1">
-                    <h3 className="text-sm font-medium text-violet-800">Celkový stav dokumentace</h3>
+                    <h3 className="text-sm font-medium text-violet-800">
+                      Celkový stav dokumentace
+                    </h3>
                     <div className="flex items-center">
                       <div className="w-32 h-2 bg-gray-200 rounded-full mr-3">
                         <div
                           className="h-2 bg-violet-600 rounded-full"
-                          style={{ width: `${(documentStats.completed / documentStats.total) * 100}%` }}
+                          style={{
+                            width: `${
+                              (documentStats.completed / documentStats.total) *
+                              100
+                            }%`,
+                          }}
                         ></div>
                       </div>
                       <span className="text-sm">
-                        {Math.round((documentStats.completed / documentStats.total) * 100)}% dokončeno
+                        {Math.round(
+                          (documentStats.completed / documentStats.total) * 100
+                        )}
+                        % dokončeno
                       </span>
                     </div>
                   </div>
@@ -1406,7 +1820,9 @@ export default function ProjectTimeline() {
                     <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">
                       Rozpracováno: {documentStats.inProgress}
                     </Badge>
-                    <Badge className="bg-gray-100 text-gray-800 border-gray-200">Čeká: {documentStats.pending}</Badge>
+                    <Badge className="bg-gray-100 text-gray-800 border-gray-200">
+                      Čeká: {documentStats.pending}
+                    </Badge>
                   </div>
                 </div>
               </div>
@@ -1416,7 +1832,9 @@ export default function ProjectTimeline() {
                   <div key={categoryIndex} className="space-y-4">
                     <div className="flex items-center">
                       <div className="w-1 h-6 bg-violet-500 rounded-full mr-2"></div>
-                      <h3 className="text-lg font-medium text-violet-800">{category.category}</h3>
+                      <h3 className="text-lg font-medium text-violet-800">
+                        {category.category}
+                      </h3>
                     </div>
                     <div className="space-y-2 pl-3">
                       {category.items.map((doc, docIndex) => (
@@ -1424,7 +1842,9 @@ export default function ProjectTimeline() {
                           key={docIndex}
                           className="flex items-start p-3 rounded-md hover:bg-violet-50 border border-violet-100 transition-colors"
                         >
-                          <div className="mt-0.5 mr-3">{getStatusIcon(doc.status)}</div>
+                          <div className="mt-0.5 mr-3">
+                            {getStatusIcon(doc.status)}
+                          </div>
                           <div className="flex-1">
                             <div className="flex justify-between items-start">
                               <div className="font-medium">{doc.name}</div>
@@ -1435,7 +1855,9 @@ export default function ProjectTimeline() {
                                 {getStatusBadge(doc.status)}
                               </div>
                             </div>
-                            <div className="text-sm text-muted-foreground mt-1">{doc.note}</div>
+                            <div className="text-sm text-muted-foreground mt-1">
+                              {doc.note}
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -1446,33 +1868,53 @@ export default function ProjectTimeline() {
 
               <Card className="border-violet-200">
                 <CardHeader className="bg-violet-50 border-b border-violet-100">
-                  <CardTitle className="text-violet-800">Přehled dokumentů podle stavu</CardTitle>
+                  <CardTitle className="text-violet-800">
+                    Přehled dokumentů podle stavu
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-4">
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b border-violet-100">
-                          <th className="text-left py-2 text-violet-800">Dokument</th>
-                          <th className="text-center py-2 text-violet-800">Stav</th>
-                          <th className="text-center py-2 text-violet-800">Kategorie</th>
-                          <th className="text-right py-2 text-violet-800">Termín</th>
+                          <th className="text-left py-2 text-violet-800">
+                            Dokument
+                          </th>
+                          <th className="text-center py-2 text-violet-800">
+                            Stav
+                          </th>
+                          <th className="text-center py-2 text-violet-800">
+                            Kategorie
+                          </th>
+                          <th className="text-right py-2 text-violet-800">
+                            Termín
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         {documents.flatMap((category) =>
                           category.items.map((doc, index) => (
-                            <tr key={index} className="border-b hover:bg-violet-50">
+                            <tr
+                              key={index}
+                              className="border-b hover:bg-violet-50"
+                            >
                               <td className="py-2">{doc.name}</td>
-                              <td className="text-center py-2">{getStatusBadge(doc.status)}</td>
                               <td className="text-center py-2">
-                                <Badge variant="outline" className="border-violet-200 text-violet-800">
+                                {getStatusBadge(doc.status)}
+                              </td>
+                              <td className="text-center py-2">
+                                <Badge
+                                  variant="outline"
+                                  className="border-violet-200 text-violet-800"
+                                >
                                   {category.category}
                                 </Badge>
                               </td>
-                              <td className="text-right py-2">{formatDate(doc.deadline)}</td>
+                              <td className="text-right py-2">
+                                {formatDate(doc.deadline)}
+                              </td>
                             </tr>
-                          )),
+                          ))
                         )}
                       </tbody>
                     </table>
@@ -1483,16 +1925,28 @@ export default function ProjectTimeline() {
             <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                  <div className="text-sm text-violet-800 font-medium">Dokončené dokumenty</div>
-                  <div className="text-2xl font-bold text-green-600">{documentStats.completed}</div>
+                  <div className="text-sm text-violet-800 font-medium">
+                    Dokončené dokumenty
+                  </div>
+                  <div className="text-2xl font-bold text-green-600">
+                    {documentStats.completed}
+                  </div>
                 </div>
                 <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                  <div className="text-sm text-violet-800 font-medium">Dokumenty v procesu</div>
-                  <div className="text-2xl font-bold text-amber-600">{documentStats.inProgress}</div>
+                  <div className="text-sm text-violet-800 font-medium">
+                    Dokumenty v procesu
+                  </div>
+                  <div className="text-2xl font-bold text-amber-600">
+                    {documentStats.inProgress}
+                  </div>
                 </div>
                 <div className="bg-white p-3 rounded-md shadow-sm border border-violet-100">
-                  <div className="text-sm text-violet-800 font-medium">Čekající dokumenty</div>
-                  <div className="text-2xl font-bold text-violet-900">{documentStats.pending}</div>
+                  <div className="text-sm text-violet-800 font-medium">
+                    Čekající dokumenty
+                  </div>
+                  <div className="text-2xl font-bold text-violet-900">
+                    {documentStats.pending}
+                  </div>
                 </div>
               </div>
             </CardFooter>
@@ -1502,4 +1956,3 @@ export default function ProjectTimeline() {
     </div>
   )
 }
-
