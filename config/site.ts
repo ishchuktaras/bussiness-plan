@@ -1,24 +1,32 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Podnikatelský plán",
-  description: "Analýza franšízové ​​smlouvy Žabka",
+  name: "Žabka Analýza",
+  description: "Komplexní analýza franšízové smlouvy a obchodního modelu Žabka",
   mainNav: [
     {
-      title: "Kalkulačka",
-      href: "/#calculator",
+      title: "Domů",
+      href: "/",
+    },
+    {
+      title: "Obchodní model",
+      href: "/#business-plan",
+    },
+    {
+      title: "Analýza konkurence",
+      href: "/#competition-analysis",
+    },
+    {
+      title: "Kontrolní seznam",
+      href: "/#inspection-checklist",
     },
     {
       title: "Provozní standardy",
-      href: "/#operating-standards",
-    },
-    {
-      title: "Požadavky na franšízanta",
-      href: "/#franchise-requirements",
+      href: "/#operational-standards",
     },
     {
       title: "Analýza smlouvy",
-      href: "/#agreement-analysis",
+      href: "/#franchise-agreement-analysis",
     },
   ],
   links: {

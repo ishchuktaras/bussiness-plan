@@ -133,7 +133,7 @@ export default function FranchiseAgreementAnalysis() {
                       Franšízant je povinen objednávat zboží od schválených dodavatelů. Zboží zůstává ve vlastnictví
                       franšízora až do prodeje zákazníkovi. Franšízant odpovídá za ztráty a poškození zboží.
                     </AccordionContent>
-                    </AccordionItem>
+                  </AccordionItem>
 
                   <AccordionItem>
                     <AccordionTrigger>Provize a poplatky</AccordionTrigger>

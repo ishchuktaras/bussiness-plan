@@ -1,42 +1,47 @@
 "use client"
 
 import { CardFooter } from "@/components/ui/card"
+import { BookOpen, Calendar, Clock, Percent, BarChart4, ShoppingBag } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Users } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-
-import { BookOpen, Calendar, Clock, Percent, BarChart4 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { MobileTabScroller } from "@/components/mobile-tab-scroller"
 
 export default function OperationalStandards() {
   return (
     <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
-      <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Provozní standardy Žabka</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Kontrolní seznam Žabka</h1>
 
       <Tabs defaultValue="hours">
-        <div className="overflow-x-auto">
-          <TabsList className="flex min-w-max">
-            <TabsTrigger value="hours" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
-              <Clock className="mr-2 h-4 w-4" /> Hodiny
+        <MobileTabScroller>
+          <TabsList className="flex">
+            <TabsTrigger value="hours" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
+              <Clock className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Hodiny</span>
+              <span className="sm:hidden">Hodiny</span>
             </TabsTrigger>
-            <TabsTrigger value="staff" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
-              <Users className="mr-2 h-4 w-4" /> Personál
+            <TabsTrigger value="staff" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
+              <ShoppingBag className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Personál</span>
+              <span className="sm:hidden">Personál</span>
             </TabsTrigger>
-            <TabsTrigger value="products" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
-              <Percent className="mr-2 h-4 w-4" /> Produkty
+            <TabsTrigger value="products" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
+              <Percent className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Produkty</span>
+              <span className="sm:hidden">Produkty</span>
             </TabsTrigger>
-            <TabsTrigger value="bakery" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
-              <BookOpen className="mr-2 h-4 w-4" /> Pekárna
+            <TabsTrigger value="bakery" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
+              <BookOpen className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Pekárna</span>
+              <span className="sm:hidden">Pekárna</span>
             </TabsTrigger>
-            <TabsTrigger value="marketing" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
-              <Calendar className="mr-2 h-4 w-4" /> Marketing
+            <TabsTrigger value="marketing" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
+              <Calendar className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">Marketing</span>
+              <span className="sm:hidden">Marketing</span>
             </TabsTrigger>
-            <TabsTrigger value="kpis" className="flex-none py-2 px-3 text-sm whitespace-nowrap">
-              <BarChart4 className="mr-2 h-4 w-4" /> KPI
+            <TabsTrigger value="kpis" className="px-2.5 py-1.5 text-xs sm:text-sm whitespace-nowrap">
+              <BarChart4 className="mr-1 h-3 w-3" /> <span className="hidden sm:inline">KPI</span>
+              <span className="sm:hidden">KPI</span>
             </TabsTrigger>
           </TabsList>
-        </div>
+        </MobileTabScroller>
 
         <TabsContent value="hours" className="mt-4">
           <Card>

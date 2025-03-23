@@ -1,33 +1,34 @@
-import { Tabs, TabsContent } from "@/components/ui/tabs"
 import ZabkaBusinessPlan from "@/components/business-plan"
-import FranchiseRequirements from "@/components/franchise-requirements"
+import CompetitionAnalysis from "@/components/competition-analysis"
+import InspectionChecklist from "@/components/inspection-checklist"
 import OperationalStandards from "@/components/operational-standards"
-import FranchiseAgreementAnalysis from "@/components/franchise-agreement-analysis"
+import { ResponsiveContainer } from "@/components/responsive-container"
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col">
-      <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-        {/* <div className="flex items-center justify-between space-y-2">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight gradient-heading">Business Plan Žabka</h1>
-        </div> */}
-        
-        <Tabs defaultValue="calculator" className="space-y-6">
-          <TabsContent value="calculator" className="space-y-4 animate-fade-in">
-            <ZabkaBusinessPlan />
-          </TabsContent>
-          <TabsContent value="operating-standards" className="space-y-4 animate-fade-in">
-            <OperationalStandards />
-          </TabsContent>
-          <TabsContent value="franchise-requirements" className="space-y-4 animate-fade-in">
-            <FranchiseRequirements />
-          </TabsContent>
-          <TabsContent value="agreement-analysis" className="space-y-4 animate-fade-in">
-            <FranchiseAgreementAnalysis />
-          </TabsContent>
-        </Tabs>
+    <ResponsiveContainer className="py-4 sm:py-6 md:py-8">
+      <div className="space-y-12 md:space-y-16">
+        <div id="business-plan">
+          <ZabkaBusinessPlan />
+        </div>
+        <div id="competition-analysis">
+          <CompetitionAnalysis />
+        </div>
+        <div id="inspection-checklist">
+          <InspectionChecklist />
+        </div>
+        <div id="operational-standards">
+          <OperationalStandards />
+        </div>
+        <div id="franchise-agreement-analysis" className="py-6 md:py-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-center">
+            Analýza franšízové smlouvy
+          </h2>
+          <p className="text-center text-muted-foreground">
+            Tato sekce je ve vývoji a bude brzy k dispozici.
+          </p>
+        </div>
       </div>
-    </main>
+    </ResponsiveContainer>
   )
 }
-
