@@ -407,48 +407,48 @@ export default function ZabkaBusinessPlan() {
         </AlertDescription>
       </Alert>
 
-      <Tabs defaultValue="calculator">
+      <Tabs defaultValue="calculator" className="space-y-4">
         <MobileTabScroller showScrollIndicators={true} value="calculator">
           <TabsList className="flex flex-wrap w-full bg-white p-1 rounded-lg shadow-md">
             <TabsTrigger
               value="calculator"
-              className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span className="hidden sm:inline">Kalkulačka</span>
             </TabsTrigger>
             <TabsTrigger
               value="income"
-              className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span className="hidden sm:inline">Příjmy</span>
             </TabsTrigger>
             <TabsTrigger
               value="expenses"
-              className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span className="hidden sm:inline">Výdaje</span>
             </TabsTrigger>
             <TabsTrigger
               value="categories"
-              className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap"
+              className="pflex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span className="hidden sm:inline">Kategorie</span>
             </TabsTrigger>
             <TabsTrigger
               value="scenarios"
-              className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span className="hidden sm:inline">Scénáře</span>
             </TabsTrigger>
             <TabsTrigger
               value="seasonal"
-              className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span className="hidden sm:inline">Sezónnost</span>
             </TabsTrigger>
             <TabsTrigger
               value="summary"
-              className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span className="hidden sm:inline">Shrnutí</span>
             </TabsTrigger>
