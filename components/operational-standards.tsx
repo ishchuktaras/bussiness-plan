@@ -60,42 +60,42 @@ export default function OperationalStandards() {
         </p>
       </div>
 
-      <Tabs defaultValue="hours">
+      <Tabs defaultValue="hours" className="space-y-4">
         <MobileTabScroller showScrollIndicators={true} value="hours">
           <TabsList className="flex flex-wrap w-full bg-white p-1 rounded-lg shadow-md">
             <TabsTrigger
               value="hours"
-              className="px-3 py-2 text-l sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span>Hodiny</span>
             </TabsTrigger>
             <TabsTrigger
               value="staff"
-              className="flex items-center px-3 py-1.5 text-l sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span>Personál</span>
             </TabsTrigger>
             <TabsTrigger
               value="products"
-              className="flex items-center px-3 py-1.5 text-l sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span>Produkty</span>
             </TabsTrigger>
             <TabsTrigger
               value="bakery"
-              className="flex items-center px-3 py-1.5 text-l sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span>Pekárna</span>
             </TabsTrigger>
             <TabsTrigger
               value="marketing"
-              className="flex items-center px-3 py-1.5 text-l sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span>Marketing</span>
             </TabsTrigger>
             <TabsTrigger
               value="kpis"
-              className="flex items-center px-3 py-1.5 text-l sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span>KPI</span>
             </TabsTrigger>

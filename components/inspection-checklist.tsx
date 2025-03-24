@@ -305,12 +305,32 @@ const InspectionChecklist = () => {
         </div>
       </div>
 
-      <Tabs defaultValue="store" className="mb-6">
-        <TabsList className="grid grid-cols-2 md:grid-cols-4">
-          <TabsTrigger value="store">Prodejna</TabsTrigger>
-          <TabsTrigger value="products">Zboží</TabsTrigger>
-          <TabsTrigger value="staff">Personál</TabsTrigger>
-          <TabsTrigger value="service">Služby</TabsTrigger>
+      <Tabs defaultValue="store" className="space-y-4">
+        <TabsList className="flex flex-wrap w-full bg-white p-1 rounded-lg shadow-md">
+          <TabsTrigger
+            value="store"
+            className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
+          >
+            Prodejna
+          </TabsTrigger>
+          <TabsTrigger
+            value="products"
+            className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
+          >
+            Zboží
+          </TabsTrigger>
+          <TabsTrigger
+            value="staff"
+            className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
+          >
+            Personál
+          </TabsTrigger>
+          <TabsTrigger
+            value="service"
+            className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
+          >
+            Služby
+          </TabsTrigger>
         </TabsList>
 
         {categories.map((category) => (

@@ -613,36 +613,36 @@ export default function ProjectTimeline() {
         </div>
       </div>
 
-      <Tabs defaultValue="timeline">
+      <Tabs defaultValue="timeline" className="space-y-4">
         <MobileTabScroller showScrollIndicators={true} value="timeline">
           <TabsList className="flex flex-wrap w-full bg-white p-1 rounded-lg shadow-md">
             <TabsTrigger
               value="timeline"
-              className="px-3 py-2 text-l sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span>Časový plán</span>
             </TabsTrigger>
             <TabsTrigger
               value="phases"
-              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span>Fáze projektu</span>
             </TabsTrigger>
             <TabsTrigger
               value="milestones"
-              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span>Milníky</span>
             </TabsTrigger>
             <TabsTrigger
               value="risks"
-              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span>Rizika</span>
             </TabsTrigger>
             <TabsTrigger
               value="docs"
-              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+              className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
             >
               <span>Dokumentace</span>
             </TabsTrigger>
