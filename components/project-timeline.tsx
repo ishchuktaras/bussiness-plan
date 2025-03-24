@@ -448,7 +448,6 @@ export default function ProjectTimeline() {
           deadline: calculateDate(60),
           note: "Pojištění majetku, odpovědnosti a přerušení provozu",
         },
-        
       ],
     },
     {
@@ -472,7 +471,6 @@ export default function ProjectTimeline() {
           deadline: calculateDate(125),
           note: "Smlouvy se zaměstnanci",
         },
-        
       ],
     },
   ]
@@ -617,40 +615,35 @@ export default function ProjectTimeline() {
 
       <Tabs defaultValue="timeline">
         <MobileTabScroller showScrollIndicators={true} value="timeline">
-          <TabsList className="flex w-full">
+          <TabsList className="flex flex-wrap w-full bg-white p-1 rounded-lg shadow-md">
             <TabsTrigger
               value="timeline"
-              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+              className="px-3 py-2 text-l sm:text-sm whitespace-nowrap"
             >
-              <Clock className="size-3.5 mr-1.5" />
               <span>Časový plán</span>
             </TabsTrigger>
             <TabsTrigger
               value="phases"
               className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
             >
-              <ArrowRight className="size-3.5 mr-1.5" />
               <span>Fáze projektu</span>
             </TabsTrigger>
             <TabsTrigger
               value="milestones"
               className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
             >
-              <CalendarDays className="size-3.5 mr-1.5" />
               <span>Milníky</span>
             </TabsTrigger>
             <TabsTrigger
               value="risks"
               className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
             >
-              <AlertTriangle className="size-3.5 mr-1.5" />
               <span>Rizika</span>
             </TabsTrigger>
             <TabsTrigger
               value="docs"
               className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
             >
-              <FileCheck className="size-3.5 mr-1.5" />
               <span>Dokumentace</span>
             </TabsTrigger>
           </TabsList>
@@ -668,19 +661,6 @@ export default function ProjectTimeline() {
                     Přehled jednotlivých fází a úkolů
                   </CardDescription>
                 </div>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="outline" size="sm" className="gap-1">
-                        <Calendar className="h-4 w-4" />
-                        <span className="hidden sm:inline">Exportovat</span>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Exportovat časový plán do kalendáře</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
               </div>
             </CardHeader>
             <CardContent className="space-y-6 pt-6">
@@ -905,19 +885,6 @@ export default function ProjectTimeline() {
                     Detailní popis jednotlivých fází a jejich náplně
                   </CardDescription>
                 </div>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="outline" size="sm" className="gap-1">
-                        <Download className="h-4 w-4" />
-                        <span className="hidden sm:inline">Exportovat</span>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Exportovat harmonogram fází</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
               </div>
             </CardHeader>
             <CardContent className="space-y-6 pt-6">
@@ -1170,19 +1137,6 @@ export default function ProjectTimeline() {
                     Přehled důležitých termínů a událostí
                   </CardDescription>
                 </div>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="outline" size="sm" className="gap-1">
-                        <Calendar className="h-4 w-4" />
-                        <span className="hidden sm:inline">Exportovat</span>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Exportovat milníky do kalendáře</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
               </div>
             </CardHeader>
             <CardContent className="space-y-6 pt-6">
@@ -1496,19 +1450,6 @@ export default function ProjectTimeline() {
                     Identifikace, analýza a opatření proti rizikům
                   </CardDescription>
                 </div>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="outline" size="sm" className="gap-1">
-                        <Download className="h-4 w-4" />
-                        <span className="hidden sm:inline">Exportovat</span>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Stáhnout plán řízení rizik</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
               </div>
             </CardHeader>
             <CardContent className="space-y-6 pt-6">
@@ -1702,19 +1643,6 @@ export default function ProjectTimeline() {
                     Přehled dokumentů potřebných v jednotlivých fázích projektu
                   </CardDescription>
                 </div>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="outline" size="sm" className="gap-1">
-                        <Download className="h-4 w-4" />
-                        <span className="hidden sm:inline">Exportovat</span>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Stáhnout checklist dokumentace</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
               </div>
             </CardHeader>
             <CardContent className="space-y-6 pt-6">

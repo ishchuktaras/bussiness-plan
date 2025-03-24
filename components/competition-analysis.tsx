@@ -537,34 +537,34 @@ export default function CompetitionAnalysis() {
         <TabsList className="flex flex-wrap w-full bg-white p-1 rounded-lg shadow-md">
           <TabsTrigger
             value="overview"
-            className="flex-1 min-w-[120px] py-3 text-xs sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
+            className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
           >
-            <BarChart className="mr-1 sm:mr-2 h-4 w-4" /> Přehled konkurence
+            Přehled konkurence
           </TabsTrigger>
           <TabsTrigger
             value="comparison"
-            className="flex-1 min-w-[120px] py-3 text-xs sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
+            className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
           >
-            <LineChart className="mr-1 sm:mr-2 h-4 w-4" /> Srovnání
+            Srovnání
           </TabsTrigger>
           <TabsTrigger
             value="advantages"
-            className="flex-1 min-w-[120px] py-3 text-xs sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
+            className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
           >
-            <PieChart className="mr-1 sm:mr-2 h-4 w-4" /> Výhody a nevýhody
+            Výhody a nevýhody
           </TabsTrigger>
           <TabsTrigger
             value="strategy"
-            className="flex-1 min-w-[120px] py-3 text-xs sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
+            className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
           >
-            <ShoppingCart className="mr-1 sm:mr-2 h-4 w-4" /> Konkurenční
+            Konkurenční
             strategie
           </TabsTrigger>
           <TabsTrigger
             value="map"
-            className="flex-1 min-w-[120px] py-3 text-xs sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
+            className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
           >
-            <Map className="mr-1 sm:mr-2 h-4 w-4" /> Mapa konkurence
+            Mapa konkurence
           </TabsTrigger>
         </TabsList>
 
@@ -949,13 +949,7 @@ export default function CompetitionAnalysis() {
                   </span>
                   .
                 </p>
-                <Button
-                  variant="outline"
-                  className="w-full bg-white hover:bg-violet-100 border-violet-200 text-violet-700"
-                >
-                  <BarChart className="mr-2 h-4 w-4" />
-                  Exportovat analýzu konkurence
-                </Button>
+                
               </div>
             </CardFooter>
           </Card>
@@ -1130,6 +1124,11 @@ export default function CompetitionAnalysis() {
                         <Progress
                           value={zabkaRatings.assortment}
                           className="h-2 bg-violet-100"
+                          style={
+                            {
+                              "--progress-foreground": "var(--violet-600)",
+                            } as React.CSSProperties
+                          }
                         />
                       </div>
                       {competitors.slice(0, 3).map((competitor) => (
@@ -1190,6 +1189,11 @@ export default function CompetitionAnalysis() {
                         <Progress
                           value={zabkaRatings.speed}
                           className="h-2 bg-violet-100"
+                          style={
+                            {
+                              "--progress-foreground": "var(--violet-600)",
+                            } as React.CSSProperties
+                          }
                         />
                       </div>
                       {competitors.slice(0, 3).map((competitor) => (
@@ -1219,7 +1223,7 @@ export default function CompetitionAnalysis() {
                     <div className="text-xs text-muted-foreground mt-4 bg-violet-50 p-2 rounded-md">
                       <p>
                         Žabka nabízí jeden z nejrychlejších způsobů nákupu s
-                        průměrnou dobou obsluhy pod 2 minuty.
+                        prům��rnou dobou obsluhy pod 2 minuty.
                       </p>
                     </div>
                   </CardContent>
@@ -1247,6 +1251,11 @@ export default function CompetitionAnalysis() {
                         <Progress
                           value={zabkaRatings.location}
                           className="h-2 bg-violet-100"
+                          style={
+                            {
+                              "--progress-foreground": "var(--violet-600)",
+                            } as React.CSSProperties
+                          }
                         />
                       </div>
                       {competitors.slice(0, 3).map((competitor) => (
@@ -2086,7 +2095,15 @@ export default function CompetitionAnalysis() {
                             Vysoká
                           </span>
                         </div>
-                        <Progress value={80} className="h-2 bg-red-100" />
+                        <Progress
+                          value={80}
+                          className="h-2 bg-red-100"
+                          style={
+                            {
+                              "--progress-foreground": "var(--red-600)",
+                            } as React.CSSProperties
+                          }
+                        />
                       </div>
                       <div>
                         <div className="flex justify-between text-sm mb-1">
@@ -2095,7 +2112,15 @@ export default function CompetitionAnalysis() {
                             Střední
                           </span>
                         </div>
-                        <Progress value={60} className="h-2 bg-amber-100" />
+                        <Progress
+                          value={60}
+                          className="h-2 bg-amber-100"
+                          style={
+                            {
+                              "--progress-foreground": "var(--amber-600)",
+                            } as React.CSSProperties
+                          }
+                        />
                       </div>
                       <div>
                         <div className="flex justify-between text-sm mb-1">
@@ -2104,7 +2129,15 @@ export default function CompetitionAnalysis() {
                             Nízká
                           </span>
                         </div>
-                        <Progress value={30} className="h-2 bg-green-100" />
+                        <Progress
+                          value={30}
+                          className="h-2 bg-green-100"
+                          style={
+                            {
+                              "--progress-foreground": "var(--green-600)",
+                            } as React.CSSProperties
+                          }
+                        />
                       </div>
                     </div>
                     <div className="text-xs text-muted-foreground mt-4 bg-violet-50 p-3 rounded-md">

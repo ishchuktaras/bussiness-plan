@@ -1,7 +1,18 @@
 "use client"
 
 import { useState } from "react"
-import { CheckCheck, ClipboardCheck, AlertTriangle, CheckCircle2, XCircle, Save, Send, Star, Award } from "lucide-react"
+import {
+  AlertTriangle,
+  Award,
+  CheckCheck,
+  CheckCircle2,
+  ClipboardCheck,
+  Save,
+  Send,
+  Star,
+  XCircle,
+} from "lucide-react"
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -25,12 +36,28 @@ const InspectionChecklist = () => {
       id: "store",
       title: "Kontrola prodejny",
       items: [
-        { id: "store-1", label: "Čistota výlohy a vstupu do prodejny", checked: true },
-        { id: "store-2", label: "Správné vystavení akčních materiálů", checked: true },
+        {
+          id: "store-1",
+          label: "Čistota výlohy a vstupu do prodejny",
+          checked: true,
+        },
+        {
+          id: "store-2",
+          label: "Správné vystavení akčních materiálů",
+          checked: true,
+        },
         { id: "store-3", label: "Čistota podlahy a regálů", checked: true },
-        { id: "store-4", label: "Správná teplota v prodejně (20-22°C)", checked: false },
+        {
+          id: "store-4",
+          label: "Správná teplota v prodejně (20-22°C)",
+          checked: false,
+        },
         { id: "store-5", label: "Funkčnost osvětlení", checked: true },
-        { id: "store-6", label: "Čistota toalet pro zákazníky", checked: false },
+        {
+          id: "store-6",
+          label: "Čistota toalet pro zákazníky",
+          checked: false,
+        },
         { id: "store-7", label: "Správné označení cen u zboží", checked: true },
         { id: "store-8", label: "Dodržování planogramu", checked: true },
       ],
@@ -40,13 +67,41 @@ const InspectionChecklist = () => {
       title: "Kontrola zboží",
       items: [
         { id: "products-1", label: "Kontrola dat spotřeby", checked: true },
-        { id: "products-2", label: "Správné uskladnění čerstvého zboží", checked: true },
-        { id: "products-3", label: "Dostatek zboží v regálech", checked: false },
-        { id: "products-4", label: "Správná rotace zboží (FIFO)", checked: true },
-        { id: "products-5", label: "Kontrola teploty v chladicích zařízeních", checked: true },
-        { id: "products-6", label: "Čistota chladicích a mrazicích boxů", checked: true },
-        { id: "products-7", label: "Správné vystavení akčního zboží", checked: true },
-        { id: "products-8", label: "Kontrola kvality ovoce a zeleniny", checked: false },
+        {
+          id: "products-2",
+          label: "Správné uskladnění čerstvého zboží",
+          checked: true,
+        },
+        {
+          id: "products-3",
+          label: "Dostatek zboží v regálech",
+          checked: false,
+        },
+        {
+          id: "products-4",
+          label: "Správná rotace zboží (FIFO)",
+          checked: true,
+        },
+        {
+          id: "products-5",
+          label: "Kontrola teploty v chladicích zařízeních",
+          checked: true,
+        },
+        {
+          id: "products-6",
+          label: "Čistota chladicích a mrazicích boxů",
+          checked: true,
+        },
+        {
+          id: "products-7",
+          label: "Správné vystavení akčního zboží",
+          checked: true,
+        },
+        {
+          id: "products-8",
+          label: "Kontrola kvality ovoce a zeleniny",
+          checked: false,
+        },
       ],
     },
     {
@@ -55,26 +110,66 @@ const InspectionChecklist = () => {
       items: [
         { id: "staff-1", label: "Dodržování dress code", checked: true },
         { id: "staff-2", label: "Nošení jmenovek", checked: true },
-        { id: "staff-3", label: "Dodržování hygienických předpisů", checked: true },
-        { id: "staff-4", label: "Znalost aktuálních akcí a nabídek", checked: false },
-        { id: "staff-5", label: "Přátelský přístup k zákazníkům", checked: true },
+        {
+          id: "staff-3",
+          label: "Dodržování hygienických předpisů",
+          checked: true,
+        },
+        {
+          id: "staff-4",
+          label: "Znalost aktuálních akcí a nabídek",
+          checked: false,
+        },
+        {
+          id: "staff-5",
+          label: "Přátelský přístup k zákazníkům",
+          checked: true,
+        },
         { id: "staff-6", label: "Dodržování pracovní doby", checked: true },
-        { id: "staff-7", label: "Znalost postupů při reklamacích", checked: false },
-        { id: "staff-8", label: "Správné používání pokladního systému", checked: true },
+        {
+          id: "staff-7",
+          label: "Znalost postupů při reklamacích",
+          checked: false,
+        },
+        {
+          id: "staff-8",
+          label: "Správné používání pokladního systému",
+          checked: true,
+        },
       ],
     },
     {
       id: "service",
       title: "Kontrola služeb",
       items: [
-        { id: "service-1", label: "Funkčnost služby Zásilkovna", checked: true },
+        {
+          id: "service-1",
+          label: "Funkčnost služby Zásilkovna",
+          checked: true,
+        },
         { id: "service-2", label: "Správné vydávání účtenek", checked: true },
-        { id: "service-3", label: "Funkčnost platebních terminálů", checked: true },
+        {
+          id: "service-3",
+          label: "Funkčnost platebních terminálů",
+          checked: true,
+        },
         { id: "service-4", label: "Dostupnost sáčků a tašek", checked: false },
-        { id: "service-5", label: "Správné fungování věrnostního programu", checked: true },
+        {
+          id: "service-5",
+          label: "Správné fungování věrnostního programu",
+          checked: true,
+        },
         { id: "service-6", label: "Dodržování otevírací doby", checked: true },
-        { id: "service-7", label: "Funkčnost služby Freshpoint", checked: false },
-        { id: "service-8", label: "Správné fungování služby Dobíjení kreditu", checked: true },
+        {
+          id: "service-7",
+          label: "Funkčnost služby Freshpoint",
+          checked: false,
+        },
+        {
+          id: "service-8",
+          label: "Správné fungování služby Dobíjení kreditu",
+          checked: true,
+        },
       ],
     },
   ])
@@ -85,10 +180,12 @@ const InspectionChecklist = () => {
         category.id === categoryId
           ? {
               ...category,
-              items: category.items.map((item) => (item.id === itemId ? { ...item, checked: !item.checked } : item)),
+              items: category.items.map((item) =>
+                item.id === itemId ? { ...item, checked: !item.checked } : item
+              ),
             }
-          : category,
-      ),
+          : category
+      )
     )
   }
 
@@ -98,10 +195,14 @@ const InspectionChecklist = () => {
   }
 
   const calculateTotalProgress = () => {
-    const totalItems = categories.reduce((acc, category) => acc + category.items.length, 0)
+    const totalItems = categories.reduce(
+      (acc, category) => acc + category.items.length,
+      0
+    )
     const checkedItems = categories.reduce(
-      (acc, category) => acc + category.items.filter((item) => item.checked).length,
-      0,
+      (acc, category) =>
+        acc + category.items.filter((item) => item.checked).length,
+      0
     )
     return (checkedItems / totalItems) * 100
   }
@@ -132,7 +233,9 @@ const InspectionChecklist = () => {
 
   const getUncheckedItems = () => {
     return categories.flatMap((category) =>
-      category.items.filter((item) => !item.checked).map((item) => ({ category: category.title, item: item.label })),
+      category.items
+        .filter((item) => !item.checked)
+        .map((item) => ({ category: category.title, item: item.label }))
     )
   }
 
@@ -143,14 +246,18 @@ const InspectionChecklist = () => {
           <CheckCheck size={32} className="mr-3" />
           Kontrolní seznam prodejny
         </h1>
-        <p className="text-violet-100 mb-6">Pravidelná kontrola zajišťuje kvalitu služeb a spokojenost zákazníků</p>
+        <p className="text-violet-100 mb-6">
+          Pravidelná kontrola zajišťuje kvalitu služeb a spokojenost zákazníků
+        </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card className="border-none bg-white/10 text-white">
             <CardContent className="p-4">
               <div className="mb-2 flex items-center justify-between">
                 <h3 className="font-semibold">Celkový pokrok</h3>
-                <span className="text-lg font-bold">{Math.round(calculateTotalProgress())}%</span>
+                <span className="text-lg font-bold">
+                  {Math.round(calculateTotalProgress())}%
+                </span>
               </div>
               <div className="h-2 w-full bg-white/20 rounded-full overflow-hidden">
                 <div
@@ -159,10 +266,10 @@ const InspectionChecklist = () => {
                     calculateTotalProgress() >= 75
                       ? "bg-green-500"
                       : calculateTotalProgress() >= 50
-                        ? "bg-blue-500"
-                        : calculateTotalProgress() >= 25
-                          ? "bg-amber-500"
-                          : "bg-red-500",
+                      ? "bg-blue-500"
+                      : calculateTotalProgress() >= 25
+                      ? "bg-amber-500"
+                      : "bg-red-500"
                   )}
                   style={{ width: `${calculateTotalProgress()}%` }}
                 ></div>
@@ -174,7 +281,9 @@ const InspectionChecklist = () => {
             <CardContent className="flex items-center justify-between p-4">
               <div>
                 <h3 className="font-semibold">Hodnocení výkonu</h3>
-                <p className="text-lg font-bold">{calculatePerformance(calculateTotalProgress())}</p>
+                <p className="text-lg font-bold">
+                  {calculatePerformance(calculateTotalProgress())}
+                </p>
               </div>
               <Award size={40} className="text-violet-200" />
             </CardContent>
@@ -183,8 +292,12 @@ const InspectionChecklist = () => {
           <Card className="border-none bg-white text-gray-800">
             <CardContent className="flex items-center justify-between p-4">
               <div>
-                <h3 className="font-semibold text-gray-600">Potenciální bonus</h3>
-                <p className="text-lg font-bold">{calculateBonus(calculateTotalProgress())}</p>
+                <h3 className="font-semibold text-gray-600">
+                  Potenciální bonus
+                </h3>
+                <p className="text-lg font-bold">
+                  {calculateBonus(calculateTotalProgress())}
+                </p>
               </div>
               <Star size={40} className="text-yellow-500" />
             </CardContent>
@@ -206,11 +319,16 @@ const InspectionChecklist = () => {
               <CardContent className="p-4 sm:p-6">
                 <div className="mb-4 flex items-center justify-between">
                   <h2 className="text-xl font-bold flex items-center">
-                    <ClipboardCheck size={20} className="mr-2 text-violet-600" />
+                    <ClipboardCheck
+                      size={20}
+                      className="mr-2 text-violet-600"
+                    />
                     {category.title}
                   </h2>
                   <div className="flex items-center">
-                    <span className="mr-2 font-medium">{Math.round(calculateProgress(category))}%</span>
+                    <span className="mr-2 font-medium">
+                      {Math.round(calculateProgress(category))}%
+                    </span>
                     <div className="h-2 w-24 bg-gray-200 rounded-full overflow-hidden">
                       <div
                         className={cn(
@@ -218,10 +336,10 @@ const InspectionChecklist = () => {
                           calculateProgress(category) >= 75
                             ? "bg-green-500"
                             : calculateProgress(category) >= 50
-                              ? "bg-blue-500"
-                              : calculateProgress(category) >= 25
-                                ? "bg-amber-500"
-                                : "bg-red-500",
+                            ? "bg-blue-500"
+                            : calculateProgress(category) >= 25
+                            ? "bg-amber-500"
+                            : "bg-red-500"
                         )}
                         style={{ width: `${calculateProgress(category)}%` }}
                       ></div>
@@ -235,7 +353,7 @@ const InspectionChecklist = () => {
                       key={item.id}
                       className={cn(
                         "flex items-center rounded-md transition-colors hover:bg-violet-50",
-                        item.checked ? "bg-violet-50/50" : "bg-white",
+                        item.checked ? "bg-violet-50/50" : "bg-white"
                       )}
                     >
                       <input
@@ -245,7 +363,10 @@ const InspectionChecklist = () => {
                         onChange={() => toggleItem(category.id, item.id)}
                         className="size-5 rounded border-violet-300 text-violet-600 focus:ring-violet-500"
                       />
-                      <label htmlFor={item.id} className="ml-3 cursor-pointer grow">
+                      <label
+                        htmlFor={item.id}
+                        className="ml-3 cursor-pointer grow"
+                      >
                         {item.label}
                       </label>
                       {item.checked ? (
@@ -276,7 +397,11 @@ const InspectionChecklist = () => {
               </div>
               <h3 className="mb-1 font-semibold">Splněné položky</h3>
               <p className="text-2xl font-bold text-violet-600">
-                {categories.reduce((acc, category) => acc + category.items.filter((item) => item.checked).length, 0)}
+                {categories.reduce(
+                  (acc, category) =>
+                    acc + category.items.filter((item) => item.checked).length,
+                  0
+                )}
               </p>
             </CardContent>
           </Card>
@@ -288,7 +413,11 @@ const InspectionChecklist = () => {
               </div>
               <h3 className="mb-1 font-semibold">Nesplněné položky</h3>
               <p className="text-2xl font-bold text-red-600">
-                {categories.reduce((acc, category) => acc + category.items.filter((item) => !item.checked).length, 0)}
+                {categories.reduce(
+                  (acc, category) =>
+                    acc + category.items.filter((item) => !item.checked).length,
+                  0
+                )}
               </p>
             </CardContent>
           </Card>
@@ -299,7 +428,9 @@ const InspectionChecklist = () => {
                 <Award size={24} className="text-indigo-600" />
               </div>
               <h3 className="mb-1 font-semibold">Celkové hodnocení</h3>
-              <p className="text-2xl font-bold text-indigo-600">{calculatePerformance(calculateTotalProgress())}</p>
+              <p className="text-2xl font-bold text-indigo-600">
+                {calculatePerformance(calculateTotalProgress())}
+              </p>
             </CardContent>
           </Card>
 
@@ -309,7 +440,9 @@ const InspectionChecklist = () => {
                 <Star size={24} className="text-yellow-500" />
               </div>
               <h3 className="mb-1 font-semibold">Potenciální bonus</h3>
-              <p className="text-2xl font-bold text-yellow-500">{calculateBonus(calculateTotalProgress())}</p>
+              <p className="text-2xl font-bold text-yellow-500">
+                {calculateBonus(calculateTotalProgress())}
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -318,11 +451,17 @@ const InspectionChecklist = () => {
           <Card className="mb-6">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-start">
-                <AlertTriangle size={24} className="mr-3 mt-0.5 text-amber-500" />
+                <AlertTriangle
+                  size={24}
+                  className="mr-3 mt-0.5 text-amber-500"
+                />
                 <div>
-                  <h3 className="mb-2 text-lg font-semibold">Doporučení ke zlepšení</h3>
+                  <h3 className="mb-2 text-lg font-semibold">
+                    Doporučení ke zlepšení
+                  </h3>
                   <p className="mb-4 text-gray-600">
-                    Na základě kontroly doporučujeme zaměřit se na následující oblasti:
+                    Na základě kontroly doporučujeme zaměřit se na následující
+                    oblasti:
                   </p>
                   <ul className="space-y-2">
                     {getUncheckedItems().map((item, index) => (
@@ -343,20 +482,8 @@ const InspectionChecklist = () => {
           </Card>
         )}
       </div>
-
-      <div className="flex justify-end space-x-4">
-        <Button variant="outline" className="flex items-center">
-          <Save size={16} className="mr-2" />
-          Uložit pokrok
-        </Button>
-        <Button className="flex items-center bg-violet-600 hover:bg-violet-700 text-white">
-          <Send size={16} className="mr-2" />
-          Dokončit kontrolu
-        </Button>
-      </div>
     </div>
   )
 }
 
 export default InspectionChecklist
-

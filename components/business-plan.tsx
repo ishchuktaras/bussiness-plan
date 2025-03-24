@@ -394,12 +394,12 @@ export default function ZabkaBusinessPlan() {
         </p>
       </div>
 
-      <Alert className="mb-6 border-violet-200 bg-violet-50">
-        <Info className="h-5 w-5 text-violet-600" />
-        <AlertTitle className="text-violet-800 font-semibold">
+      <Alert className="mb-6 border-orange-200 bg-orange-50">
+        <Info className="h-5 w-5 text-orange-600" />
+        <AlertTitle className="text-red-800 font-semibold">
           Důležité upozornění
         </AlertTitle>
-        <AlertDescription className="text-violet-700">
+        <AlertDescription className="text-orange-700">
           Tato kalkulačka slouží pouze k orientačním účelům. Skutečné výsledky
           se mohou lišit v závislosti na mnoha faktorech, jako je lokalita,
           sezónnost, konkurence a další. Pro přesné informace kontaktujte přímo
@@ -414,57 +414,43 @@ export default function ZabkaBusinessPlan() {
               value="calculator"
               className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap"
             >
-              <Calculator className="mr-1.5 h-4 w-4" />{" "}
               <span className="hidden sm:inline">Kalkulačka</span>
-              <span className="sm:hidden">Kalkulačka</span>
             </TabsTrigger>
             <TabsTrigger
               value="income"
               className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap"
             >
-              <DollarSign className="mr-1.5 h-4 w-4" />{" "}
               <span className="hidden sm:inline">Příjmy</span>
-              <span className="sm:hidden">Příjmy</span>
             </TabsTrigger>
             <TabsTrigger
               value="expenses"
               className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap"
             >
-              <BarChart className="mr-1.5 h-4 w-4" />{" "}
               <span className="hidden sm:inline">Výdaje</span>
-              <span className="sm:hidden">Výdaje</span>
             </TabsTrigger>
             <TabsTrigger
               value="categories"
               className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap"
             >
-              <PieChart className="mr-1.5 h-4 w-4" />{" "}
               <span className="hidden sm:inline">Kategorie</span>
-              <span className="sm:hidden">Kategorie</span>
             </TabsTrigger>
             <TabsTrigger
               value="scenarios"
               className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap"
             >
-              <Target className="mr-1.5 h-4 w-4" />{" "}
               <span className="hidden sm:inline">Scénáře</span>
-              <span className="sm:hidden">Scénáře</span>
             </TabsTrigger>
             <TabsTrigger
               value="seasonal"
               className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap"
             >
-              <Calendar className="mr-1.5 h-4 w-4" />{" "}
               <span className="hidden sm:inline">Sezónnost</span>
-              <span className="sm:hidden">Sezónnost</span>
             </TabsTrigger>
             <TabsTrigger
               value="summary"
               className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap"
             >
-              <TrendingUp className="mr-1.5 h-4 w-4" />{" "}
               <span className="hidden sm:inline">Shrnutí</span>
-              <span className="sm:hidden">Shrnutí</span>
             </TabsTrigger>
           </TabsList>
         </MobileTabScroller>
@@ -2264,6 +2250,91 @@ export default function ZabkaBusinessPlan() {
                   </CardContent>
                 </Card>
               </div>
+
+              <Card className="shadow-md border-none">
+                <CardHeader className="bg-violet-50 pb-2">
+                  <CardTitle className="text-base flex items-center">
+                    <BarChart className="mr-2 h-4 w-4 text-violet-600" />
+                    Srovnání scénářů
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="h-80">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RechartsBarChart
+                        data={[
+                          {
+                            name: "Pesimistický",
+                            profit: pessimisticScenario.profit,
+                            fill: "#f43f5e",
+                          },
+                          {
+                            name: "Realistický",
+                            profit: realisticScenario.profit,
+                            fill: "#3b82f6",
+                          },
+                          {
+                            name: "Optimistický",
+                            profit: optimisticScenario.profit,
+                            fill: "#22c55e",
+                          },
+                        ]}
+                        margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                        barGap={8}
+                      >
+                        <CartesianGrid
+                          strokeDasharray="3 3"
+                          stroke="#f0f0f0"
+                          vertical={false}
+                        />
+                        <XAxis
+                          dataKey="name"
+                          tick={{ fontSize: 12 }}
+                          axisLine={{ stroke: "#e5e7eb" }}
+                          tickLine={false}
+                        />
+                        <YAxis
+                          dataKey="profit"
+                          tick={{ fontSize: 12 }}
+                          axisLine={{ stroke: "#e5e7eb" }}
+                          tickLine={false}
+                          tickFormatter={(value) =>
+                            `${Math.round(value / 1000)}k`
+                          }
+                          domain={["dataMin - 10000", "dataMax + 20000"]}
+                        />
+                        <Tooltip
+                          formatter={(value) => formatCurrency(Number(value))}
+                          contentStyle={{
+                            backgroundColor: "white",
+                            borderRadius: "8px",
+                            border: "none",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                            padding: "8px 12px",
+                          }}
+                          cursor={{ fill: "rgba(236, 236, 254, 0.2)" }}
+                        />
+                        <Legend
+                          verticalAlign="top"
+                          height={36}
+                          iconType="circle"
+                          iconSize={10}
+                          wrapperStyle={{
+                            paddingBottom: "10px",
+                            fontSize: "14px",
+                          }}
+                        />
+                        <Bar
+                          dataKey="profit"
+                          name="Zisk"
+                          radius={[4, 4, 0, 0]}
+                          maxBarSize={50}
+                        />
+                      </RechartsBarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
             </CardContent>
             <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full">

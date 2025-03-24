@@ -62,47 +62,41 @@ export default function OperationalStandards() {
 
       <Tabs defaultValue="hours">
         <MobileTabScroller showScrollIndicators={true} value="hours">
-          <TabsList className="flex w-full">
+          <TabsList className="flex flex-wrap w-full bg-white p-1 rounded-lg shadow-md">
             <TabsTrigger
               value="hours"
-              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+              className="px-3 py-2 text-l sm:text-sm whitespace-nowrap"
             >
-              <Clock className="size-3.5 mr-1.5" />
               <span>Hodiny</span>
             </TabsTrigger>
             <TabsTrigger
               value="staff"
-              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+              className="flex items-center px-3 py-1.5 text-l sm:text-sm whitespace-nowrap"
             >
-              <ShoppingBag className="size-3.5 mr-1.5" />
               <span>Personál</span>
             </TabsTrigger>
             <TabsTrigger
               value="products"
-              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+              className="flex items-center px-3 py-1.5 text-l sm:text-sm whitespace-nowrap"
             >
-              <Percent className="size-3.5 mr-1.5" />
               <span>Produkty</span>
             </TabsTrigger>
             <TabsTrigger
               value="bakery"
-              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+              className="flex items-center px-3 py-1.5 text-l sm:text-sm whitespace-nowrap"
             >
-              <BookOpen className="size-3.5 mr-1.5" />
               <span>Pekárna</span>
             </TabsTrigger>
             <TabsTrigger
               value="marketing"
-              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+              className="flex items-center px-3 py-1.5 text-l sm:text-sm whitespace-nowrap"
             >
-              <Calendar className="size-3.5 mr-1.5" />
               <span>Marketing</span>
             </TabsTrigger>
             <TabsTrigger
               value="kpis"
-              className="flex items-center px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap"
+              className="flex items-center px-3 py-1.5 text-l sm:text-sm whitespace-nowrap"
             >
-              <BarChart4 className="size-3.5 mr-1.5" />
               <span>KPI</span>
             </TabsTrigger>
           </TabsList>
@@ -290,34 +284,6 @@ export default function OperationalStandards() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="bg-gray-50 border-t p-4 flex flex-col sm:flex-row gap-3">
-              <Button
-                variant="outline"
-                className="w-full sm:w-auto flex items-center"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Stáhnout šablonu rozvrhu
-              </Button>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="secondary"
-                      className="w-full sm:w-auto flex items-center"
-                    >
-                      <Info className="mr-2 h-4 w-4" />
-                      Zobrazit výjimky pro svátky
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>
-                      O státních svátcích může být provozní doba upravena po
-                      dohodě s franšízorem.
-                    </p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </CardFooter>
           </Card>
         </TabsContent>
 
@@ -805,22 +771,6 @@ export default function OperationalStandards() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="bg-gray-50 border-t p-4 flex flex-col sm:flex-row gap-3">
-              <Button
-                variant="outline"
-                className="w-full sm:w-auto flex items-center"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Stáhnout příručku pro zaměstnance
-              </Button>
-              <Button
-                variant="secondary"
-                className="w-full sm:w-auto flex items-center"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Stáhnout vzor pracovní smlouvy
-              </Button>
-            </CardFooter>
           </Card>
         </TabsContent>
 
@@ -1159,22 +1109,6 @@ export default function OperationalStandards() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="bg-gray-50 border-t p-4 flex flex-col sm:flex-row gap-3">
-              <Button
-                variant="outline"
-                className="w-full sm:w-auto flex items-center"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Stáhnout pokyny k produktům
-              </Button>
-              <Button
-                variant="secondary"
-                className="w-full sm:w-auto flex items-center"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Stáhnout planogramy
-              </Button>
-            </CardFooter>
           </Card>
         </TabsContent>
 
@@ -1488,22 +1422,6 @@ export default function OperationalStandards() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="bg-gray-50 border-t p-4 flex flex-col sm:flex-row gap-3">
-              <Button
-                variant="outline"
-                className="w-full sm:w-auto flex items-center"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Stáhnout pokyny pro pekárnu
-              </Button>
-              <Button
-                variant="secondary"
-                className="w-full sm:w-auto flex items-center"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Stáhnout seznam alergenů
-              </Button>
-            </CardFooter>
           </Card>
         </TabsContent>
 
@@ -1803,22 +1721,6 @@ export default function OperationalStandards() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="bg-gray-50 border-t p-4 flex flex-col sm:flex-row gap-3">
-              <Button
-                variant="outline"
-                className="w-full sm:w-auto flex items-center"
-              >
-                <Download className="mr-2 h-4 items-center" />
-                Stáhnout marketingové pokyny
-              </Button>
-              <Button
-                variant="secondary"
-                className="w-full sm:w-auto flex items-center"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Stáhnout aktuální POS materiály
-              </Button>
-            </CardFooter>
           </Card>
         </TabsContent>
 
@@ -2146,10 +2048,6 @@ export default function OperationalStandards() {
                         který obsahuje všechny kontrolované položky a jejich
                         váhu.
                       </p>
-                      <Button variant="outline" size="sm" className="w-full">
-                        <Download className="mr-2 h-3 w-3" />
-                        Stáhnout vzor hodnotícího formuláře
-                      </Button>
                     </div>
                   </div>
                 </div>
@@ -2208,22 +2106,6 @@ export default function OperationalStandards() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="bg-gray-50 border-t p-4 flex flex-col sm:flex-row gap-3">
-              <Button
-                variant="outline"
-                className="w-full sm:w-auto flex items-center"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Stáhnout pokyny k výkonu
-              </Button>
-              <Button
-                variant="secondary"
-                className="w-full sm:w-auto flex items-center"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Stáhnout hodnotící formulář
-              </Button>
-            </CardFooter>
           </Card>
         </TabsContent>
       </Tabs>
