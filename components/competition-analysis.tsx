@@ -1,47 +1,63 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import {
-  Users,
-  BarChart,
-  LineChart,
-  PieChart,
-  ShoppingCart,
-  Map,
-  Clock,
   Award,
-  TrendingUp,
-  Zap,
-  Target,
+  BarChart,
+  Clock,
   Coffee,
+  LineChart,
+  Map,
+  PieChart,
   ShieldCheck,
+  ShoppingCart,
+  Target,
+  TrendingUp,
+  Users,
+  Zap,
 } from "lucide-react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
-  ResponsiveContainer,
-  BarChart as RechartsBarChart,
   Bar,
-  XAxis,
-  YAxis,
   CartesianGrid,
-  Tooltip,
+  Cell,
   Legend,
-  RadarChart,
-  PolarGrid,
+  Pie,
   PolarAngleAxis,
+  PolarGrid,
   PolarRadiusAxis,
   Radar,
+  RadarChart,
+  BarChart as RechartsBarChart,
   PieChart as RechartsPieChart,
-  Pie,
-  Cell,
+  ReferenceLine,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts"
+
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function CompetitionAnalysis() {
   // Lokální konkurenti
@@ -226,17 +242,41 @@ export default function CompetitionAnalysis() {
   // Data pro graf cen
   const priceComparisonData = [
     { name: "Žabka", value: 75, color: zabkaRatings.color },
-    { name: "Albert", value: competitors[0].strengths_rating.price, color: competitors[0].color },
-    { name: "Večerka", value: competitors[1].strengths_rating.price, color: competitors[1].color },
-    { name: "BILLA", value: competitors[2].strengths_rating.price, color: competitors[2].color },
-    { name: "Tesco", value: competitors[3].strengths_rating.price, color: competitors[3].color },
-    { name: "LIDL", value: competitors[4].strengths_rating.price, color: competitors[4].color },
+    {
+      name: "Albert",
+      value: competitors[0].strengths_rating.price,
+      color: competitors[0].color,
+    },
+    {
+      name: "Večerka",
+      value: competitors[1].strengths_rating.price,
+      color: competitors[1].color,
+    },
+    {
+      name: "BILLA",
+      value: competitors[2].strengths_rating.price,
+      color: competitors[2].color,
+    },
+    {
+      name: "Tesco",
+      value: competitors[3].strengths_rating.price,
+      color: competitors[3].color,
+    },
+    {
+      name: "LIDL",
+      value: competitors[4].strengths_rating.price,
+      color: competitors[4].color,
+    },
   ]
 
   // Data pro bar chart popularity
   const popularityData = [
     { name: "Žabka (odhad)", popularity: 75, color: zabkaRatings.color },
-    ...competitors.map((comp) => ({ name: comp.name, popularity: comp.popularity, color: comp.color })),
+    ...competitors.map((comp) => ({
+      name: comp.name,
+      popularity: comp.popularity,
+      color: comp.color,
+    })),
   ]
 
   // Data pro pie chart
@@ -260,13 +300,23 @@ export default function CompetitionAnalysis() {
         "Čerstvě připravované občerstvení",
         "Káva s sebou",
       ],
-      disadvantages: ["Omezená šíře sortimentu oproti supermarketům", "Méně privátních značek"],
+      disadvantages: [
+        "Omezená šíře sortimentu oproti supermarketům",
+        "Méně privátních značek",
+      ],
     },
     {
       category: "Ceny",
       icon: <TrendingUp className="h-5 w-5 text-violet-600" />,
-      advantages: ["Konkurenceschopné ceny v kategorii convenience", "Akční nabídky", "Věrnostní program"],
-      disadvantages: ["Vyšší ceny než v diskontech a supermarketech", "Premium cena za convenience služby"],
+      advantages: [
+        "Konkurenceschopné ceny v kategorii convenience",
+        "Akční nabídky",
+        "Věrnostní program",
+      ],
+      disadvantages: [
+        "Vyšší ceny než v diskontech a supermarketech",
+        "Premium cena za convenience služby",
+      ],
     },
     {
       category: "Lokalita a dostupnost",
@@ -281,8 +331,15 @@ export default function CompetitionAnalysis() {
     {
       category: "Zákaznický servis",
       icon: <Users className="h-5 w-5 text-violet-600" />,
-      advantages: ["Rychlé odbavení", "Přátelský personál", "Osobní přístup k zákazníkům"],
-      disadvantages: ["Méně personálu v porovnání se supermarkety", "Omezená možnost reklamací na místě"],
+      advantages: [
+        "Rychlé odbavení",
+        "Přátelský personál",
+        "Osobní přístup k zákazníkům",
+      ],
+      disadvantages: [
+        "Méně personálu v porovnání se supermarkety",
+        "Omezená možnost reklamací na místě",
+      ],
     },
   ]
 
@@ -373,10 +430,15 @@ export default function CompetitionAnalysis() {
     {
       title: "Zákaznický servis",
       icon: <Users className="h-5 w-5 text-violet-600" />,
-      description: "Školení personálu v oblasti zákaznického servisu. Důraz na rychlost a osobní přístup.",
+      description:
+        "Školení personálu v oblasti zákaznického servisu. Důraz na rychlost a osobní přístup.",
       impact: "high",
       timeframe: "medium",
-      actions: ["Pravidelná školení personálu", "Zavedení standardu obsluhy 'Žabka'", "Měření spokojenosti zákazníků"],
+      actions: [
+        "Pravidelná školení personálu",
+        "Zavedení standardu obsluhy 'Žabka'",
+        "Měření spokojenosti zákazníků",
+      ],
     },
     {
       title: "Věrnostní program",
@@ -394,18 +456,28 @@ export default function CompetitionAnalysis() {
     {
       title: "Marketingové akce",
       icon: <Target className="h-5 w-5 text-violet-600" />,
-      description: "Lokálně zaměřené marketingové aktivity pro zvýšení povědomí o značce a nabídce.",
+      description:
+        "Lokálně zaměřené marketingové aktivity pro zvýšení povědomí o značce a nabídce.",
       impact: "medium",
       timeframe: "short",
-      actions: ["Lokální letáky a inzerce", "Ochutnávkové akce v obchodě", "Sociální média s místním zaměřením"],
+      actions: [
+        "Lokální letáky a inzerce",
+        "Ochutnávkové akce v obchodě",
+        "Sociální média s místním zaměřením",
+      ],
     },
     {
       title: "Rozšíření služeb",
       icon: <ShieldCheck className="h-5 w-5 text-violet-600" />,
-      description: "Zavedení doplňkových služeb, které konkurence nenabízí (výdejní místo, dobíjení kreditu, apod.).",
+      description:
+        "Zavedení doplňkových služeb, které konkurence nenabízí (výdejní místo, dobíjení kreditu, apod.).",
       impact: "high",
       timeframe: "long",
-      actions: ["Zavedení výdejního místa pro e-shopy", "Rozšíření platebních služeb", "Zavedení donášky do okolí"],
+      actions: [
+        "Zavedení výdejního místa pro e-shopy",
+        "Rozšíření platebních služeb",
+        "Zavedení donášky do okolí",
+      ],
     },
   ]
 
@@ -426,11 +498,23 @@ export default function CompetitionAnalysis() {
   const getTimeframeBadge = (timeframe: string) => {
     switch (timeframe) {
       case "short":
-        return <Badge className="bg-green-100 text-green-800">Krátkodobé (0-3 měsíce)</Badge>
+        return (
+          <Badge className="bg-green-100 text-green-800">
+            Krátkodobé (0-3 měsíce)
+          </Badge>
+        )
       case "medium":
-        return <Badge className="bg-yellow-100 text-yellow-800">Střednědobé (3-6 měsíců)</Badge>
+        return (
+          <Badge className="bg-yellow-100 text-yellow-800">
+            Střednědobé (3-6 měsíců)
+          </Badge>
+        )
       case "long":
-        return <Badge className="bg-red-100 text-red-800">Dlouhodobé (6+ měsíců)</Badge>
+        return (
+          <Badge className="bg-red-100 text-red-800">
+            Dlouhodobé (6+ měsíců)
+          </Badge>
+        )
       default:
         return <Badge>{timeframe}</Badge>
     }
@@ -439,10 +523,13 @@ export default function CompetitionAnalysis() {
   return (
     <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
       <div className="bg-gradient-to-r from-violet-600 to-indigo-600 rounded-lg p-6 mb-6 text-white shadow-lg">
-        <h1 className="text-2xl md:text-3xl font-bold mb-2">Analýza konkurence</h1>
+        <h1 className="text-2xl md:text-3xl font-bold mb-2">
+          Analýza konkurence Žabka
+        </h1>
         <p className="text-violet-100 max-w-3xl">
-          Komplexní analýza konkurenčního prostředí pro plánovanou prodejnu Žabka, včetně srovnání s hlavními
-          konkurenty, identifikace výhod a nevýhod a návrhu konkurenční strategie.
+          Komplexní analýza konkurenčního prostředí pro plánovanou prodejnu
+          Žabka, včetně srovnání s hlavními konkurenty, identifikace výhod a
+          nevýhod a návrhu konkurenční strategie.
         </p>
       </div>
 
@@ -470,7 +557,8 @@ export default function CompetitionAnalysis() {
             value="strategy"
             className="flex-1 min-w-[120px] py-3 text-xs sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
           >
-            <ShoppingCart className="mr-1 sm:mr-2 h-4 w-4" /> Konkurenční strategie
+            <ShoppingCart className="mr-1 sm:mr-2 h-4 w-4" /> Konkurenční
+            strategie
           </TabsTrigger>
           <TabsTrigger
             value="map"
@@ -490,10 +578,14 @@ export default function CompetitionAnalysis() {
               </CardHeader>
               <CardContent>
                 <div className="flex items-center justify-between">
-                  <div className="text-3xl font-bold text-violet-700">{competitors.length}</div>
+                  <div className="text-3xl font-bold text-violet-700">
+                    {competitors.length}
+                  </div>
                   <div className="text-sm text-violet-600">v okruhu 1.5 km</div>
                 </div>
-                <p className="text-xs text-violet-600 mt-2">Mix supermarketů, diskontů a malých večerek</p>
+                <p className="text-xs text-violet-600 mt-2">
+                  Mix supermarketů, diskontů a malých večerek
+                </p>
               </CardContent>
             </Card>
 
@@ -506,14 +598,22 @@ export default function CompetitionAnalysis() {
               <CardContent>
                 <div className="flex items-center justify-between">
                   <div className="text-xl font-bold text-violet-700">
-                    {competitors.sort((a, b) => a.distance - b.distance)[0].name}
+                    {
+                      competitors.sort((a, b) => a.distance - b.distance)[0]
+                        .name
+                    }
                   </div>
                   <div className="text-sm text-violet-600">
-                    {competitors.sort((a, b) => a.distance - b.distance)[0].distance} km
+                    {
+                      competitors.sort((a, b) => a.distance - b.distance)[0]
+                        .distance
+                    }{" "}
+                    km
                   </div>
                 </div>
                 <p className="text-xs text-violet-600 mt-2">
-                  Typ: {competitors.sort((a, b) => a.distance - b.distance)[0].type}
+                  Typ:{" "}
+                  {competitors.sort((a, b) => a.distance - b.distance)[0].type}
                 </p>
               </CardContent>
             </Card>
@@ -525,7 +625,9 @@ export default function CompetitionAnalysis() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-xl font-bold text-violet-700">Convenience koncept</div>
+                <div className="text-xl font-bold text-violet-700">
+                  Convenience koncept
+                </div>
                 <p className="text-xs text-violet-600 mt-2">
                   Rychlost nákupu, strategická lokalita, dlouhá otevírací doba
                 </p>
@@ -543,22 +645,37 @@ export default function CompetitionAnalysis() {
             <CardContent className="space-y-6 p-6">
               <div className="overflow-x-auto">
                 <Table>
-                  <TableCaption>Seznam hlavních konkurentů v okolí</TableCaption>
+                  <TableCaption>
+                    Seznam hlavních konkurentů v okolí
+                  </TableCaption>
                   <TableHeader>
                     <TableRow className="bg-violet-50">
                       <TableHead className="font-semibold">Název</TableHead>
                       <TableHead className="font-semibold">Typ</TableHead>
-                      <TableHead className="font-semibold">Vzdálenost</TableHead>
-                      <TableHead className="font-semibold">Velikost (m²)</TableHead>
-                      <TableHead className="font-semibold">Otevírací doba</TableHead>
+                      <TableHead className="font-semibold">
+                        Vzdálenost
+                      </TableHead>
+                      <TableHead className="font-semibold">
+                        Velikost (m²)
+                      </TableHead>
+                      <TableHead className="font-semibold">
+                        Otevírací doba
+                      </TableHead>
                       <TableHead className="font-semibold">Hodnocení</TableHead>
-                      <TableHead className="font-semibold">Cenová úroveň</TableHead>
+                      <TableHead className="font-semibold">
+                        Cenová úroveň
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {competitors.map((competitor) => (
-                      <TableRow key={competitor.id} className="hover:bg-violet-50 transition-colors">
-                        <TableCell className="font-medium">{competitor.name}</TableCell>
+                      <TableRow
+                        key={competitor.id}
+                        className="hover:bg-violet-50 transition-colors"
+                      >
+                        <TableCell className="font-medium">
+                          {competitor.name}
+                        </TableCell>
                         <TableCell>{competitor.type}</TableCell>
                         <TableCell>
                           <div className="flex items-center">
@@ -578,7 +695,9 @@ export default function CompetitionAnalysis() {
                             <div className="w-24 h-2 bg-gray-200 rounded-full mr-2">
                               <div
                                 className="h-2 bg-violet-600 rounded-full"
-                                style={{ width: `${(competitor.rating / 5) * 100}%` }}
+                                style={{
+                                  width: `${(competitor.rating / 5) * 100}%`,
+                                }}
                               ></div>
                             </div>
                             <span>{competitor.rating}/5</span>
@@ -590,15 +709,15 @@ export default function CompetitionAnalysis() {
                               competitor.priceLevel === "low"
                                 ? "bg-green-100 text-green-800"
                                 : competitor.priceLevel === "medium"
-                                  ? "bg-yellow-100 text-yellow-800"
-                                  : "bg-red-100 text-red-800"
+                                ? "bg-yellow-100 text-yellow-800"
+                                : "bg-red-100 text-red-800"
                             }
                           >
                             {competitor.priceLevel === "low"
                               ? "Nízká"
                               : competitor.priceLevel === "medium"
-                                ? "Střední"
-                                : "Vysoká"}
+                              ? "Střední"
+                              : "Vysoká"}
                           </Badge>
                         </TableCell>
                       </TableRow>
@@ -608,70 +727,134 @@ export default function CompetitionAnalysis() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card className="shadow-md border-none">
+                <Card className="shadow-md border-none overflow-hidden">
                   <CardHeader className="pb-2 bg-violet-50">
                     <CardTitle className="text-base flex items-center">
-                      <BarChart className="mr-2 h-4 w-4 text-violet-600" />
+                      <BarChart className="mr-2 size-4 text-violet-600" />
                       Popularita konkurentů
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="pt-4">
-                    <div className="h-60">
+                    <div className="h-72">
                       <ResponsiveContainer width="100%" height="100%">
-                        <RechartsBarChart data={popularityData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                          <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                          <YAxis tick={{ fontSize: 12 }} />
+                        <RechartsBarChart
+                          data={popularityData}
+                          margin={{ top: 20, right: 30, left: 20, bottom: 30 }}
+                        >
+                          <CartesianGrid
+                            strokeDasharray="3 3"
+                            stroke="#f0f0f0"
+                          />
+                          <XAxis
+                            dataKey="name"
+                            tick={{ fontSize: 12 }}
+                            axisLine={{ stroke: "#e5e7eb" }}
+                            tickLine={false}
+                          />
+                          <YAxis
+                            tick={{ fontSize: 12 }}
+                            domain={[0, 100]}
+                            axisLine={{ stroke: "#e5e7eb" }}
+                            tickLine={false}
+                            label={{
+                              value: "Popularita (%)",
+                              angle: -90,
+                              position: "insideLeft",
+                              style: {
+                                textAnchor: "middle",
+                                fill: "#6b7280",
+                                fontSize: 12,
+                              },
+                            }}
+                          />
                           <Tooltip
                             formatter={(value) => [`${value}%`, "Popularita"]}
                             contentStyle={{
                               borderRadius: "8px",
                               border: "none",
                               boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                              backgroundColor: "white",
                             }}
+                            cursor={{ fill: "rgba(236, 236, 254, 0.2)" }}
                           />
-                          <Legend />
+                          <Legend
+                            verticalAlign="top"
+                            height={36}
+                            iconType="circle"
+                            iconSize={8}
+                          />
                           <Bar dataKey="popularity" name="Popularita">
                             {popularityData.map((entry, index) => (
                               <Cell key={`cell-${index}`} fill={entry.color} />
                             ))}
                           </Bar>
+                          {/* Add value labels on top of each bar */}
+                          <ReferenceLine y={0} stroke="#e5e7eb" />
                         </RechartsBarChart>
                       </ResponsiveContainer>
+                    </div>
+                    <div className="mt-2 text-xs text-center text-gray-500">
+                      Popularita měřena na základě průzkumu mezi 200 zákazníky v
+                      dané lokalitě
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card className="shadow-md border-none">
+                <Card className="shadow-md border-none overflow-hidden">
                   <CardHeader className="pb-2 bg-violet-50">
                     <CardTitle className="text-base flex items-center">
-                      <PieChart className="mr-2 h-4 w-4 text-violet-600" />
+                      <PieChart className="mr-2 size-4 text-violet-600" />
                       Odhadovaný tržní podíl
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="pt-4">
-                    <div className="h-60">
+                    <div className="h-72">
                       <ResponsiveContainer width="100%" height="100%">
                         <RechartsPieChart>
                           <Pie
                             data={marketShareData}
                             cx="50%"
-                            cy="50%"
-                            labelLine={false}
-                            outerRadius={80}
+                            cy="45%"
+                            labelLine={true}
+                            outerRadius={90}
+                            innerRadius={0}
                             fill="#8884d8"
                             dataKey="value"
                             nameKey="name"
-                            label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                            label={({ name, value }) => `${name}: ${value}%`}
+                            paddingAngle={2}
                           >
                             {marketShareData.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={entry.color} />
+                              <Cell
+                                key={`cell-${index}`}
+                                fill={entry.color}
+                                stroke="#fff"
+                                strokeWidth={1}
+                              />
                             ))}
                           </Pie>
-                          <Tooltip formatter={(value) => `${value}%`} />
-                          <Legend />
+                          <Tooltip
+                            formatter={(value) => `${value}%`}
+                            contentStyle={{
+                              borderRadius: "8px",
+                              border: "none",
+                              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                              backgroundColor: "white",
+                            }}
+                          />
+                          <Legend
+                            layout="horizontal"
+                            verticalAlign="bottom"
+                            align="center"
+                            iconType="circle"
+                            iconSize={8}
+                          />
                         </RechartsPieChart>
                       </ResponsiveContainer>
+                    </div>
+                    <div className="mt-2 text-xs text-center text-gray-500">
+                      Odhad tržního podílu na základě analýzy lokálního trhu a
+                      dat z podobných lokalit
                     </div>
                   </CardContent>
                 </Card>
@@ -685,14 +868,16 @@ export default function CompetitionAnalysis() {
                   >
                     <CardHeader className="pb-2 bg-gradient-to-r from-violet-50 to-indigo-50">
                       <div className="flex justify-between">
-                        <CardTitle className="text-base">{competitor.name}</CardTitle>
+                        <CardTitle className="text-base">
+                          {competitor.name}
+                        </CardTitle>
                         <Badge
                           className={
                             competitor.distance <= 0.5
                               ? "bg-red-100 text-red-800"
                               : competitor.distance <= 1
-                                ? "bg-yellow-100 text-yellow-800"
-                                : "bg-green-100 text-green-800"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : "bg-green-100 text-green-800"
                           }
                         >
                           {competitor.distance} km
@@ -708,7 +893,10 @@ export default function CompetitionAnalysis() {
                         </h4>
                         <ul className="text-sm space-y-2">
                           {competitor.strengths.map((strength, idx) => (
-                            <li key={idx} className="flex items-center bg-green-50 p-2 rounded-md">
+                            <li
+                              key={idx}
+                              className="flex items-center bg-green-50 p-2 rounded-md"
+                            >
                               <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                               {strength}
                             </li>
@@ -723,7 +911,10 @@ export default function CompetitionAnalysis() {
                         </h4>
                         <ul className="text-sm space-y-2">
                           {competitor.weaknesses.map((weakness, idx) => (
-                            <li key={idx} className="flex items-center bg-red-50 p-2 rounded-md">
+                            <li
+                              key={idx}
+                              className="flex items-center bg-red-50 p-2 rounded-md"
+                            >
                               <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
                               {weakness}
                             </li>
@@ -738,12 +929,23 @@ export default function CompetitionAnalysis() {
             <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full">
                 <p className="text-sm text-violet-700 mb-4">
-                  V okolí plánované prodejny Žabka se nachází {competitors.length} hlavních konkurentů. Najdeme zde mix
-                  supermarketů a malých večerek, přičemž nejbližším konkurentem je{" "}
-                  <span className="font-semibold">{competitors.sort((a, b) => a.distance - b.distance)[0].name}</span>{" "}
+                  V okolí plánované prodejny Žabka se nachází{" "}
+                  {competitors.length} hlavních konkurentů. Najdeme zde mix
+                  supermarketů a malých večerek, přičemž nejbližším konkurentem
+                  je{" "}
+                  <span className="font-semibold">
+                    {
+                      competitors.sort((a, b) => a.distance - b.distance)[0]
+                        .name
+                    }
+                  </span>{" "}
                   ve vzdálenosti{" "}
                   <span className="font-semibold">
-                    {competitors.sort((a, b) => a.distance - b.distance)[0].distance} km
+                    {
+                      competitors.sort((a, b) => a.distance - b.distance)[0]
+                        .distance
+                    }{" "}
+                    km
                   </span>
                   .
                 </p>
@@ -775,13 +977,43 @@ export default function CompetitionAnalysis() {
                 </h3>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
-                    <RadarChart cx="50%" cy="50%" outerRadius="80%" data={getRadarData()}>
+                    <RadarChart
+                      cx="50%"
+                      cy="50%"
+                      outerRadius="80%"
+                      data={getRadarData()}
+                    >
                       <PolarGrid stroke="#e5e7eb" />
-                      <PolarAngleAxis dataKey="subject" tick={{ fill: "#4f46e5", fontSize: 12 }} />
-                      <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: "#4f46e5" }} />
-                      <Radar name="Žabka" dataKey="Žabka" stroke="#4f46e5" fill="#4f46e5" fillOpacity={0.5} />
-                      <Radar name="Albert" dataKey="Albert" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.3} />
-                      <Radar name="Večerka" dataKey="Večerka" stroke="#10b981" fill="#10b981" fillOpacity={0.3} />
+                      <PolarAngleAxis
+                        dataKey="subject"
+                        tick={{ fill: "#4f46e5", fontSize: 12 }}
+                      />
+                      <PolarRadiusAxis
+                        angle={30}
+                        domain={[0, 100]}
+                        tick={{ fill: "#4f46e5" }}
+                      />
+                      <Radar
+                        name="Žabka"
+                        dataKey="Žabka"
+                        stroke="#4f46e5"
+                        fill="#4f46e5"
+                        fillOpacity={0.5}
+                      />
+                      <Radar
+                        name="Albert"
+                        dataKey="Albert"
+                        stroke="#3b82f6"
+                        fill="#3b82f6"
+                        fillOpacity={0.3}
+                      />
+                      <Radar
+                        name="Večerka"
+                        dataKey="Večerka"
+                        stroke="#10b981"
+                        fill="#10b981"
+                        fillOpacity={0.3}
+                      />
                       <Legend iconType="circle" />
                       <Tooltip
                         contentStyle={{
@@ -808,19 +1040,38 @@ export default function CompetitionAnalysis() {
                     <Table>
                       <TableHeader>
                         <TableRow className="bg-violet-100">
-                          <TableHead className="font-semibold">Metrika</TableHead>
-                          <TableHead className="text-center bg-violet-200 font-semibold">Žabka</TableHead>
-                          <TableHead className="text-center font-semibold">Albert</TableHead>
-                          <TableHead className="text-center font-semibold">Večerka</TableHead>
-                          <TableHead className="text-center font-semibold">BILLA</TableHead>
-                          <TableHead className="text-center font-semibold">Tesco</TableHead>
-                          <TableHead className="text-center font-semibold">LIDL</TableHead>
-                          <TableHead className="font-semibold">Konkurenční výhoda</TableHead>
+                          <TableHead className="font-semibold">
+                            Metrika
+                          </TableHead>
+                          <TableHead className="text-center bg-violet-200 font-semibold">
+                            Žabka
+                          </TableHead>
+                          <TableHead className="text-center font-semibold">
+                            Albert
+                          </TableHead>
+                          <TableHead className="text-center font-semibold">
+                            Večerka
+                          </TableHead>
+                          <TableHead className="text-center font-semibold">
+                            BILLA
+                          </TableHead>
+                          <TableHead className="text-center font-semibold">
+                            Tesco
+                          </TableHead>
+                          <TableHead className="text-center font-semibold">
+                            LIDL
+                          </TableHead>
+                          <TableHead className="font-semibold">
+                            Konkurenční výhoda
+                          </TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {benchmarkMetrics.map((metric, index) => (
-                          <TableRow key={index} className="hover:bg-violet-50 transition-colors">
+                          <TableRow
+                            key={index}
+                            className="hover:bg-violet-50 transition-colors"
+                          >
                             <TableCell className="font-medium flex items-center">
                               {metric.icon}
                               <span className="ml-2">{metric.metric}</span>
@@ -828,13 +1079,25 @@ export default function CompetitionAnalysis() {
                             <TableCell className="text-center bg-violet-50 font-medium text-violet-800">
                               {metric.zabka}
                             </TableCell>
-                            <TableCell className="text-center">{metric.competitors.albert}</TableCell>
-                            <TableCell className="text-center">{metric.competitors.vecerka}</TableCell>
-                            <TableCell className="text-center">{metric.competitors.billa}</TableCell>
-                            <TableCell className="text-center">{metric.competitors.tesco}</TableCell>
-                            <TableCell className="text-center">{metric.competitors.lidl}</TableCell>
+                            <TableCell className="text-center">
+                              {metric.competitors.albert}
+                            </TableCell>
+                            <TableCell className="text-center">
+                              {metric.competitors.vecerka}
+                            </TableCell>
+                            <TableCell className="text-center">
+                              {metric.competitors.billa}
+                            </TableCell>
+                            <TableCell className="text-center">
+                              {metric.competitors.tesco}
+                            </TableCell>
+                            <TableCell className="text-center">
+                              {metric.competitors.lidl}
+                            </TableCell>
                             <TableCell className="text-sm">
-                              <Badge className="bg-violet-100 text-violet-800">{metric.advantage}</Badge>
+                              <Badge className="bg-violet-100 text-violet-800">
+                                {metric.advantage}
+                              </Badge>
                             </TableCell>
                           </TableRow>
                         ))}
@@ -860,12 +1123,13 @@ export default function CompetitionAnalysis() {
                             <div className="w-3 h-3 rounded-full bg-violet-600 mr-2"></div>
                             Žabka
                           </span>
-                          <span className="font-semibold text-violet-800">{zabkaRatings.assortment}%</span>
+                          <span className="font-semibold text-violet-800">
+                            {zabkaRatings.assortment}%
+                          </span>
                         </div>
                         <Progress
                           value={zabkaRatings.assortment}
                           className="h-2 bg-violet-100"
-                          style={{ backgroundColor: "bg-violet-600" }}
                         />
                       </div>
                       {competitors.slice(0, 3).map((competitor) => (
@@ -878,7 +1142,9 @@ export default function CompetitionAnalysis() {
                               ></div>
                               {competitor.name}
                             </span>
-                            <span>{competitor.strengths_rating.assortment}%</span>
+                            <span>
+                              {competitor.strengths_rating.assortment}%
+                            </span>
                           </div>
                           <Progress
                             value={competitor.strengths_rating.assortment}
@@ -894,8 +1160,9 @@ export default function CompetitionAnalysis() {
                     </div>
                     <div className="text-xs text-muted-foreground mt-4 bg-violet-50 p-2 rounded-md">
                       <p>
-                        Žabka nabízí optimalizovaný sortiment pro convenience nakupování zaměřený na čerstvé potraviny a
-                        rychlé občerstvení.
+                        Žabka nabízí optimalizovaný sortiment pro convenience
+                        nakupování zaměřený na čerstvé potraviny a rychlé
+                        občerstvení.
                       </p>
                     </div>
                   </CardContent>
@@ -916,7 +1183,9 @@ export default function CompetitionAnalysis() {
                             <div className="w-3 h-3 rounded-full bg-violet-600 mr-2"></div>
                             Žabka
                           </span>
-                          <span className="font-semibold text-violet-800">{zabkaRatings.speed}%</span>
+                          <span className="font-semibold text-violet-800">
+                            {zabkaRatings.speed}%
+                          </span>
                         </div>
                         <Progress
                           value={zabkaRatings.speed}
@@ -948,7 +1217,10 @@ export default function CompetitionAnalysis() {
                       ))}
                     </div>
                     <div className="text-xs text-muted-foreground mt-4 bg-violet-50 p-2 rounded-md">
-                      <p>Žabka nabízí jeden z nejrychlejších způsobů nákupu s průměrnou dobou obsluhy pod 2 minuty.</p>
+                      <p>
+                        Žabka nabízí jeden z nejrychlejších způsobů nákupu s
+                        průměrnou dobou obsluhy pod 2 minuty.
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
@@ -968,12 +1240,13 @@ export default function CompetitionAnalysis() {
                             <div className="w-3 h-3 rounded-full bg-violet-600 mr-2"></div>
                             Žabka
                           </span>
-                          <span className="font-semibold text-violet-800">{zabkaRatings.location}%</span>
+                          <span className="font-semibold text-violet-800">
+                            {zabkaRatings.location}%
+                          </span>
                         </div>
                         <Progress
                           value={zabkaRatings.location}
                           className="h-2 bg-violet-100"
-                          style={{ backgroundColor: "bg-violet-600" }}
                         />
                       </div>
                       {competitors.slice(0, 3).map((competitor) => (
@@ -1002,8 +1275,9 @@ export default function CompetitionAnalysis() {
                     </div>
                     <div className="text-xs text-muted-foreground mt-4 bg-violet-50 p-2 rounded-md">
                       <p>
-                        Strategická lokalita s vysokou frekvencí pěších zákazníků je jednou z hlavních konkurenčních
-                        výhod Žabky.
+                        Strategická lokalita s vysokou frekvencí pěších
+                        zákazníků je jednou z hlavních konkurenčních výhod
+                        Žabky.
                       </p>
                     </div>
                   </CardContent>
@@ -1022,9 +1296,12 @@ export default function CompetitionAnalysis() {
                           <Clock className="h-6 w-6 text-violet-600" />
                         </div>
                         <div>
-                          <h3 className="font-medium text-violet-800">Dlouhá otevírací doba</h3>
+                          <h3 className="font-medium text-violet-800">
+                            Dlouhá otevírací doba
+                          </h3>
                           <p className="text-sm text-violet-600">
-                            Otevřeno 17 hodin denně (6:00-23:00), 7 dní v týdnu včetně svátků
+                            Otevřeno 17 hodin denně (6:00-23:00), 7 dní v týdnu
+                            včetně svátků
                           </p>
                         </div>
                       </div>
@@ -1034,9 +1311,12 @@ export default function CompetitionAnalysis() {
                           <Map className="h-6 w-6 text-blue-600" />
                         </div>
                         <div>
-                          <h3 className="font-medium text-blue-800">Strategická lokalita</h3>
+                          <h3 className="font-medium text-blue-800">
+                            Strategická lokalita
+                          </h3>
                           <p className="text-sm text-blue-600">
-                            Umístění v lokalitě s vysokou frekvencí pěších zákazníků
+                            Umístění v lokalitě s vysokou frekvencí pěších
+                            zákazníků
                           </p>
                         </div>
                       </div>
@@ -1046,7 +1326,9 @@ export default function CompetitionAnalysis() {
                           <ShoppingCart className="h-6 w-6 text-purple-600" />
                         </div>
                         <div>
-                          <h3 className="font-medium text-purple-800">Convenience koncept</h3>
+                          <h3 className="font-medium text-purple-800">
+                            Convenience koncept
+                          </h3>
                           <p className="text-sm text-purple-600">
                             Optimalizovaný sortiment pro rychlý a pohodlný nákup
                           </p>
@@ -1060,8 +1342,12 @@ export default function CompetitionAnalysis() {
                           <Users className="h-6 w-6 text-amber-600" />
                         </div>
                         <div>
-                          <h3 className="font-medium text-amber-800">Osobní přístup</h3>
-                          <p className="text-sm text-amber-600">Přátelský personál a osobní přístup k zákazníkům</p>
+                          <h3 className="font-medium text-amber-800">
+                            Osobní přístup
+                          </h3>
+                          <p className="text-sm text-amber-600">
+                            Přátelský personál a osobní přístup k zákazníkům
+                          </p>
                         </div>
                       </div>
 
@@ -1070,9 +1356,12 @@ export default function CompetitionAnalysis() {
                           <Zap className="h-6 w-6 text-red-600" />
                         </div>
                         <div>
-                          <h3 className="font-medium text-red-800">Rychlost nákupu</h3>
+                          <h3 className="font-medium text-red-800">
+                            Rychlost nákupu
+                          </h3>
                           <p className="text-sm text-red-600">
-                            Průměrná doba obsluhy pod 2 minuty, ideální pro zákazníky ve spěchu
+                            Průměrná doba obsluhy pod 2 minuty, ideální pro
+                            zákazníky ve spěchu
                           </p>
                         </div>
                       </div>
@@ -1082,9 +1371,12 @@ export default function CompetitionAnalysis() {
                           <Coffee className="h-6 w-6 text-teal-600" />
                         </div>
                         <div>
-                          <h3 className="font-medium text-teal-800">Čerstvé občerstvení</h3>
+                          <h3 className="font-medium text-teal-800">
+                            Čerstvé občerstvení
+                          </h3>
                           <p className="text-sm text-teal-600">
-                            Široká nabídka čerstvě připravovaného občerstvení a kávy
+                            Široká nabídka čerstvě připravovaného občerstvení a
+                            kávy
                           </p>
                         </div>
                       </div>
@@ -1096,9 +1388,11 @@ export default function CompetitionAnalysis() {
             <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full">
                 <p className="text-sm text-violet-700 mb-4">
-                  Žabka se od konkurence odlišuje především svým convenience konceptem, který kombinuje strategickou
-                  lokalitu, dlouhou otevírací dobu a optimalizovaný sortiment pro rychlý nákup. Tyto faktory společně
-                  vytvářejí jedinečnou hodnotu pro zákazníky, kteří hledají pohodlný a rychlý způsob nakupování.
+                  Žabka se od konkurence odlišuje především svým convenience
+                  konceptem, který kombinuje strategickou lokalitu, dlouhou
+                  otevírací dobu a optimalizovaný sortiment pro rychlý nákup.
+                  Tyto faktory společně vytvářejí jedinečnou hodnotu pro
+                  zákazníky, kteří hledají pohodlný a rychlý způsob nakupování.
                 </p>
                 <Button
                   variant="outline"
@@ -1122,7 +1416,10 @@ export default function CompetitionAnalysis() {
             </CardHeader>
             <CardContent className="space-y-6 p-6">
               {advantagesDisadvantages.map((item, index) => (
-                <Card key={index} className="shadow-md border-none overflow-hidden">
+                <Card
+                  key={index}
+                  className="shadow-md border-none overflow-hidden"
+                >
                   <CardHeader className="pb-2 bg-gradient-to-r from-violet-50 to-indigo-50">
                     <CardTitle className="text-base flex items-center text-violet-800">
                       {item.icon}
@@ -1138,7 +1435,10 @@ export default function CompetitionAnalysis() {
                         </h3>
                         <ul className="space-y-3 text-sm">
                           {item.advantages.map((advantage, idx) => (
-                            <li key={idx} className="flex items-start bg-white p-3 rounded-md shadow-sm">
+                            <li
+                              key={idx}
+                              className="flex items-start bg-white p-3 rounded-md shadow-sm"
+                            >
                               <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 mr-3 flex-shrink-0">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1153,7 +1453,9 @@ export default function CompetitionAnalysis() {
                                   />
                                 </svg>
                               </div>
-                              <span className="text-green-800">{advantage}</span>
+                              <span className="text-green-800">
+                                {advantage}
+                              </span>
                             </li>
                           ))}
                         </ul>
@@ -1166,7 +1468,10 @@ export default function CompetitionAnalysis() {
                         </h3>
                         <ul className="space-y-3 text-sm">
                           {item.disadvantages.map((disadvantage, idx) => (
-                            <li key={idx} className="flex items-start bg-white p-3 rounded-md shadow-sm">
+                            <li
+                              key={idx}
+                              className="flex items-start bg-white p-3 rounded-md shadow-sm"
+                            >
                               <div className="flex h-6 w-6 items-center justify-center rounded-full bg-red-100 mr-3 flex-shrink-0">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1181,7 +1486,9 @@ export default function CompetitionAnalysis() {
                                   />
                                 </svg>
                               </div>
-                              <span className="text-red-800">{disadvantage}</span>
+                              <span className="text-red-800">
+                                {disadvantage}
+                              </span>
                             </li>
                           ))}
                         </ul>
@@ -1199,26 +1506,35 @@ export default function CompetitionAnalysis() {
                   <div className="space-y-6">
                     <div className="bg-violet-50 rounded-lg p-5 shadow-inner">
                       <p className="text-sm mb-4 text-violet-800">
-                        Žabka má silnou konkurenční pozici v segmentu convenience prodejen díky kombinaci strategické
-                        lokality, dlouhé otevírací doby a optimalizovaného sortimentu. Hlavní výhodou oproti
-                        supermarketům je rychlost a pohodlnost nákupu, zatímco oproti večerkám nabízí vyšší kvalitu,
-                        lepší zákaznický servis a širší sortiment čerstvého zboží.
+                        Žabka má silnou konkurenční pozici v segmentu
+                        convenience prodejen díky kombinaci strategické
+                        lokality, dlouhé otevírací doby a optimalizovaného
+                        sortimentu. Hlavní výhodou oproti supermarketům je
+                        rychlost a pohodlnost nákupu, zatímco oproti večerkám
+                        nabízí vyšší kvalitu, lepší zákaznický servis a širší
+                        sortiment čerstvého zboží.
                       </p>
                       <p className="text-sm text-violet-800">
-                        Nevýhody v podobě vyšších cen a omezenějšího sortimentu oproti supermarketům jsou kompenzovány
-                        přidanou hodnotou v podobě úspory času a pohodlí. Pro maximalizaci konkurenční výhody je
-                        důležité zaměřit se na oblasti, kde Žabka vyniká - čerstvé občerstvení, káva, pekárenské výrobky
-                        a rychlý zákaznický servis.
+                        Nevýhody v podobě vyšších cen a omezenějšího sortimentu
+                        oproti supermarketům jsou kompenzovány přidanou hodnotou
+                        v podobě úspory času a pohodlí. Pro maximalizaci
+                        konkurenční výhody je důležité zaměřit se na oblasti,
+                        kde Žabka vyniká - čerstvé občerstvení, káva, pekárenské
+                        výrobky a rychlý zákaznický servis.
                       </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div className="flex flex-col items-center p-6 bg-gradient-to-b from-green-50 to-green-100 rounded-lg shadow-md transition-transform hover:scale-105">
                         <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-md">
-                          <div className="text-green-600 font-bold text-2xl">75%</div>
+                          <div className="text-green-600 font-bold text-2xl">
+                            75%
+                          </div>
                         </div>
                         <div className="text-center">
-                          <div className="font-medium mb-2 text-green-800">Celková konkurenční síla</div>
+                          <div className="font-medium mb-2 text-green-800">
+                            Celková konkurenční síla
+                          </div>
                           <div className="text-xs text-green-700 bg-white p-2 rounded-md">
                             Žabka má silnou pozici v segmentu convenience
                           </div>
@@ -1227,10 +1543,14 @@ export default function CompetitionAnalysis() {
 
                       <div className="flex flex-col items-center p-6 bg-gradient-to-b from-blue-50 to-blue-100 rounded-lg shadow-md transition-transform hover:scale-105">
                         <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-md">
-                          <div className="text-blue-600 font-bold text-2xl">85%</div>
+                          <div className="text-blue-600 font-bold text-2xl">
+                            85%
+                          </div>
                         </div>
                         <div className="text-center">
-                          <div className="font-medium mb-2 text-blue-800">Diferenciace</div>
+                          <div className="font-medium mb-2 text-blue-800">
+                            Diferenciace
+                          </div>
                           <div className="text-xs text-blue-700 bg-white p-2 rounded-md">
                             Jasné odlišení od konkurence
                           </div>
@@ -1239,10 +1559,14 @@ export default function CompetitionAnalysis() {
 
                       <div className="flex flex-col items-center p-6 bg-gradient-to-b from-amber-50 to-amber-100 rounded-lg shadow-md transition-transform hover:scale-105">
                         <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-md">
-                          <div className="text-amber-600 font-bold text-2xl">70%</div>
+                          <div className="text-amber-600 font-bold text-2xl">
+                            70%
+                          </div>
                         </div>
                         <div className="text-center">
-                          <div className="font-medium mb-2 text-amber-800">Cenová konkurenceschopnost</div>
+                          <div className="font-medium mb-2 text-amber-800">
+                            Cenová konkurenceschopnost
+                          </div>
                           <div className="text-xs text-amber-700 bg-white p-2 rounded-md">
                             Dobrá hodnota za peníze v segmentu
                           </div>
@@ -1276,7 +1600,10 @@ export default function CompetitionAnalysis() {
             <CardContent className="space-y-6 p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {competitiveStrategies.slice(0, 4).map((strategy, index) => (
-                  <Card key={index} className="shadow-md border-none overflow-hidden transition-all hover:shadow-lg">
+                  <Card
+                    key={index}
+                    className="shadow-md border-none overflow-hidden transition-all hover:shadow-lg"
+                  >
                     <CardHeader className="pb-2 bg-gradient-to-r from-violet-50 to-indigo-50">
                       <div className="flex justify-between items-start">
                         <CardTitle className="text-base flex items-center text-violet-800">
@@ -1296,7 +1623,9 @@ export default function CompetitionAnalysis() {
                       </div>
                     </CardHeader>
                     <CardContent className="p-4">
-                      <p className="text-sm mb-3 text-violet-800">{strategy.description}</p>
+                      <p className="text-sm mb-3 text-violet-800">
+                        {strategy.description}
+                      </p>
                       <div>
                         <h4 className="text-sm font-medium mb-2 flex items-center text-violet-800">
                           <Target className="h-4 w-4 mr-1" />
@@ -1304,7 +1633,10 @@ export default function CompetitionAnalysis() {
                         </h4>
                         <ul className="text-sm space-y-2">
                           {strategy.actions.map((action, idx) => (
-                            <li key={idx} className="flex items-start bg-violet-50 p-2 rounded-md">
+                            <li
+                              key={idx}
+                              className="flex items-start bg-violet-50 p-2 rounded-md"
+                            >
                               <div className="w-5 h-5 bg-violet-100 rounded-full flex items-center justify-center mr-2 mt-0.5">
                                 <div className="w-2 h-2 bg-violet-600 rounded-full"></div>
                               </div>
@@ -1322,44 +1654,60 @@ export default function CompetitionAnalysis() {
                 <CardHeader className="pb-2 bg-gradient-to-r from-violet-50 to-indigo-50">
                   <CardTitle className="text-base flex items-center text-violet-800">
                     {competitiveStrategies[4].icon}
-                    <span className="ml-2">{competitiveStrategies[4].title}</span>
+                    <span className="ml-2">
+                      {competitiveStrategies[4].title}
+                    </span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <p className="text-sm mb-3 text-violet-800">{competitiveStrategies[4].description}</p>
+                      <p className="text-sm mb-3 text-violet-800">
+                        {competitiveStrategies[4].description}
+                      </p>
                       <div>
                         <h4 className="text-sm font-medium mb-2 flex items-center text-violet-800">
                           <Target className="h-4 w-4 mr-1" />
                           Klíčové akce:
                         </h4>
                         <ul className="text-sm space-y-2">
-                          {competitiveStrategies[4].actions.map((action, idx) => (
-                            <li key={idx} className="flex items-start bg-violet-50 p-2 rounded-md">
-                              <div className="w-5 h-5 bg-violet-100 rounded-full flex items-center justify-center mr-2 mt-0.5">
-                                <div className="w-2 h-2 bg-violet-600 rounded-full"></div>
-                              </div>
-                              <span className="text-violet-800">{action}</span>
-                            </li>
-                          ))}
+                          {competitiveStrategies[4].actions.map(
+                            (action, idx) => (
+                              <li
+                                key={idx}
+                                className="flex items-start bg-violet-50 p-2 rounded-md"
+                              >
+                                <div className="w-5 h-5 bg-violet-100 rounded-full flex items-center justify-center mr-2 mt-0.5">
+                                  <div className="w-2 h-2 bg-violet-600 rounded-full"></div>
+                                </div>
+                                <span className="text-violet-800">
+                                  {action}
+                                </span>
+                              </li>
+                            )
+                          )}
                         </ul>
                       </div>
                     </div>
                     <div className="space-y-4">
                       <div className="flex items-center mb-3 bg-white p-3 rounded-lg shadow-sm">
-                        <span className="text-sm mr-2 text-violet-800">Dopad:</span>
+                        <span className="text-sm mr-2 text-violet-800">
+                          Dopad:
+                        </span>
                         {getImpactBadge(competitiveStrategies[4].impact)}
                       </div>
                       <div className="flex items-center mb-3 bg-white p-3 rounded-lg shadow-sm">
-                        <span className="text-sm mr-2 text-violet-800">Časový rámec:</span>
+                        <span className="text-sm mr-2 text-violet-800">
+                          Časový rámec:
+                        </span>
                         {getTimeframeBadge(competitiveStrategies[4].timeframe)}
                       </div>
                       <div className="bg-violet-50 p-4 rounded-md text-sm text-violet-800">
                         <p>
-                          Rozšíření služeb představuje významnou příležitost pro diferenciaci od konkurence a vytvoření
-                          dodatečných zdrojů příjmů. Implementace těchto služeb vyžaduje delší časový horizont a
-                          koordinaci s franšízorem.
+                          Rozšíření služeb představuje významnou příležitost pro
+                          diferenciaci od konkurence a vytvoření dodatečných
+                          zdrojů příjmů. Implementace těchto služeb vyžaduje
+                          delší časový horizont a koordinaci s franšízorem.
                         </p>
                       </div>
                     </div>
@@ -1379,7 +1727,9 @@ export default function CompetitionAnalysis() {
                         <div className="flex relative">
                           <div className="relative z-10">
                             <div className="w-12 h-12 rounded-full bg-gradient-to-r from-green-400 to-green-600 flex items-center justify-center shadow-lg">
-                              <span className="text-white font-bold text-lg">1</span>
+                              <span className="text-white font-bold text-lg">
+                                1
+                              </span>
                             </div>
                           </div>
                           <div className="ml-6 flex-1">
@@ -1408,10 +1758,12 @@ export default function CompetitionAnalysis() {
                                 </div>
                                 <div>
                                   <span className="font-medium text-green-800">
-                                    Rozšíření nabídky čerstvých sendvičů a salátů
+                                    Rozšíření nabídky čerstvých sendvičů a
+                                    salátů
                                   </span>
                                   <p className="text-xs text-green-600 mt-1">
-                                    Zavedení nových produktů s důrazem na kvalitu a čerstvost
+                                    Zavedení nových produktů s důrazem na
+                                    kvalitu a čerstvost
                                   </p>
                                 </div>
                               </li>
@@ -1432,10 +1784,12 @@ export default function CompetitionAnalysis() {
                                 </div>
                                 <div>
                                   <span className="font-medium text-green-800">
-                                    Lokální marketingové aktivity pro zvýšení povědomí
+                                    Lokální marketingové aktivity pro zvýšení
+                                    povědomí
                                   </span>
                                   <p className="text-xs text-green-600 mt-1">
-                                    Cílená komunikace v okolí prodejny pro přilákání nových zákazníků
+                                    Cílená komunikace v okolí prodejny pro
+                                    přilákání nových zákazníků
                                   </p>
                                 </div>
                               </li>
@@ -1456,10 +1810,12 @@ export default function CompetitionAnalysis() {
                                 </div>
                                 <div>
                                   <span className="font-medium text-green-800">
-                                    Zavedení premium kávy a kvalitních pekárenských výrobků
+                                    Zavedení premium kávy a kvalitních
+                                    pekárenských výrobků
                                   </span>
                                   <p className="text-xs text-green-600 mt-1">
-                                    Diferenciace nabídky oproti konkurenci s důrazem na kvalitu
+                                    Diferenciace nabídky oproti konkurenci s
+                                    důrazem na kvalitu
                                   </p>
                                 </div>
                               </li>
@@ -1470,7 +1826,9 @@ export default function CompetitionAnalysis() {
                         <div className="flex relative">
                           <div className="relative z-10">
                             <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center shadow-lg">
-                              <span className="text-white font-bold text-lg">2</span>
+                              <span className="text-white font-bold text-lg">
+                                2
+                              </span>
                             </div>
                           </div>
                           <div className="ml-6 flex-1">
@@ -1498,9 +1856,12 @@ export default function CompetitionAnalysis() {
                                   </svg>
                                 </div>
                                 <div>
-                                  <span className="font-medium text-blue-800">Implementace věrnostního programu</span>
+                                  <span className="font-medium text-blue-800">
+                                    Implementace věrnostního programu
+                                  </span>
                                   <p className="text-xs text-blue-600 mt-1">
-                                    Vytvoření systému pro odměňování loajálních zákazníků
+                                    Vytvoření systému pro odměňování loajálních
+                                    zákazníků
                                   </p>
                                 </div>
                               </li>
@@ -1521,10 +1882,12 @@ export default function CompetitionAnalysis() {
                                 </div>
                                 <div>
                                   <span className="font-medium text-blue-800">
-                                    Pravidelná školení personálu v oblasti zákaznického servisu
+                                    Pravidelná školení personálu v oblasti
+                                    zákaznického servisu
                                   </span>
                                   <p className="text-xs text-blue-600 mt-1">
-                                    Zvyšování kvality obsluhy a zákaznické zkušenosti
+                                    Zvyšování kvality obsluhy a zákaznické
+                                    zkušenosti
                                   </p>
                                 </div>
                               </li>
@@ -1548,7 +1911,8 @@ export default function CompetitionAnalysis() {
                                     Vytvoření sekce s lokálními specialitami
                                   </span>
                                   <p className="text-xs text-blue-600 mt-1">
-                                    Podpora lokálních dodavatelů a rozšíření nabídky o unikátní produkty
+                                    Podpora lokálních dodavatelů a rozšíření
+                                    nabídky o unikátní produkty
                                   </p>
                                 </div>
                               </li>
@@ -1559,7 +1923,9 @@ export default function CompetitionAnalysis() {
                         <div className="flex relative">
                           <div className="relative z-10">
                             <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-400 to-purple-600 flex items-center justify-center shadow-lg">
-                              <span className="text-white font-bold text-lg">3</span>
+                              <span className="text-white font-bold text-lg">
+                                3
+                              </span>
                             </div>
                           </div>
                           <div className="ml-6 flex-1">
@@ -1591,7 +1957,8 @@ export default function CompetitionAnalysis() {
                                     Zavedení výdejního místa pro e-shopy
                                   </span>
                                   <p className="text-xs text-purple-600 mt-1">
-                                    Rozšíření služeb o výdej zásilek z e-shopů pro zvýšení návštěvnosti
+                                    Rozšíření služeb o výdej zásilek z e-shopů
+                                    pro zvýšení návštěvnosti
                                   </p>
                                 </div>
                               </li>
@@ -1611,9 +1978,12 @@ export default function CompetitionAnalysis() {
                                   </svg>
                                 </div>
                                 <div>
-                                  <span className="font-medium text-purple-800">Rozšíření platebních služeb</span>
+                                  <span className="font-medium text-purple-800">
+                                    Rozšíření platebních služeb
+                                  </span>
                                   <p className="text-xs text-purple-600 mt-1">
-                                    Implementace nových platebních metod a doplňkových finančních služeb
+                                    Implementace nových platebních metod a
+                                    doplňkových finančních služeb
                                   </p>
                                 </div>
                               </li>
@@ -1633,9 +2003,12 @@ export default function CompetitionAnalysis() {
                                   </svg>
                                 </div>
                                 <div>
-                                  <span className="font-medium text-purple-800">Zavedení donášky do okolí</span>
+                                  <span className="font-medium text-purple-800">
+                                    Zavedení donášky do okolí
+                                  </span>
                                   <p className="text-xs text-purple-600 mt-1">
-                                    Rozšíření služeb o doručování zboží do blízkého okolí prodejny
+                                    Rozšíření služeb o doručování zboží do
+                                    blízkého okolí prodejny
                                   </p>
                                 </div>
                               </li>
@@ -1651,10 +2024,11 @@ export default function CompetitionAnalysis() {
             <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full">
                 <p className="text-sm text-violet-700 mb-4">
-                  Konkurenční strategie Žabky je založena na diferenciaci v oblasti convenience nakupování, s důrazem na
-                  rychlost, pohodlí a kvalitu. Implementace navržených strategií by měla probíhat postupně, s
-                  pravidelným vyhodnocováním jejich efektivity a případnými úpravami podle reakce zákazníků a
-                  konkurence.
+                  Konkurenční strategie Žabky je založena na diferenciaci v
+                  oblasti convenience nakupování, s důrazem na rychlost, pohodlí
+                  a kvalitu. Implementace navržených strategií by měla probíhat
+                  postupně, s pravidelným vyhodnocováním jejich efektivity a
+                  případnými úpravami podle reakce zákazníků a konkurence.
                 </p>
                 <Button
                   variant="outline"
@@ -1672,16 +2046,21 @@ export default function CompetitionAnalysis() {
           <Card className="shadow-lg border-none overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white">
               <CardTitle>Mapa konkurence</CardTitle>
-              <CardDescription className="text-violet-100">Vizualizace konkurenčního prostředí v okolí</CardDescription>
+              <CardDescription className="text-violet-100">
+                Vizualizace konkurenčního prostředí v okolí
+              </CardDescription>
             </CardHeader>
             <CardContent className="p-6">
               <div className="bg-gradient-to-b from-violet-50 to-indigo-50 rounded-lg p-6 h-96 flex items-center justify-center shadow-inner">
                 <div className="text-center max-w-md">
                   <Map className="h-16 w-16 text-violet-600 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-violet-800 mb-2">Interaktivní mapa konkurence</h3>
+                  <h3 className="text-lg font-semibold text-violet-800 mb-2">
+                    Interaktivní mapa konkurence
+                  </h3>
                   <p className="text-sm text-violet-600 mb-4">
-                    Mapa bude doplněna o interaktivní zobrazení konkurentů v okolí s možností filtrování podle typu,
-                    vzdálenosti a dalších parametrů.
+                    Mapa bude doplněna o interaktivní zobrazení konkurentů v
+                    okolí s možností filtrování podle typu, vzdálenosti a
+                    dalších parametrů.
                   </p>
                   <Button className="bg-violet-600 hover:bg-violet-700 text-white">
                     <Map className="mr-2 h-4 w-4" />
@@ -1703,29 +2082,36 @@ export default function CompetitionAnalysis() {
                       <div>
                         <div className="flex justify-between text-sm mb-1">
                           <span className="font-medium">0-0.5 km</span>
-                          <span className="font-semibold text-red-600">Vysoká</span>
+                          <span className="font-semibold text-red-600">
+                            Vysoká
+                          </span>
                         </div>
                         <Progress value={80} className="h-2 bg-red-100" />
                       </div>
                       <div>
                         <div className="flex justify-between text-sm mb-1">
                           <span className="font-medium">0.5-1.0 km</span>
-                          <span className="font-semibold text-amber-600">Střední</span>
+                          <span className="font-semibold text-amber-600">
+                            Střední
+                          </span>
                         </div>
                         <Progress value={60} className="h-2 bg-amber-100" />
                       </div>
                       <div>
                         <div className="flex justify-between text-sm mb-1">
                           <span className="font-medium">1.0-1.5 km</span>
-                          <span className="font-semibold text-green-600">Nízká</span>
+                          <span className="font-semibold text-green-600">
+                            Nízká
+                          </span>
                         </div>
                         <Progress value={30} className="h-2 bg-green-100" />
                       </div>
                     </div>
                     <div className="text-xs text-muted-foreground mt-4 bg-violet-50 p-3 rounded-md">
                       <p>
-                        Nejvyšší koncentrace konkurence je v bezprostředním okolí plánované prodejny (do 0.5 km), což
-                        představuje výzvu, ale zároveň potvrzuje atraktivitu lokality.
+                        Nejvyšší koncentrace konkurence je v bezprostředním
+                        okolí plánované prodejny (do 0.5 km), což představuje
+                        výzvu, ale zároveň potvrzuje atraktivitu lokality.
                       </p>
                     </div>
                   </CardContent>
@@ -1756,7 +2142,8 @@ export default function CompetitionAnalysis() {
                           </svg>
                         </div>
                         <span className="text-green-800">
-                          Umístění v blízkosti zastávek MHD a pěších zón pro maximalizaci frekvence zákazníků
+                          Umístění v blízkosti zastávek MHD a pěších zón pro
+                          maximalizaci frekvence zákazníků
                         </span>
                       </li>
                       <li className="flex items-start bg-green-50 p-3 rounded-md">
@@ -1775,7 +2162,8 @@ export default function CompetitionAnalysis() {
                           </svg>
                         </div>
                         <span className="text-green-800">
-                          Zajištění dobré viditelnosti z ulice a přehledného vstupu do prodejny
+                          Zajištění dobré viditelnosti z ulice a přehledného
+                          vstupu do prodejny
                         </span>
                       </li>
                       <li className="flex items-start bg-green-50 p-3 rounded-md">
@@ -1794,7 +2182,8 @@ export default function CompetitionAnalysis() {
                           </svg>
                         </div>
                         <span className="text-green-800">
-                          Diferenciace od konkurence prostřednictvím výrazného brandingu a atraktivního designu prodejny
+                          Diferenciace od konkurence prostřednictvím výrazného
+                          brandingu a atraktivního designu prodejny
                         </span>
                       </li>
                     </ul>
@@ -1817,4 +2206,3 @@ export default function CompetitionAnalysis() {
     </div>
   )
 }
-

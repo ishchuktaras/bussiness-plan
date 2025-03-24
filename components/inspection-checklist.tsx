@@ -4,7 +4,6 @@ import { useState } from "react"
 import { CheckCheck, ClipboardCheck, AlertTriangle, CheckCircle2, XCircle, Save, Send, Star, Award } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
@@ -115,10 +114,20 @@ const InspectionChecklist = () => {
   }
 
   const calculateBonus = (progress: number) => {
-    if (progress >= 90) return "10,000 Kč"
-    if (progress >= 75) return "5,000 Kč"
-    if (progress >= 60) return "2,000 Kč"
-    return "0 Kč"
+    // New bonus calculation based on the Žabka operational standards document
+    if (progress >= 90) {
+      return "34,000 Kč" // Full bonus for regular stores with flyers
+    } else if (progress >= 80) {
+      return "27,200 Kč" // 80% of full bonus
+    } else if (progress >= 70) {
+      return "23,800 Kč" // 70% of full bonus
+    } else if (progress >= 60) {
+      return "20,400 Kč" // 60% of full bonus (equivalent to office store full bonus)
+    } else if (progress >= 50) {
+      return "17,000 Kč" // 50% of full bonus
+    } else {
+      return "0 Kč" // No bonus for performance below 50%
+    }
   }
 
   const getUncheckedItems = () => {
@@ -143,7 +152,21 @@ const InspectionChecklist = () => {
                 <h3 className="font-semibold">Celkový pokrok</h3>
                 <span className="text-lg font-bold">{Math.round(calculateTotalProgress())}%</span>
               </div>
-              <Progress value={calculateTotalProgress()} className="h-2 bg-white/20" />
+              <div className="h-2 w-full bg-white/20 rounded-full overflow-hidden">
+                <div
+                  className={cn(
+                    "h-full transition-all duration-300",
+                    calculateTotalProgress() >= 75
+                      ? "bg-green-500"
+                      : calculateTotalProgress() >= 50
+                        ? "bg-blue-500"
+                        : calculateTotalProgress() >= 25
+                          ? "bg-amber-500"
+                          : "bg-red-500",
+                  )}
+                  style={{ width: `${calculateTotalProgress()}%` }}
+                ></div>
+              </div>
             </CardContent>
           </Card>
 
@@ -157,13 +180,13 @@ const InspectionChecklist = () => {
             </CardContent>
           </Card>
 
-          <Card className="border-none bg-white/10 text-white">
+          <Card className="border-none bg-white text-gray-800">
             <CardContent className="flex items-center justify-between p-4">
               <div>
-                <h3 className="font-semibold">Potenciální bonus</h3>
+                <h3 className="font-semibold text-gray-600">Potenciální bonus</h3>
                 <p className="text-lg font-bold">{calculateBonus(calculateTotalProgress())}</p>
               </div>
-              <Star size={40} className="text-yellow-300" />
+              <Star size={40} className="text-yellow-500" />
             </CardContent>
           </Card>
         </div>
@@ -188,7 +211,21 @@ const InspectionChecklist = () => {
                   </h2>
                   <div className="flex items-center">
                     <span className="mr-2 font-medium">{Math.round(calculateProgress(category))}%</span>
-                    <Progress value={calculateProgress(category)} className="h-2 w-24" />
+                    <div className="h-2 w-24 bg-gray-200 rounded-full overflow-hidden">
+                      <div
+                        className={cn(
+                          "h-full transition-all duration-300",
+                          calculateProgress(category) >= 75
+                            ? "bg-green-500"
+                            : calculateProgress(category) >= 50
+                              ? "bg-blue-500"
+                              : calculateProgress(category) >= 25
+                                ? "bg-amber-500"
+                                : "bg-red-500",
+                        )}
+                        style={{ width: `${calculateProgress(category)}%` }}
+                      ></div>
+                    </div>
                   </div>
                 </div>
 
@@ -269,10 +306,10 @@ const InspectionChecklist = () => {
           <Card>
             <CardContent className="flex flex-col items-center justify-center text-center p-4">
               <div className="mb-3 rounded-full bg-yellow-100 p-3">
-                <Star size={24} className="text-yellow-600" />
+                <Star size={24} className="text-yellow-500" />
               </div>
               <h3 className="mb-1 font-semibold">Potenciální bonus</h3>
-              <p className="text-2xl font-bold text-yellow-600">{calculateBonus(calculateTotalProgress())}</p>
+              <p className="text-2xl font-bold text-yellow-500">{calculateBonus(calculateTotalProgress())}</p>
             </CardContent>
           </Card>
         </div>

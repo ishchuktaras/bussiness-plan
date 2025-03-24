@@ -356,25 +356,25 @@ export default function ProjectTimeline() {
       items: [
         {
           name: "Výpis z trestního rejstříku",
-          status: "completed",
+          status: "pending",
           deadline: calculateDate(-10),
           note: "Ne starší než 3 měsíce, vydá CZECH POINT",
         },
         {
           name: "Výpis z Bankovního a Nebankovního registru",
-          status: "completed",
+          status: "pending",
           deadline: calculateDate(-10),
           note: "Lze získat online na https://www.kolikmam.cz/sluzby/vypisyzregistru/",
         },
         {
           name: "Výpis z Centrální evidence exekucí",
-          status: "completed",
+          status: "pending",
           deadline: calculateDate(-10),
           note: "Lze získat online na www.ceecr.cz",
         },
         {
           name: "Živnostenské oprávnění",
-          status: "completed",
+          status: "pending",
           deadline: calculateDate(-5),
           note: "Velkoobchod a maloobchod, Výroba potravinářských výrobků",
         },
@@ -386,19 +386,19 @@ export default function ProjectTimeline() {
         },
         {
           name: "Potvrzení o bezdlužnosti (FÚ)",
-          status: "completed",
+          status: "pending",
           deadline: calculateDate(-5),
           note: "Vydá finanční úřad",
         },
         {
           name: "Potvrzení o bezdlužnosti (SSZ)",
-          status: "completed",
+          status: "pending",
           deadline: calculateDate(-5),
           note: "Vydá správa sociálního zabezpečení",
         },
         {
           name: "Potvrzení o bezdlužnosti (ZP)",
-          status: "completed",
+          status: "pending",
           deadline: calculateDate(-5),
           note: "Vydá zdravotní pojišťovna",
         },
@@ -432,7 +432,7 @@ export default function ProjectTimeline() {
       items: [
         {
           name: "Franšízová smlouva",
-          status: "completed",
+          status: "pending",
           deadline: calculateDate(45),
           note: "Hlavní smluvní dokument upravující vztah s franšízorem",
         },
@@ -444,16 +444,11 @@ export default function ProjectTimeline() {
         },
         {
           name: "Pojistná smlouva",
-          status: "in-progress",
+          status: "pending",
           deadline: calculateDate(60),
           note: "Pojištění majetku, odpovědnosti a přerušení provozu",
         },
-        {
-          name: "Zakládací dokumenty společnosti",
-          status: "in-progress",
-          deadline: calculateDate(55),
-          note: "Výpis z obchodního rejstříku, společenská smlouva, apod.",
-        },
+        
       ],
     },
     {
@@ -477,12 +472,7 @@ export default function ProjectTimeline() {
           deadline: calculateDate(125),
           note: "Smlouvy se zaměstnanci",
         },
-        {
-          name: "Kolaudační rozhodnutí",
-          status: "pending",
-          deadline: calculateDate(120),
-          note: "Potvrzení o způsobilosti stavby k užívání",
-        },
+        
       ],
     },
   ]
@@ -1599,65 +1589,6 @@ export default function ProjectTimeline() {
                   </Card>
                 ))}
               </div>
-
-              <Card className="border-violet-200">
-                <CardHeader className="bg-violet-50 border-b border-violet-100">
-                  <CardTitle className="text-violet-800">
-                    Matice rizik
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-4">
-                  <div className="grid grid-cols-4 gap-px bg-violet-200 rounded overflow-hidden">
-                    <div className="bg-white p-2 text-center font-medium"></div>
-                    <div className="bg-white p-2 text-center font-medium text-sm">
-                      Nízký dopad
-                    </div>
-                    <div className="bg-white p-2 text-center font-medium text-sm">
-                      Střední dopad
-                    </div>
-                    <div className="bg-white p-2 text-center font-medium text-sm">
-                      Vysoký dopad
-                    </div>
-
-                    <div className="bg-white p-2 text-center font-medium text-sm">
-                      Vysoká pravd.
-                    </div>
-                    <div className="bg-yellow-50 p-2 text-center text-xs"></div>
-                    <div className="bg-orange-50 p-2 text-center text-xs"></div>
-                    <div className="bg-red-50 p-2 text-center text-xs"></div>
-
-                    <div className="bg-white p-2 text-center font-medium text-sm">
-                      Střední pravd.
-                    </div>
-                    <div className="bg-green-50 p-2 text-center text-xs"></div>
-                    <div className="bg-yellow-50 p-2 text-center text-xs">
-                      <div className="bg-white shadow rounded-sm p-1 mb-1">
-                        Nedostatek personálu
-                      </div>
-                    </div>
-                    <div className="bg-orange-50 p-2 text-center text-xs">
-                      <div className="bg-white shadow rounded-sm p-1 mb-1">
-                        Problémy s povolením
-                      </div>
-                      <div className="bg-white shadow rounded-sm p-1">
-                        Překročení rozpočtu
-                      </div>
-                    </div>
-
-                    <div className="bg-white p-2 text-center font-medium text-sm">
-                      Nízká pravd.
-                    </div>
-                    <div className="bg-green-50 p-2 text-center text-xs"></div>
-                    <div className="bg-green-50 p-2 text-center text-xs">
-                      <div className="bg-white shadow rounded-sm p-1">
-                        Nízká návštěvnost
-                      </div>
-                    </div>
-                    <div className="bg-yellow-50 p-2 text-center text-xs"></div>
-                  </div>
-                </CardContent>
-              </Card>
-
               <Card className="border-violet-200">
                 <CardHeader className="bg-violet-50 border-b border-violet-100">
                   <CardTitle className="text-violet-800">
