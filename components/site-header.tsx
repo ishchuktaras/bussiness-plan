@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
+
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -97,47 +98,6 @@ export function SiteHeader() {
               </Link>
             ))}
           </nav>
-
-          {/* Right side items */}
-          <div className="flex items-center space-x-1">
-            <Link
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
-              className="hidden sm:inline-flex"
-            >
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <Icons.gitHub className="h-5 w-5" />
-                <span className="sr-only">GitHub</span>
-              </Button>
-            </Link>
-            <Link
-              href={siteConfig.links.developer}
-              target="_blank"
-              rel="noreferrer"
-              className="hidden sm:inline-flex"
-            >
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <Icons.user className="h-5 w-5" />
-                <span className="sr-only">Vývojář</span>
-              </Button>
-            </Link>
-            
-            {/* Mobile menu button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden rounded-full"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-              <span className="sr-only">Menu</span>
-            </Button>
-          </div>
         </div>
       </div>
 
@@ -162,26 +122,6 @@ export function SiteHeader() {
                   {item.title}
                 </Link>
               ))}
-              <div className="grid grid-cols-2 gap-2 mt-2 pt-2 border-t">
-                <Link
-                  href={siteConfig.links.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50"
-                >
-                  <Icons.gitHub className="h-4 w-4 mr-2" />
-                  GitHub
-                </Link>
-                <Link
-                  href={siteConfig.links.developer}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50"
-                >
-                  <Icons.user className="h-4 w-4 mr-2" />
-                  Vývojář
-                </Link>
-              </div>
             </nav>
           </div>
         </div>
