@@ -557,8 +557,7 @@ export default function CompetitionAnalysis() {
             value="strategy"
             className="flex-1 min-w-[120px] py-3 text-l sm:text-sm data-[state=active]:bg-violet-100 data-[state=active]:text-violet-800"
           >
-            Konkurenční
-            strategie
+            Konkurenční strategie
           </TabsTrigger>
           <TabsTrigger
             value="map"
@@ -949,7 +948,6 @@ export default function CompetitionAnalysis() {
                   </span>
                   .
                 </p>
-                
               </div>
             </CardFooter>
           </Card>
@@ -1394,24 +1392,6 @@ export default function CompetitionAnalysis() {
                 </CardContent>
               </Card>
             </CardContent>
-            <CardFooter className="border-t pt-4 bg-violet-50">
-              <div className="w-full">
-                <p className="text-sm text-violet-700 mb-4">
-                  Žabka se od konkurence odlišuje především svým convenience
-                  konceptem, který kombinuje strategickou lokalitu, dlouhou
-                  otevírací dobu a optimalizovaný sortiment pro rychlý nákup.
-                  Tyto faktory společně vytvářejí jedinečnou hodnotu pro
-                  zákazníky, kteří hledají pohodlný a rychlý způsob nakupování.
-                </p>
-                <Button
-                  variant="outline"
-                  className="w-full bg-white hover:bg-violet-100 border-violet-200 text-violet-700"
-                >
-                  <LineChart className="mr-2 h-4 w-4" />
-                  Stáhnout detailní srovnání
-                </Button>
-              </div>
-            </CardFooter>
           </Card>
         </TabsContent>
 
@@ -1586,15 +1566,6 @@ export default function CompetitionAnalysis() {
                 </CardContent>
               </Card>
             </CardContent>
-            <CardFooter className="border-t pt-4 bg-violet-50">
-              <Button
-                variant="outline"
-                className="w-full bg-white hover:bg-violet-100 border-violet-200 text-violet-700"
-              >
-                <PieChart className="mr-2 h-4 w-4" />
-                Stáhnout SWOT analýzu
-              </Button>
-            </CardFooter>
           </Card>
         </TabsContent>
 
@@ -2039,13 +2010,7 @@ export default function CompetitionAnalysis() {
                   postupně, s pravidelným vyhodnocováním jejich efektivity a
                   případnými úpravami podle reakce zákazníků a konkurence.
                 </p>
-                <Button
-                  variant="outline"
-                  className="w-full bg-white hover:bg-violet-100 border-violet-200 text-violet-700"
-                >
-                  <ShoppingCart className="mr-2 h-4 w-4" />
-                  Stáhnout strategický plán
-                </Button>
+               
               </div>
             </CardFooter>
           </Card>

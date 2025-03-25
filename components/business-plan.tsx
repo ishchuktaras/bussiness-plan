@@ -1307,12 +1307,6 @@ export default function ZabkaBusinessPlan() {
                     {formatCurrency(totalCommission)}
                   </span>
                 </div>
-                <div className="mt-4 flex justify-end">
-                  <Button className="bg-violet-600 hover:bg-violet-700 text-white">
-                    <Download className="mr-2 h-4 w-4" />
-                    Stáhnout analýzu příjmů (PDF)
-                  </Button>
-                </div>
               </div>
             </CardFooter>
           </Card>
@@ -1811,12 +1805,6 @@ export default function ZabkaBusinessPlan() {
                     {formatCurrency(totalCosts)}
                   </span>
                 </div>
-                <div className="mt-4 flex justify-end">
-                  <Button className="bg-violet-600 hover:bg-violet-700 text-white">
-                    <Download className="mr-2 h-4 w-4" />
-                    Stáhnout analýzu výdajů (PDF)
-                  </Button>
-                </div>
               </div>
             </CardFooter>
           </Card>
@@ -2130,12 +2118,6 @@ export default function ZabkaBusinessPlan() {
                   Upravte podíl jednotlivých kategorií produktů na celkovém
                   obratu. Celkový součet musí být 100%.
                 </p>
-                <div className="mt-4 flex justify-end">
-                  <Button className="bg-violet-600 hover:bg-violet-700 text-white">
-                    <Download className="mr-2 h-4 w-4" />
-                    Stáhnout analýzu kategorií (PDF)
-                  </Button>
-                </div>
               </div>
             </CardFooter>
           </Card>
@@ -2250,91 +2232,6 @@ export default function ZabkaBusinessPlan() {
                   </CardContent>
                 </Card>
               </div>
-
-              <Card className="shadow-md border-none">
-                <CardHeader className="bg-violet-50 pb-2">
-                  <CardTitle className="text-base flex items-center">
-                    <BarChart className="mr-2 h-4 w-4 text-violet-600" />
-                    Srovnání scénářů
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-4">
-                  <div className="h-80">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <RechartsBarChart
-                        data={[
-                          {
-                            name: "Pesimistický",
-                            profit: pessimisticScenario.profit,
-                            fill: "#f43f5e",
-                          },
-                          {
-                            name: "Realistický",
-                            profit: realisticScenario.profit,
-                            fill: "#3b82f6",
-                          },
-                          {
-                            name: "Optimistický",
-                            profit: optimisticScenario.profit,
-                            fill: "#22c55e",
-                          },
-                        ]}
-                        margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-                        barGap={8}
-                      >
-                        <CartesianGrid
-                          strokeDasharray="3 3"
-                          stroke="#f0f0f0"
-                          vertical={false}
-                        />
-                        <XAxis
-                          dataKey="name"
-                          tick={{ fontSize: 12 }}
-                          axisLine={{ stroke: "#e5e7eb" }}
-                          tickLine={false}
-                        />
-                        <YAxis
-                          dataKey="profit"
-                          tick={{ fontSize: 12 }}
-                          axisLine={{ stroke: "#e5e7eb" }}
-                          tickLine={false}
-                          tickFormatter={(value) =>
-                            `${Math.round(value / 1000)}k`
-                          }
-                          domain={["dataMin - 10000", "dataMax + 20000"]}
-                        />
-                        <Tooltip
-                          formatter={(value) => formatCurrency(Number(value))}
-                          contentStyle={{
-                            backgroundColor: "white",
-                            borderRadius: "8px",
-                            border: "none",
-                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                            padding: "8px 12px",
-                          }}
-                          cursor={{ fill: "rgba(236, 236, 254, 0.2)" }}
-                        />
-                        <Legend
-                          verticalAlign="top"
-                          height={36}
-                          iconType="circle"
-                          iconSize={10}
-                          wrapperStyle={{
-                            paddingBottom: "10px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <Bar
-                          dataKey="profit"
-                          name="Zisk"
-                          radius={[4, 4, 0, 0]}
-                          maxBarSize={50}
-                        />
-                      </RechartsBarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </CardContent>
-              </Card>
             </CardContent>
             <CardFooter className="border-t pt-4 bg-violet-50">
               <div className="w-full">
@@ -2342,12 +2239,6 @@ export default function ZabkaBusinessPlan() {
                   Prozkoumejte různé scénáře a jejich dopad na ziskovost.
                   Vyberte scénář pro zobrazení detailů.
                 </p>
-                <div className="mt-4 flex justify-end">
-                  <Button className="bg-violet-600 hover:bg-violet-700 text-white">
-                    <Download className="mr-2 h-4 w-4" />
-                    Stáhnout analýzu scénářů (PDF)
-                  </Button>
-                </div>
               </div>
             </CardFooter>
           </Card>
@@ -2441,12 +2332,6 @@ export default function ZabkaBusinessPlan() {
                   Prozkoumejte sezónní výkyvy v průběhu roku. Graf zobrazuje
                   měsíční ziskovost.
                 </p>
-                <div className="mt-4 flex justify-end">
-                  <Button className="bg-violet-600 hover:bg-violet-700 text-white">
-                    <Download className="mr-2 h-4 w-4" />
-                    Stáhnout sezónní analýzu (PDF)
-                  </Button>
-                </div>
               </div>
             </CardFooter>
           </Card>
@@ -2582,12 +2467,6 @@ export default function ZabkaBusinessPlan() {
                   Shrnutí klíčových ukazatelů pro vaše podnikání. Pro
                   detailnější analýzu přejděte do jednotlivých sekcí.
                 </p>
-                <div className="mt-4 flex justify-end">
-                  <Button className="bg-violet-600 hover:bg-violet-700 text-white">
-                    <Download className="mr-2 h-4 w-4" />
-                    Stáhnout shrnutí (PDF)
-                  </Button>
-                </div>
               </div>
             </CardFooter>
           </Card>

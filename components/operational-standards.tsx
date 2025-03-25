@@ -780,7 +780,7 @@ export default function OperationalStandards() {
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="flex items-center text-violet-800">
-                    <Percent className="mr-2 h-5 w-5 text-violet-600" />
+                    <ShoppingBag className="mr-2 h-5 w-5 text-violet-600" />
                     Standardy produktů
                   </CardTitle>
                   <CardDescription>
