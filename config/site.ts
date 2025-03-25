@@ -1,8 +1,10 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Franchise Analysis",
-  description: "Komplexní analýza franšízové smlouvy a obchodního modelu Žabka",
+  name: "Analýza franšízy",
+  description: `Komplexní analýza smlouvy O FRANCHISINGOVÉ SPOLUPRÁCI Tesco Franchise Stores ČR s.r.o., se sídlem Praha 10, Vršovická 1527/68b, PSČ:
+100 00, IČO: 046 21 611, DIČ: CZ04621611, zapsaná v obchodním rejstříku vedeném
+Městským soudem v Praze, sp. zn. C 250934`,
   mainNav: [
     {
       title: "Obchodní model",

@@ -27,6 +27,7 @@ import {
   Zap,
 } from "lucide-react"
 
+import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
@@ -198,8 +199,7 @@ export default function FranchiseAgreementAnalysis() {
               Analýza franšízové smlouvy Žabka
             </h1>
             <p className="text-violet-100 max-w-3xl">
-              Detailní rozbor klíčových bodů, podmínek, práv a povinností
-              vyplývajících z franšízové smlouvy Žabka.
+              {siteConfig.description}
             </p>
           </div>
           <div className="mt-4 md:mt-0 flex items-center bg-white/10 rounded-lg p-3 backdrop-blur-sm">
