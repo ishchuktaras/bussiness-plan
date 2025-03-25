@@ -7,14 +7,11 @@ import {
   CheckCheck,
   CheckCircle2,
   ClipboardCheck,
-  Save,
-  Send,
-  Star,
+  DollarSign,
   XCircle,
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
@@ -251,7 +248,7 @@ const InspectionChecklist = () => {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card className="border-none bg-white/10 text-white">
+          <Card className="border-none bg-white text-black">
             <CardContent className="p-4">
               <div className="mb-2 flex items-center justify-between">
                 <h3 className="font-semibold">Celkový pokrok</h3>
@@ -277,7 +274,7 @@ const InspectionChecklist = () => {
             </CardContent>
           </Card>
 
-          <Card className="border-none bg-white/10 text-white">
+          <Card className="border-none bg-white text-black">
             <CardContent className="flex items-center justify-between p-4">
               <div>
                 <h3 className="font-semibold">Hodnocení výkonu</h3>
@@ -299,7 +296,7 @@ const InspectionChecklist = () => {
                   {calculateBonus(calculateTotalProgress())}
                 </p>
               </div>
-              <Star size={40} className="text-yellow-500" />
+              <DollarSign size={40} className="text-orange-500" />
             </CardContent>
           </Card>
         </div>
@@ -457,7 +454,7 @@ const InspectionChecklist = () => {
           <Card>
             <CardContent className="flex flex-col items-center justify-center text-center p-4">
               <div className="mb-3 rounded-full bg-yellow-100 p-3">
-                <Star size={24} className="text-yellow-500" />
+                <DollarSign size={24} className="text-yellow-500" />
               </div>
               <h3 className="mb-1 font-semibold">Potenciální bonus</h3>
               <p className="text-2xl font-bold text-yellow-500">
